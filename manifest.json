@@ -1,0 +1,237 @@
+
+---
+
+## **manifest.json**
+
+```json
+{
+  "name": "Astrotrias Archon - Multidimensional Creative Technologist",
+  "short_name": "Astrotrias Archon",
+  "description": "Portfolio of Thanatsitt Santisamranwilai - Bridging consciousness and cosmos through quantum innovation, dimensional design, and transformational experiences across multiple realities.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f0f23",
+  "theme_color": "#7c3aed",
+  "lang": "en",
+  "dir": "ltr",
+  
+  "categories": [
+    "portfolio", 
+    "technology", 
+    "design", 
+    "creativity", 
+    "ai", 
+    "consciousness",
+    "quantum",
+    "multidimensional"
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Dimensional Projects",
+      "short_name": "Projects",
+      "description": "Explore multidimensional creative projects",
+      "url": "/#dimensions",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-projects.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Stellar Journey",
+      "short_name": "Timeline",
+      "description": "View professional evolution timeline",
+      "url": "/#timeline",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-timeline.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Cosmic Abilities",
+      "short_name": "Skills",
+      "description": "Discover multidimensional expertise",
+      "url": "/#skills",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-skills.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Quantum Contact",
+      "short_name": "Contact",
+      "description": "Initiate dimensional collaboration",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-contact.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  
+  "icons": [
+    {
+      "src": "/assets/images/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/images/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot-desktop-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Astrotrias Archon Desktop Experience - Quantum particles and dimensional design"
+    },
+    {
+      "src": "/assets/images/screenshot-desktop-projects.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dimensional Projects - ThannxAI, Stellar Mandala, and Quantum Bridge"
+    },
+    {
+      "src": "/assets/images/screenshot-mobile-home.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile Home - Cosmic design optimized for touch interaction"
+    },
+    {
+      "src": "/assets/images/screenshot-mobile-timeline.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Stellar Timeline - Professional journey across dimensions"
+    }
+  ],
+  
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://pigletpeakkung.github.io/Codex-Terra-Arcanum",
+      "id": "codex-terra-arcanum"
+    },
+    {
+      "platform": "web",
+      "url": "https://pegearts.com",
+      "id": "pegearts-portfolio"
+    }
+  ],
+  
+  "prefer_related_applications": false,
+  
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/#contact?email=%s"
+    }
+  ],
+  
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "text/plain": [".txt"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+  
+  "share_target": {
+    "action": "/#contact",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  
+  "handle_links": "preferred",
+  
+  "capture_links": "existing-client-navigate",
+  
+  "id": "astrotrias-archon-pwa",
+  
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}
