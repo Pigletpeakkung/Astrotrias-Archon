@@ -1,0 +1,12 @@
+# Redirect old URLs
+/home              /#home              301
+/projects          /#dimensions        301
+/about             /#timeline          301
+/skills            /#skills            301
+/contact           /#contact           301
+
+# API redirects (if needed)
+/api/*             https://api.astrotrias-archon.com/:splat  200
+
+# Fallback for SPA
+/*                 /index.html         200
