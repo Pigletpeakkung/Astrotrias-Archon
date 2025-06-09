@@ -1,6 +1,6 @@
 # Astrotrias Archon - Netlify Configuration
 # Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
-# Version: 2.1.2 - Simplified for Deployment
+# Version: 2.2.0 - With Cosmic Plugins
 
 [build]
   publish = "."
@@ -8,6 +8,7 @@
   
 [build.environment]
   NODE_VERSION = "20"
+  NPM_VERSION = "10"
 
 # Performance & Security Headers
 [[headers]]
@@ -20,69 +21,51 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     X-DNS-Prefetch-Control = "on"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Cosmic-Power = "Quantum-Enabled"
+    X-Astrotrias = "Archon-Active"
 
 # Cache Control for Static Assets
 [[headers]]
   for = "*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css"
 
 [[headers]]
   for = "*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript"
 
 [[headers]]
   for = "*.png"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
+    Content-Type = "image/png"
 
 [[headers]]
   for = "*.jpg"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-
-[[headers]]
-  for = "*.jpeg"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000"
+    Content-Type = "image/jpeg"
 
 [[headers]]
   for = "*.webp"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-
-[[headers]]
-  for = "*.svg"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000"
-
-[[headers]]
-  for = "*.woff"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/webp"
 
 [[headers]]
   for = "*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff2"
 
-[[headers]]
-  for = "*.ico"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000"
-
-# PWA Files
-[[headers]]
-  for = "/manifest.json"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-
-# Main Index - Always Fresh
 [[headers]]
   for = "/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "text/html; charset=utf-8"
 
 # Legacy Repository Redirects
 [[redirects]]
@@ -109,7 +92,17 @@
   status = 301
 
 [[redirects]]
+  from = "/portfolio"
+  to = "/#dimensions"
+  status = 301
+
+[[redirects]]
   from = "/about"
+  to = "/#timeline"
+  status = 301
+
+[[redirects]]
+  from = "/cv"
   to = "/#timeline"
   status = 301
 
@@ -130,6 +123,11 @@
   status = 302
 
 [[redirects]]
+  from = "/repo"
+  to = "https://github.com/Pigletpeakkung/Astrotrias-Archon"
+  status = 302
+
+[[redirects]]
   from = "/voice123"
   to = "https://voice123.com/thanatsitt"
   status = 302
@@ -139,11 +137,61 @@
   to = "https://linktr.ee/ThanttEzekiel"
   status = 302
 
+[[redirects]]
+  from = "/youtube"
+  to = "https://youtube.com/@pegearts"
+  status = 302
+
+[[redirects]]
+  from = "/medium"
+  to = "https://medium.com/@thanatsitt"
+  status = 302
+
+# Project Shortcuts
+[[redirects]]
+  from = "/conversation"
+  to = "https://github.com/Pigletpeakkung/conversation-topic-selector"
+  status = 302
+
+[[redirects]]
+  from = "/ton"
+  to = "https://github.com/Pigletpeakkung/ton-mini-app"
+  status = 302
+
+[[redirects]]
+  from = "/ecommerce"
+  to = "https://github.com/Pigletpeakkung/ai-ecommerce-pipeline"
+  status = 302
+
 # SPA Fallback (Must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Netlify Plugins for Cosmic Enhancement
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs.thresholds]
+    performance = 0.9
+    accessibility = 0.9
+    best-practices = 0.9
+    seo = 0.9
+
+[[plugins]]
+  package = "netlify-plugin-minify-html"
+
+  [plugins.inputs]
+    contexts = ["production"]
+
+[[plugins]]
+  package = "netlify-plugin-sitemap"
+
+  [plugins.inputs]
+    baseUrl = "https://astrotrias-archon.netlify.app"
+    pretty = true
+    trailingSlash = false
 
 # Edge Functions Configuration
 [[edge_functions]]
@@ -152,6 +200,16 @@
 
 # Development Settings
 [dev]
-  command = "npx live-server . --port=3000"
+  command = "npm run dev"
   port = 3000
   publish = "."
+
+# Context-specific Settings
+[context.production]
+  command = "npm run build"
+
+[context.deploy-preview]
+  command = "echo 'Deploy preview ready'"
+
+[context.branch-deploy]
+  command = "echo 'Branch deploy ready'"
