@@ -1,6 +1,6 @@
 # Astrotrias Archon - Netlify Configuration
 # Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
-# Version: 2.2.0 - With Cosmic Plugins
+# Version: 2.2.1 - Fixed NPM Version
 
 [build]
   publish = "."
@@ -8,7 +8,7 @@
   
 [build.environment]
   NODE_VERSION = "20"
-  NPM_VERSION = "10"
+  NPM_VERSION = "10.8.2"
 
 # Performance & Security Headers
 [[headers]]
@@ -29,43 +29,26 @@
   for = "*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "text/css"
 
 [[headers]]
   for = "*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "application/javascript"
 
 [[headers]]
   for = "*.png"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/png"
-
-[[headers]]
-  for = "*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/jpeg"
-
-[[headers]]
-  for = "*.webp"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/webp"
 
 [[headers]]
   for = "*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "font/woff2"
 
 [[headers]]
   for = "/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    Content-Type = "text/html; charset=utf-8"
 
 # Legacy Repository Redirects
 [[redirects]]
@@ -92,17 +75,7 @@
   status = 301
 
 [[redirects]]
-  from = "/portfolio"
-  to = "/#dimensions"
-  status = 301
-
-[[redirects]]
   from = "/about"
-  to = "/#timeline"
-  status = 301
-
-[[redirects]]
-  from = "/cv"
   to = "/#timeline"
   status = 301
 
@@ -123,11 +96,6 @@
   status = 302
 
 [[redirects]]
-  from = "/repo"
-  to = "https://github.com/Pigletpeakkung/Astrotrias-Archon"
-  status = 302
-
-[[redirects]]
   from = "/voice123"
   to = "https://voice123.com/thanatsitt"
   status = 302
@@ -135,32 +103,6 @@
 [[redirects]]
   from = "/linktree"
   to = "https://linktr.ee/ThanttEzekiel"
-  status = 302
-
-[[redirects]]
-  from = "/youtube"
-  to = "https://youtube.com/@pegearts"
-  status = 302
-
-[[redirects]]
-  from = "/medium"
-  to = "https://medium.com/@thanatsitt"
-  status = 302
-
-# Project Shortcuts
-[[redirects]]
-  from = "/conversation"
-  to = "https://github.com/Pigletpeakkung/conversation-topic-selector"
-  status = 302
-
-[[redirects]]
-  from = "/ton"
-  to = "https://github.com/Pigletpeakkung/ton-mini-app"
-  status = 302
-
-[[redirects]]
-  from = "/ecommerce"
-  to = "https://github.com/Pigletpeakkung/ai-ecommerce-pipeline"
   status = 302
 
 # SPA Fallback (Must be last)
@@ -193,23 +135,8 @@
     pretty = true
     trailingSlash = false
 
-# Edge Functions Configuration
-[[edge_functions]]
-  path = "/*"
-  function = "headers"
-
 # Development Settings
 [dev]
   command = "npm run dev"
   port = 3000
   publish = "."
-
-# Context-specific Settings
-[context.production]
-  command = "npm run build"
-
-[context.deploy-preview]
-  command = "echo 'Deploy preview ready'"
-
-[context.branch-deploy]
-  command = "echo 'Branch deploy ready'"
