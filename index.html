@@ -1272,5 +1272,371 @@
             });
         }
     </script>
+    <!-- Add this script before closing </body> tag -->
+<script>
+/**
+ * PWA Registration and Update Management
+ */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+        try {
+            // Register service worker
+            const registration = await navigator.serviceWorker.register('/sw.js', {
+                scope: '/'
+            });
+            
+            console.log('✅ Service Worker registered successfully:', registration.scope);
+            
+            // Handle updates
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        showUpdateNotification();
+                    }
+                });
+            });
+            
+            // Listen for messages from service worker
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'UPDATE_AVAILABLE') {
+                    showUpdateNotification();
+                }
+            });
+            
+        } catch (error) {
+            console.error('❌ Service Worker registration failed:', error);
+        }
+    });
+}
+
+/**
+ * Show update notification
+ */
+function showUpdateNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <div class="update-content">
+            <div class="update-icon">🚀</div>
+            <div class="update-text">
+                <h4>New Version Available!</h4>
+                <p>A new version of Astrotrias Archon is ready.</p>
+            </div>
+            <div class="update-actions">
+                <button class="btn btn-primary btn-sm" onclick="updateApp()">Update</button>
+                <button class="btn btn-outline-light btn-sm" onclick="dismissUpdate()">Later</button>
+            </div>
+        </div>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--bg-card);
+        border: var(--border-cosmic);
+        border-radius: var(--border-radius-lg);
+        padding: var(--space-lg);
+        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow-cosmic);
+        z-index: 10000;
+        max-width: 350px;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(notification);
+    window.updateNotification = notification;
+}
+
+/**
+ * Update the app
+ */
+async function updateApp() {
+    if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration && registration.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            window.location.reload();
+        }
+    }
+}
+
+/**
+ * Dismiss update notification
+ */
+function dismissUpdate() {
+    if (window.updateNotification) {
+        window.updateNotification.remove();
+        delete window.updateNotification;
+    }
+}
+
+/**
+ * Install prompt handling
+ */
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallButton();
+});
+
+function showInstallButton() {
+    const installButton = document.createElement('button');
+    installButton.className = 'btn btn-outline-light install-btn';
+    installButton.innerHTML = '<i class="fas fa-download"></i> Install App';
+    installButton.onclick = installApp;
+    
+    installButton.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+        animation: fadeInUp 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(installButton);
+    window.installButton = installButton;
+}
+
+async function installApp() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+            console.log('✅ PWA installed successfully');
+        }
+        
+        deferredPrompt = null;
+        
+        if (window.installButton) {
+            window.installButton.remove();
+            delete window.installButton;
+        }
+    }
+}
+
+/**
+ * Handle app installed event
+ */
+window.addEventListener('appinstalled', () => {
+    console.log('🎉 PWA was installed successfully');
+    
+    // Hide install button if still visible
+    if (window.installButton) {
+        window.installButton.remove();
+        delete window.installButton;
+    }
+    
+    // Show welcome message
+    setTimeout(() => {
+        showWelcomeMessage();
+    }, 1000);
+});
+
+function showWelcomeMessage() {
+    const welcome = document.createElement('div');
+    welcome.className = 'welcome-message';
+    welcome.innerHTML = `
+        <div class="welcome-content">
+            <div class="welcome-icon">🌌</div>
+            <h4>Welcome to the Cosmic Experience!</h4>
+            <p>Astrotrias Archon is now installed and ready for offline exploration.</p>
+        </div>
+    `;
+    
+    welcome.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--bg-card);
+        border: var(--border-cosmic);
+        border-radius: var(--border-radius-xl);
+        padding: var(--space-xl);
+        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow-cosmic);
+        z-index: 10000;
+        text-align: center;
+        max-width: 400px;
+        animation: zoomIn 0.5s ease-out;
+    `;
+    
+    document.body.appendChild(welcome);
+    
+    setTimeout(() => {
+        welcome.remove();
+    }, 4000);
+}
+
+/**
+ * Offline status handling
+ */
+function updateOnlineStatus() {
+    const status = navigator.onLine ? 'online' : 'offline';
+    document.body.setAttribute('data-connection', status);
+    
+    if (!navigator.onLine) {
+        showOfflineNotification();
+    } else {
+        hideOfflineNotification();
+    }
+}
+
+function showOfflineNotification() {
+    if (document.querySelector('.offline-notification')) return;
+    
+    const notification = document.createElement('div');
+    notification.className = 'offline-notification';
+    notification.innerHTML = `
+        <div class="offline-content">
+            <i class="fas fa-wifi-slash"></i>
+            <span>You're offline. Some features may be limited.</span>
+        </div>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--accent-warning);
+        color: white;
+        padding: var(--space-sm);
+        text-align: center;
+        z-index: 10001;
+        animation: slideInDown 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(notification);
+}
+
+function hideOfflineNotification() {
+    const notification = document.querySelector('.offline-notification');
+    if (notification) {
+        notification.remove();
+    }
+}
+
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+// Initial status check
+updateOnlineStatus();
+</script>
+
+<!-- PWA Animations CSS -->
+<style>
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.update-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.update-icon {
+    font-size: 2rem;
+}
+
+.update-text h4 {
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+}
+
+.update-text p {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.update-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.welcome-content {
+    text-align: center;
+}
+
+.welcome-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+}
+
+.offline-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.install-btn {
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.install-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Connection status indicators */
+[data-connection="offline"] .nav-link::after {
+    content: "📡";
+    margin-left: var(--space-xs);
+    opacity: 0.5;
+}
+
+[data-connection="online"] .offline-notification {
+    display: none;
+}
+</style>
+
 </body>
 </html>
