@@ -1,7 +1,6 @@
 # Astrotrias Archon - Netlify Configuration
 # Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
-# Version: 2.1.1
-# Cosmic Portfolio Deployment Configuration
+# Version: 2.1.2 - Simplified for Deployment
 
 [build]
   publish = "."
@@ -9,7 +8,6 @@
   
 [build.environment]
   NODE_VERSION = "20"
-  NPM_VERSION = "10"
 
 # Performance & Security Headers
 [[headers]]
@@ -19,139 +17,72 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     X-DNS-Prefetch-Control = "on"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plausible.io; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'none'; object-src 'none';"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
 
 # Cache Control for Static Assets
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
 [[headers]]
   for = "*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "text/css"
 
 [[headers]]
   for = "*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "application/javascript"
 
-
-# Edge Functions Configuration
-[[edge_functions]]
-  path = "/*"
-  function = "headers"
-
-
-# Image Assets
 [[headers]]
   for = "*.png"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/png"
 
 [[headers]]
   for = "*.jpg"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/jpeg"
 
 [[headers]]
   for = "*.jpeg"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/jpeg"
 
 [[headers]]
   for = "*.webp"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/webp"
 
 [[headers]]
   for = "*.svg"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/svg+xml"
 
-# Font Assets
 [[headers]]
   for = "*.woff"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "font/woff"
 
 [[headers]]
   for = "*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "font/woff2"
 
-[[headers]]
-  for = "*.ttf"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "font/ttf"
-
-# Favicon
 [[headers]]
   for = "*.ico"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-    Content-Type = "image/x-icon"
 
 # PWA Files
 [[headers]]
   for = "/manifest.json"
   [headers.values]
     Cache-Control = "public, max-age=86400"
-    Content-Type = "application/manifest+json"
-
-[[headers]]
-  for = "/site.webmanifest"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Content-Type = "application/manifest+json"
-
-# Service Worker - No Cache
-[[headers]]
-  for = "/sw.js"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-    Content-Type = "application/javascript"
-
-# HTML Files
-[[headers]]
-  for = "*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=3600, must-revalidate"
-    Content-Type = "text/html; charset=utf-8"
 
 # Main Index - Always Fresh
 [[headers]]
   for = "/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    Content-Type = "text/html; charset=utf-8"
-
-# SEO Files
-[[headers]]
-  for = "/sitemap.xml"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Content-Type = "application/xml"
-
-[[headers]]
-  for = "/robots.txt"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Content-Type = "text/plain"
 
 # Legacy Repository Redirects
 [[redirects]]
@@ -178,22 +109,7 @@
   status = 301
 
 [[redirects]]
-  from = "/portfolio"
-  to = "/#dimensions"
-  status = 301
-
-[[redirects]]
   from = "/about"
-  to = "/#timeline"
-  status = 301
-
-[[redirects]]
-  from = "/cv"
-  to = "/#timeline"
-  status = 301
-
-[[redirects]]
-  from = "/resume"
   to = "/#timeline"
   status = 301
 
@@ -203,17 +119,7 @@
   status = 301
 
 [[redirects]]
-  from = "/expertise"
-  to = "/#skills"
-  status = 301
-
-[[redirects]]
   from = "/contact"
-  to = "/#contact"
-  status = 301
-
-[[redirects]]
-  from = "/contact-me"
   to = "/#contact"
   status = 301
 
@@ -221,11 +127,6 @@
 [[redirects]]
   from = "/github"
   to = "https://github.com/Pigletpeakkung"
-  status = 302
-
-[[redirects]]
-  from = "/repo"
-  to = "https://github.com/Pigletpeakkung/Astrotrias-Archon"
   status = 302
 
 [[redirects]]
@@ -238,118 +139,19 @@
   to = "https://linktr.ee/ThanttEzekiel"
   status = 302
 
-[[redirects]]
-  from = "/youtube"
-  to = "https://youtube.com/@pegearts"
-  status = 302
-
-[[redirects]]
-  from = "/medium"
-  to = "https://medium.com/@thanatsitt"
-  status = 302
-
-[[redirects]]
-  from = "/email"
-  to = "mailto:thanattsitt.info@yahoo.co.uk"
-  status = 302
-
-# Project Shortcuts
-[[redirects]]
-  from = "/conversation"
-  to = "https://github.com/Pigletpeakkung/conversation-topic-selector"
-  status = 302
-
-[[redirects]]
-  from = "/ton"
-  to = "https://github.com/Pigletpeakkung/ton-mini-app"
-  status = 302
-
-[[redirects]]
-  from = "/ecommerce"
-  to = "https://github.com/Pigletpeakkung/ai-ecommerce-pipeline"
-  status = 302
-
-# API Endpoints (Future Use)
-[[redirects]]
-  from = "/api/*"
-  to = "https://api.astrotrias-archon.com/:splat"
-  status = 200
-
 # SPA Fallback (Must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Edge Functions Configuration
+[[edge_functions]]
+  path = "/*"
+  function = "headers"
+
 # Development Settings
 [dev]
-  command = "npx live-server . --port=3000 --host=localhost"
+  command = "npx live-server . --port=3000"
   port = 3000
   publish = "."
-  autoLaunch = true
-
-# Build Processing
-[build.processing]
-  skip_processing = false
-
-[build.processing.css]
-  bundle = true
-  minify = true
-
-[build.processing.js]
-  bundle = true
-  minify = true
-
-[build.processing.html]
-  pretty_urls = true
-
-[build.processing.images]
-  compress = true
-
-# Netlify Functions (Future Use)
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
-
-# Form Handling
-[forms]
-  spam_protection = true
-
-# Analytics & Performance Plugins
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
-  
-  [plugins.inputs.thresholds]
-    performance = 0.9
-    accessibility = 0.9
-    best-practices = 0.9
-    seo = 0.9
-    pwa = 0.8
-
-[[plugins]]
-  package = "netlify-plugin-minify-html"
-
-  [plugins.inputs]
-    contexts = ["production"]
-    removeComments = true
-    collapseWhitespace = true
-    minifyCSS = true
-    minifyJS = true
-
-[[plugins]]
-  package = "netlify-plugin-sitemap"
-
-  [plugins.inputs]
-    baseUrl = "https://astrotrias-archon.netlify.app"
-    pretty = true
-    trailingSlash = false
-
-# Context-specific Settings
-[context.production]
-  command = "echo 'Production build complete'"
-
-[context.deploy-preview]
-  command = "echo 'Deploy preview ready'"
-
-[context.branch-deploy]
-  command = "echo 'Branch deploy ready'"
