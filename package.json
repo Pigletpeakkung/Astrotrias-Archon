@@ -1,0 +1,35 @@
+{
+  "name": "astrotrias-archon",
+  "version": "1.0.0",
+  "description": "Multidimensional Creative Technologist Portfolio",
+  "main": "index.html",
+  "scripts": {
+    "build": "npm run optimize",
+    "optimize": "npm run minify-html && npm run optimize-images",
+    "minify-html": "html-minifier-terser --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --minify-css --minify-js || cp index.html dist/",
+    "optimize-images": "imagemin assets/images/* --out-dir=dist/assets/images || cp -r assets dist/",
+    "dev": "live-server .",
+    "lighthouse": "lighthouse https://astrotrias-archon.netlify.app --output=html --output-path=./lighthouse-report.html",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "portfolio",
+    "creative-technologist",
+    "quantum-design",
+    "consciousness-ai",
+    "cosmic-design"
+  ],
+  "author": "Thanatsitt Santisamranwilai",
+  "license": "MIT",
+  "devDependencies": {
+    "html-minifier-terser": "^7.2.0",
+    "imagemin": "^8.0.1",
+    "imagemin-webp": "^8.0.0",
+    "live-server": "^1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pigletpeakkung/Astrotrias-Archon.git"
+  },
+  "homepage": "https://astrotrias-archon.netlify.app"
+}
