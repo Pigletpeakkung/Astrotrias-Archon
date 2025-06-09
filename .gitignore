@@ -1,0 +1,12 @@
+# Add the .gitignore file
+git add .gitignore
+git commit -m "Add comprehensive .gitignore for cosmic portfolio optimization"
+
+# Clean up any previously tracked files that should be ignored
+git rm -r --cached .netlify/ 2>/dev/null || true
+git rm --cached .env 2>/dev/null || true
+git rm --cached *.log 2>/dev/null || true
+
+# Commit the cleanup
+git commit -m "Clean up ignored files from version control"
+git push origin main
