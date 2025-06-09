@@ -117,7 +117,7 @@
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" />
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts with Display Swap -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
@@ -129,7 +129,7 @@
       --bg-tertiary: #e9ecef;
       --text-primary: #1a1a1a;
       --text-secondary: #6c757d;
-      --text-muted: #adb5bd;
+      --text-muted: #495057;
       --accent-primary: #6366f1;
       --accent-secondary: #8b5cf6;
       --accent-tertiary: #06b6d4;
@@ -156,54 +156,287 @@
       --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     }
 
+    /* Base Styling */
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.5s ease, color 0.5s ease;
+      overflow-x: hidden;
+    }
+
     /* Text Visibility Fixes */
-    .stellar-text, .text-muted {
+    .stellar-text {
       color: var(--text-primary) !important;
     }
 
-    .cosmic-glow {
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    .text-muted {
+      color: var(--text-muted) !important;
     }
 
-    /* Modal and Card Styling */
-    [data-theme="light"] .modal-content {
-      background-color: var(--card-bg);
-      color: var(--text-primary);
-      border-color: var(--border-color);
+    [data-theme="light"] .stellar-text, 
+    [data-theme="light"] .text-muted {
+      color: #1a1a1a !important;
     }
 
-    [data-theme="dark"] .modal-content {
-      background-color: var(--card-bg);
-      color: var(--text-primary);
-      border-color: var(--border-color);
+    [data-theme="light"] .cosmic-glow {
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
 
-    .project-card, .collaboration-card {
+    /* Navbar Styling */
+    .navbar {
+      background: rgba(15, 15, 35, 0.9);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme="light"] .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 2px solid var(--accent-primary);
+      color: var(--accent-primary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-toggle:hover {
+      background-color: var(--accent-primary);
+      color: white;
+      transform: rotate(180deg);
+    }
+
+    /* Header Styling */
+    .page-header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      position: relative;
+    }
+
+    #particles-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Button Styling */
+    .btn-gradient {
+      background: var(--gradient-primary);
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: 50px;
+      padding: 12px 30px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+      color: white;
+    }
+
+    /* Metrics Section */
+    .metrics-section .text-center h3 {
+      font-size: 2.2rem;
+      margin-bottom: 0.25rem;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Section Base Styles */
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .section .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Project Card Styling */
+    .project-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
       transition: all 0.4s ease;
     }
 
-    [data-theme="light"] .project-card:hover {
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
     }
 
+    [data-theme="light"] .project-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="light"] .project-card:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Timeline Styles */
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background: var(--gradient-primary);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+
+    .timeline-item {
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin: 30px 0;
+      padding: 20px;
+      width: 45%;
+      transition: all 0.4s ease;
+    }
+
+    .timeline-item.left {
+      left: 0;
+    }
+
+    .timeline-item.right {
+      left: 55%;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      width: 15px;
+      height: 15px;
+      background-color: var(--accent-secondary);
+      border: 4px solid var(--accent-primary);
+      border-radius: 50%;
+    }
+
+    .timeline-item.left::after {
+      right: -30px;
+    }
+
+    .timeline-item.right::after {
+      left: -30px;
+    }
+
+    /* Skills Progress Bar */
+    .progress {
+      height: 20px;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      background: var(--gradient-primary);
+      font-size: 0.75rem;
+      text-align: right;
+      padding-right: 10px;
+      line-height: 20px;
+      transition: width 1s ease;
+    }
+
+    /* Education Section */
     .education-item {
+      background: rgba(255, 255, 255, 0.05);
       border-left: 4px solid var(--accent-primary);
-      padding-left: 20px;
+      padding: 25px;
       margin-bottom: 1rem;
+      border-radius: 10px;
     }
 
     .education-item h5::before {
-      content: "🌌";
-      margin-right: 10px;
+      content: '🌌';
       color: var(--accent-secondary);
+      margin-right: 10px;
+      font-size: 1.2em;
+    }
+
+    /* Contact Form */
+    #contactForm .form-control, 
+    #contactForm .form-select {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 15px 20px;
+      transition: all 0.3s ease;
+    }
+
+    #contactForm .form-control:focus,
+    #contactForm .form-select:focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+      border-color: var(--accent-primary);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    [data-theme="light"] #contactForm .form-control,
+    [data-theme="light"] #contactForm .form-select {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a1a1a;
+      border: 1px solid #dee2e6;
+    }
+
+    /* Footer Animation */
+    .animated-footer {
+      overflow: hidden;
+      background: var(--gradient-primary);
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 30px;
     }
 
     .animated-footer span {
       display: inline-block;
-      animation: footerSlide 25s linear infinite;
+      animation: footerSlide 30s linear infinite;
       font-weight: 500;
       font-size: 14px;
       white-space: nowrap;
+      color: white;
     }
 
     @keyframes footerSlide {
@@ -211,41 +444,57 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* Responsive Timeline */
+    /* Social Links */
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .social-link:hover {
+      background-color: var(--accent-primary);
+      color: white;
+      transform: scale(1.1);
+      border-color: var(--accent-secondary);
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
       .timeline::after {
         left: 15px;
       }
+      
       .timeline-item {
-        width: 100%;
-        padding-left: 70px;
-        padding-right: 20px;
+        width: calc(100% - 70px);
+        left: 70px !important;
+        margin-left: 0;
       }
+      
       .timeline-item::after {
-        left: 15px;
+        left: -43px;
       }
-      .right { left: 0%; }
+      
+      .metrics-section .text-center h3 {
+        font-size: 1.8rem;
+      }
     }
 
-    /* Accessibility for Focus States */
+    /* Accessibility */
     .tilt-effect:focus,
     .project-card:focus {
       outline: 2px solid var(--accent-primary);
       outline-offset: 2px;
     }
 
-    /* Fallback for Font Loading */
-    body {
-      font-family: 'Inter', sans-serif;
-      font-family: 'Playfair Display', serif;
-      fallback: sans-serif;
-    }
-
-    /* Smooth Scrolling */
-    html {
-      scroll-behavior: smooth;
-    }
-
+    /* Animation Classes */
     .fade-in {
       opacity: 0;
       transform: translateY(30px);
@@ -256,15 +505,20 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* Badge fixes for light mode */
+    [data-theme="light"] .badge {
+      color: white !important;
+    }
   </style>
 </head>
 
 <body data-theme="dark">
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#home">
-        <i class="fas fa-atom me-2" aria-hidden="true"></i>
+        <i class="fas fa-atom me-2" aria-label="Atomic symbol"></i>
         <span>Astrotrias Archon</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -280,23 +534,22 @@
           <li class="nav-item"><a class="nav-link" href="#education">Wisdom</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Convergence</a></li>
         </ul>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle cosmic mode">
-          <i class="fas fa-moon" id="themeIcon"></i>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle cosmic theme">
+          <i class="fas fa-sun" id="themeIcon"></i>
         </button>
       </div>
     </div>
   </nav>
 
   <!-- Header with Particles -->
-  <header id="home" class="page-header position-relative">
-    <div class="cosmic-bg"></div>
+  <header id="home" class="page-header">
     <div id="particles-js"></div>
     <div class="container position-relative" style="z-index: 2;">
       <div class="row justify-content-center text-center">
         <div class="col-lg-10">
           <div class="fade-in">
-            <h4 class="text-white-50 mb-3 font-display">Multidimensional Creative Technologist</h4>
-            <h1 class="text-white display-3 fw-bold mb-4 font-display">
+            <h4 class="text-white-50 mb-3">Multidimensional Creative Technologist</h4>
+            <h1 class="text-white display-3 fw-bold mb-4">
               <span class="d-block mb-2">Astrotrias Archon</span>
               <small class="display-6 text-white-75">Thanatsitt Santisamranwilai</small>
             </h1>
@@ -306,224 +559,220 @@
               web development for transcendent digital experiences.
             </p>
             <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
-              <button class="btn btn-gradient btn-lg glitter-effect" onclick="scrollToSection('projects')">
+              <button class="btn btn-gradient btn-lg" onclick="scrollToSection('projects')">
                 <i class="fas fa-rocket me-2" aria-hidden="true"></i>Explore Manifestations
               </button>
-              <button class="btn btn-outline-light btn-lg shine-effect" onclick="scrollToSection('contact')">
+              <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('contact')">
                 <i class="fas fa-satellite-dish me-2" aria-hidden="true"></i>Initiate Convergence
               </button>
             </div>
-            <div class="row mt-5 fade-in">
-  <!-- Voice Transmissions -->
-  <div class="col-md-3 col-6 mb-3">
-    <div class="text-center">
-      <h3 class="text-white fw-bold" aria-label="75+ Voice Transmissions">75+</h3>
-      <p class="text-white-50 small">Voice Transmissions</p>
-    </div>
-  </div>
-
-  <!-- AI Training Sets -->
-  <div class="col-md-3 col-6 mb-3">
-    <div class="text-center">
-      <h3 class="text-white fw-bold" aria-label="150+ AI Training Sets">150+</h3>
-      <p class="text-white-50 small">AI Training Sets</p>
-    </div>
-  </div>
-
-  <!-- Multilingual Projects -->
-  <div class="col-md-3 col-6 mb-3">
-    <div class="text-center">
-      <h3 class="text-white fw-bold" aria-label="12+ Multilingual Projects">12+</h3>
-      <p class="text-white-50 small">Multilingual Projects</p>
-    </div>
-  </div>
-
-  <!-- Web Projects -->
-  <div class="col-md-3 col-6 mb-3">
-    <div class="text-center">
-      <h3 class="text-white fw-bold" aria-label="25+ Web Projects">25+</h3>
-      <p class="text-white-50 small">Web Projects</p>
-    </div>
-  </div>
-
-  <!-- Clients -->
-  <div class="col-md-3 col-6 mb-3">
-    <div class="text-center">
-      <h3 class="text-white fw-bold" aria-label="100+ Clients">100+</h3>
-      <p class="text-white-50 small">Clients</p>
-    </div>
-  </div>
-
-  <!-- Years of Experience -->
-  <div class="col-md-3 col-6 mb-3">
-    <div class="text-center">
-      <h3 class="text-white fw-bold" aria-label="7+ Years of Experience">7+</h3>
-      <p class="text-white-50 small">Years of Experience</p>
-    </div>
-  </div>
-</div>
-
-            <div class="d-flex justify-content-center gap-4 flex-wrap">
-              <span class="badge bg-primary bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Consciousness AI">🧠</span>
-              <span class="badge bg-secondary bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Dimensional Voice">🎙️</span>
-              <span class="badge bg-info bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Cosmic Web">🌐</span>
-              <span class="badge bg-success bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Reality Design">🎨</span>
+            
+            <!-- Enhanced Metrics Section -->
+            <div class="row mt-5 fade-in metrics-section">
+              <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                  <h3 class="text-white fw-bold" aria-label="75+ Voice Transmissions">75+</h3>
+                  <p class="text-white-50 small">Voice Transmissions</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                  <h3 class="text-white fw-bold" aria-label="150+ AI Training Sets">150+</h3>
+                  <p class="text-white-50 small">AI Training Sets</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                  <h3 class="text-white fw-bold" aria-label="25+ Web Projects">25+</h3>
+                  <p class="text-white-50 small">Web Projects</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                  <h3 class="text-white fw-bold" aria-label="7+ Years Experience">7+</h3>
+                  <p class="text-white-50 small">Years Experience</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex justify-content-center gap-4 flex-wrap mt-4">
+              <span class="badge bg-primary bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Consciousness AI">🧠 AI</span>
+              <span class="badge bg-secondary bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Voice Artistry">🎙️ Voice</span>
+              <span class="badge bg-info bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Web Development">🌐 Web</span>
+              <span class="badge bg-success bg-opacity-20 text-white px-3 py-2" role="img" aria-label="Design">🎨 Design</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </header>
-<!-- About Section -->
-<section id="about" class="section section-about py-5">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="profile-image cosmic-glow" style="border: 4px solid var(--accent-primary);">
-          <img src="https://astrotrias-archon.netlify.app/images/profile.jpg" alt="Astrotrias Archon - Multidimensional Creative Technologist" class="img-fluid rounded shadow-lg" />
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0 fade-in">
+          <div class="text-center">
+            <div class="profile-image-wrapper mb-4">
+              <img src="https://via.placeholder.com/300x300/6366f1/ffffff?text=Profile" alt="Astrotrias Archon - Multidimensional Creative Technologist" class="img-fluid rounded-circle shadow-lg" style="width: 300px; height: 300px; object-fit: cover; border: 4px solid var(--accent-primary);" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <h2 class="stellar-text mb-4">Consciousness & Cosmic Design</h2>
-        <p class="text-muted mb-4">
-          Thanatsitt Santisamranwilai (Astrotrias Archon) is a multidimensional creative technologist weaving consciousness, AI, and cosmic design across infinite dimensions. With over 7 years of experience, I specialize in AI training data, voice artistry, and web development for transcendent digital experiences.
-        </p>
-        <div class="mb-4">
-          <span class="badge bg-success bg-opacity-20 text-white px-3 py-2 me-2">🧠 AI Training Data</span>
-          <span class="badge bg-primary bg-opacity-20 text-white px-3 py-2 me-2">🎙️ Voice Artistry</span>
-          <span class="badge bg-info bg-opacity-20 text-white px-3 py-2 me-2">🌐 Web Development</span>
-          <span class="badge bg-secondary bg-opacity-20 text-white px-3 py-2 me-2">🌌 Cosmic Design</span>
+        <div class="col-lg-6 fade-in">
+          <h2 class="stellar-text mb-4 fw-bold">Consciousness & Cosmic Design</h2>
+          <p class="text-muted mb-4">
+            <strong>Thanatsitt Santisamranwilai</strong> (Astrotrias Archon) is a multidimensional creative technologist weaving consciousness, AI, and cosmic design across infinite dimensions. With over 7 years of experience, I specialize in AI training data, voice artistry, and web development for transcendent digital experiences.
+          </p>
+          <div class="mb-4">
+            <span class="badge bg-success me-2 mb-2">🧠 AI Training Data</span>
+            <span class="badge bg-primary me-2 mb-2">🎙️ Voice Artistry</span>
+            <span class="badge bg-info me-2 mb-2">🌐 Web Development</span>
+            <span class="badge bg-secondary me-2 mb-2">🌌 Cosmic Design</span>
+          </div>
+          <p class="text-muted">
+            My work bridges the gap between human consciousness and artificial intelligence, creating immersive, multilingual, and cross-cultural digital manifestations. Let's explore the infinite together.
+          </p>
         </div>
-        <p class="text-muted">
-          My work bridges the gap between human consciousness and artificial intelligence, creating immersive, multilingual, and cross-cultural digital manifestations. Let’s explore the infinite together.
-        </p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Projects Section -->
-<section id="projects" class="section section-projects py-5">
-  <div class="container">
-    <h2 class="stellar-text text-center mb-5">Manifestations</h2>
-    <div class="row g-4">
-      <!-- Project Card 1 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
-          <div class="card h-100 border border-opacity-25 border-light bg-transparent">
-            <div class="card-body">
-              <h4 class="card-title fw-bold mb-3">Consciousness Topic Selector</h4>
-              <p class="card-text text-muted">
-                A React-based open-source tool for AI training data optimization, leveraging multilingual and cross-cultural datasets.
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <div class="container">
+      <h2 class="stellar-text text-center mb-5 fw-bold fade-in">Manifestations</h2>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 fade-in">
+          <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
+            <div class="mb-3">
+              <i class="fas fa-brain fa-3x mb-3" style="color: var(--accent-primary);" aria-hidden="true"></i>
+              <h4 class="fw-bold mb-3 stellar-text">Consciousness Topic Selector</h4>
+              <p class="text-muted mb-3">
+                A React-based open-source tool for AI training data optimization, leveraging multilingual and cross-cultural datasets for enhanced conversational AI.
               </p>
               <div class="mb-3">
                 <span class="badge bg-primary me-1">React</span>
                 <span class="badge bg-success me-1">AI</span>
                 <span class="badge bg-info">Open Source</span>
               </div>
-              <a href="https://github.com/pigletpeakkung/consciousness-topic-selector" class="btn btn-sm btn-outline-light">Explore</a>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">2024 - Active</small>
+                <a href="https://github.com/pigletpeakkung/consciousness-topic-selector" class="btn btn-sm btn-outline-primary" aria-label="View Consciousness Topic Selector project">Explore</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Project Card 2 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
-          <div class="card h-100 border border-opacity-25 border-light bg-transparent">
-            <div class="card-body">
-              <h4 class="card-title fw-bold mb-3">Quantum Voice Interface</h4>
-              <p class="card-text text-muted">
-                A multilingual voice assistant prototype using Thai, English, and Japanese datasets for cross-cultural AI interactions.
+        
+        <div class="col-lg-4 col-md-6 fade-in">
+          <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
+            <div class="mb-3">
+              <i class="fas fa-microphone fa-3x mb-3" style="color: var(--accent-secondary);" aria-hidden="true"></i>
+              <h4 class="fw-bold mb-3 stellar-text">Quantum Voice Interface</h4>
+              <p class="text-muted mb-3">
+                A multilingual voice assistant prototype using Thai, English, and Japanese datasets for cross-cultural AI interactions and immersive experiences.
               </p>
               <div class="mb-3">
                 <span class="badge bg-info me-1">Voice AI</span>
                 <span class="badge bg-secondary me-1">Multilingual</span>
                 <span class="badge bg-success">JavaScript</span>
               </div>
-              <a href="#" class="btn btn-sm btn-outline-light">View Demo</a>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">2023 - 2024</small>
+                <a href="#" class="btn btn-sm btn-outline-primary" aria-label="View Quantum Voice Interface demo">Demo</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Project Card 3 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
-          <div class="card h-100 border border-opacity-25 border-light bg-transparent">
-            <div class="card-body">
-              <h4 class="card-title fw-bold mb-3">Cosmic Web Portfolio</h4>
-              <p class="card-text text-muted">
-                A responsive, theme-aware portfolio built with HTML, CSS, and JavaScript, optimized for accessibility and cosmic aesthetics.
+
+        <div class="col-lg-4 col-md-6 fade-in">
+          <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
+            <div class="mb-3">
+              <i class="fas fa-globe fa-3x mb-3" style="color: var(--accent-tertiary);" aria-hidden="true"></i>
+              <h4 class="fw-bold mb-3 stellar-text">Cosmic Web Portfolio</h4>
+              <p class="text-muted mb-3">
+                A responsive, theme-aware portfolio built with HTML, CSS, and JavaScript, optimized for accessibility and cosmic aesthetics with particle effects.
               </p>
               <div class="mb-3">
                 <span class="badge bg-primary me-1">HTML/CSS</span>
                 <span class="badge bg-success me-1">JavaScript</span>
                 <span class="badge bg-info">Bootstrap</span>
               </div>
-              <a href="#" class="btn btn-sm btn-outline-light">View Code</a>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">2024 - Current</small>
+                <a href="https://github.com/pigletpeakkung" class="btn btn-sm btn-outline-primary" aria-label="View source code">Code</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Timeline Section -->
-<section id="journey" class="section section-journey py-5">
-  <div class="container">
-    <h2 class="stellar-text text-center mb-5">Cosmic Timeline</h2>
-    <div class="timeline">
-      <div class="timeline-item left animate">
-        <div class="timeline-content">
-          <h3 class="text-white">2018</h3>
-          <p class="text-muted">
-            Initiated voice acting and content creation in Thai and English. Explored early AI concepts and digital storytelling.
-          </p>
+  <!-- Timeline Section -->
+  <section id="journey" class="section">
+    <div class="container">
+      <h2 class="stellar-text text-center mb-5 fw-bold fade-in">Cosmic Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-item left fade-in">
+          <div class="timeline-content">
+            <h3 class="stellar-text">2018</h3>
+            <p class="text-muted">
+              Initiated voice acting and content creation in Thai and English. Explored early AI concepts and digital storytelling, laying the foundation for multidimensional creativity.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-item right animate">
-        <div class="timeline-content">
-          <h3 class="text-white">2020</h3>
-          <p class="text-muted">
-            Expanded into multilingual AI training data and prompt engineering. Developed voice artistry for global clients.
-          </p>
+        
+        <div class="timeline-item right fade-in">
+          <div class="timeline-content">
+            <h3 class="stellar-text">2020</h3>
+            <p class="text-muted">
+              Expanded into multilingual AI training data and prompt engineering. Developed voice artistry for global clients while mastering cross-cultural adaptation techniques.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-item left animate">
-        <div class="timeline-content">
-          <h3 class="text-white">2024</h3>
-          <p class="text-muted">
-            Launched the "Consciousness Topic Selector" project and deepened expertise in cosmic design and web development.
-          </p>
+        
+        <div class="timeline-item left fade-in">
+          <div class="timeline-content">
+            <h3 class="stellar-text">2022</h3>
+            <p class="text-muted">
+              Integrated web development skills with React and JavaScript. Created consciousness-driven applications bridging AI technology with human experience.
+            </p>
+          </div>
+        </div>
+        
+        <div class="timeline-item right fade-in">
+          <div class="timeline-content">
+            <h3 class="stellar-text">2024</h3>
+            <p class="text-muted">
+              Launched the "Consciousness Topic Selector" project and deepened expertise in cosmic design and web development. Established "Astrotrias Archon" as a multidimensional creative identity.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Skills Section -->
-<section id="skills" class="section section-skills py-5">
-  <div class="container">
-    <h2 class="stellar-text text-center mb-5">Dimensions of Expertise</h2>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card border border-opacity-25 border-light bg-transparent">
-          <div class="card-body">
+  <!-- Skills Section -->
+  <section id="skills" class="section">
+    <div class="container">
+      <h2 class="stellar-text text-center mb-5 fw-bold fade-in">Dimensions of Expertise</h2>
+      <div class="row g-4">
+        <div class="col-md-6 fade-in">
+          <div class="skill-item mb-4">
             <div class="d-flex justify-content-between mb-2">
-              <h5 class="card-title">AI Training Data</h5>
+              <h5 class="stellar-text">AI Training Data Development</h5>
               <span class="badge bg-success">7+ Years</span>
             </div>
             <div class="progress">
-              <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">95%</div>
+              <div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">95%</div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card border border-opacity-25 border-light bg-transparent">
-          <div class="card-body">
+        
+        <div class="col-md-6 fade-in">
+          <div class="skill-item mb-4">
             <div class="d-flex justify-content-between mb-2">
-              <h5 class="card-title">Web Development</h5>
+              <h5 class="stellar-text">Web Development (React/JS)</h5>
               <span class="badge bg-primary">5+ Years</span>
             </div>
             <div class="progress">
@@ -531,250 +780,286 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card border border-opacity-25 border-light bg-transparent">
-          <div class="card-body">
+        
+        <div class="col-md-6 fade-in">
+          <div class="skill-item mb-4">
             <div class="d-flex justify-content-between mb-2">
-              <h5 class="card-title">Prompt Engineering</h5>
-              <span class="badge bg-info">4+ Years</span>
+              <h5 class="stellar-text">Voice Acting & Audio Production</h5>
+              <span class="badge bg-secondary">6+ Years</span>
             </div>
             <div class="progress">
-              <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80%</div>
+              <div class="progress-bar bg-secondary" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card border border-opacity-25 border-light bg-transparent">
-          <div class="card-body">
+        
+        <div class="col-md-6 fade-in">
+          <div class="skill-item mb-4">
             <div class="d-flex justify-content-between mb-2">
-              <h5 class="card-title">Voice Artistry</h5>
-              <span class="badge bg-secondary">3+ Years</span>
+              <h5 class="stellar-text">Multilingual Content Creation</h5>
+              <span class="badge bg-info">7+ Years</span>
             </div>
             <div class="progress">
-              <div class="progress-bar bg-secondary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+              <div class="progress-bar bg-info" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100">88%</div>
+            </div>
+                  </div>
+        
+        <div class="col-md-6 fade-in">
+          <div class="skill-item mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <h5 class="stellar-text">Prompt Engineering & AI Optimization</h5>
+              <span class="badge bg-warning">4+ Years</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80%</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 fade-in">
+          <div class="skill-item mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <h5 class="stellar-text">Cosmic Design & UX/UI</h5>
+              <span class="badge bg-danger">3+ Years</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Education Section -->
-<section id="education" class="section section-education py-5">
-  <div class="container">
-    <h2 class="stellar-text text-center mb-5">Wisdom Archives</h2>
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="education-item">
-          <h5 class="fw-bold">Consciousness & AI Foundations</h5>
-          <p class="text-muted">
-            Self-taught expertise in AI training data, prompt engineering, and cosmic design principles. Developed a deep understanding of multilingual and cross-cultural digital content.
+  <!-- Education Section -->
+  <section id="education" class="section">
+    <div class="container">
+      <h2 class="stellar-text text-center mb-5 fw-bold fade-in">Wisdom Archives</h2>
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="education-item fade-in">
+            <h5 class="fw-bold stellar-text">Consciousness & AI Foundations</h5>
+            <p class="text-muted">
+              Self-taught expertise in AI training data, prompt engineering, and cosmic design principles. Developed a deep understanding of multilingual and cross-cultural digital content creation through extensive research and practical application.
+            </p>
+            <small class="text-muted">2018 - 2024 • Self-Directed Learning</small>
+          </div>
+          
+          <div class="education-item fade-in">
+            <h5 class="fw-bold stellar-text">Voice Artistry & Digital Storytelling</h5>
+            <p class="text-muted">
+              Advanced training in multilingual voice acting and digital storytelling techniques. Specialized in creating immersive audio experiences for AI applications, web content, and cross-cultural communication.
+            </p>
+            <small class="text-muted">2020 - 2022 • Voice123 Platform & Independent Study</small>
+          </div>
+          
+          <div class="education-item fade-in">
+            <h5 class="fw-bold stellar-text">Web Development & Modern Technologies</h5>
+            <p class="text-muted">
+              Comprehensive study of modern web development technologies including React, JavaScript, HTML5, CSS3, and responsive design principles. Focus on accessibility, performance optimization, and cosmic-themed user experiences.
+            </p>
+            <small class="text-muted">2021 - 2024 • Online Courses & Project-Based Learning</small>
+          </div>
+          
+          <div class="education-item fade-in">
+            <h5 class="fw-bold stellar-text">Cross-Cultural Communication & Language Studies</h5>
+            <p class="text-muted">
+              Advanced proficiency in Thai (native), English (professional), and Japanese (business level). Specialized in cultural adaptation and localization for global AI training datasets and multilingual content creation.
+            </p>
+            <small class="text-muted">2018 - Present • Continuous Development</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2 class="stellar-text text-center mb-5 fw-bold fade-in">Convergence Point</h2>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 fade-in">
+          <div class="text-center mb-5">
+            <p class="text-muted lead">
+              Ready to bridge dimensions and create something extraordinary? Let's initiate cosmic convergence and explore the infinite possibilities together.
+            </p>
+          </div>
+          
+          <form id="contactForm" class="needs-validation" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="name" class="form-label stellar-text">Consciousness Identity</label>
+                <input type="text" class="form-control" id="name" required placeholder="Your name" aria-label="Your name" />
+                <div class="invalid-feedback">Please provide your name for cosmic identification.</div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="email" class="form-label stellar-text">Dimensional Email</label>
+                <input type="email" class="form-control" id="email" required placeholder="your@email.com" aria-label="Your email address" />
+                <div class="invalid-feedback">Please provide a valid email address for dimensional communication.</div>
+              </div>
+              
+              <div class="col-12">
+                <label for="project" class="form-label stellar-text">Manifestation Type</label>
+                <select class="form-select" id="project" required aria-label="Select project type">
+                  <option value="">Select a dimensional manifestation</option>
+                  <option value="ai">Consciousness AI Training & Development</option>
+                  <option value="voice">Multidimensional Voice Artistry</option>
+                  <option value="web">Cosmic Web Development & Design</option>
+                  <option value="consulting">Reality Design Strategy & Consulting</option>
+                  <option value="collaboration">Interdimensional Collaboration</option>
+                  <option value="other">Other Cosmic Endeavors</option>
+                </select>
+                <div class="invalid-feedback">Please select a manifestation type to focus our cosmic energy.</div>
+              </div>
+              
+              <div class="col-12">
+                <label for="message" class="form-label stellar-text">Cosmic Vision</label>
+                <textarea class="form-control" id="message" rows="6" required placeholder="Share your cosmic vision, project details, or dimensional requirements..." aria-label="Your message"></textarea>
+                <div class="invalid-feedback">Please share your cosmic vision to initiate the convergence process.</div>
+              </div>
+              
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-gradient btn-lg" aria-label="Submit contact form">
+                  <i class="fas fa-satellite-dish me-2" aria-hidden="true"></i>Initiate Cosmic Convergence
+                </button>
+              </div>
+            </div>
+          </form>
+          
+          <!-- Alternative Contact Methods -->
+          <div class="row mt-5 text-center">
+            <div class="col-md-4 mb-3">
+              <div class="contact-method">
+                <i class="fas fa-envelope fa-2x mb-3" style="color: var(--accent-primary);" aria-hidden="true"></i>
+                <h5 class="stellar-text">Direct Transmission</h5>
+                <a href="mailto:thanattsitt.info@yahoo.co.uk" class="text-muted">thanattsitt.info@yahoo.co.uk</a>
+              </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+              <div class="contact-method">
+                <i class="fas fa-microphone fa-2x mb-3" style="color: var(--accent-secondary);" aria-hidden="true"></i>
+                <h5 class="stellar-text">Voice Dimension</h5>
+                <a href="https://voice123.com/thanatsitt" class="text-muted" target="_blank" rel="noopener">Voice123 Profile</a>
+              </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+              <div class="contact-method">
+                <i class="fas fa-link fa-2x mb-3" style="color: var(--accent-tertiary);" aria-hidden="true"></i>
+                <h5 class="stellar-text">Nexus Hub</h5>
+                <a href="https://linktr.ee/ThanttEzekiel" class="text-muted" target="_blank" rel="noopener">All Dimensions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Animation -->
+  <footer class="py-5" style="background: var(--bg-secondary); border-top: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Brand and Description -->
+        <div class="col-lg-4 col-md-6">
+          <h4 class="fw-bold mb-3 stellar-text">
+            <i class="fas fa-atom me-2" style="color: var(--accent-primary);" aria-hidden="true"></i>
+            Astrotrias Archon
+          </h4>
+          <p class="text-muted mb-4">
+            Bridging consciousness, AI, and cosmic design across infinite dimensions. Creating transcendent digital experiences through multidimensional creativity.
           </p>
-          <small class="text-muted">2018 - 2024</small>
-        </div>
-        <div class="education-item">
-          <h5 class="fw-bold">Voice Artistry Certification</h5>
-          <p class="text-muted">
-            Certified in multilingual voice acting and digital storytelling. Focused on creating immersive audio experiences for AI and web applications.
-          </p>
-          <small class="text-muted">2022</small>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="section section-contact py-5">
-  <div class="container">
-    <h2 class="stellar-text text-center mb-5">Convergence Point</h2>
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <form id="contactForm" class="needs-validation" novalidate>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <input type="text" class="form-control" id="name" required placeholder="Your Consciousness Identity" aria-label="Name" />
-              <div class="invalid-feedback">Please provide your name.</div>
-            </div>
-            <div class="col-md-6">
-              <input type="email" class="form-control" id="email" required placeholder="Dimensional Email" aria-label="Email" />
-              <div class="invalid-feedback">Please provide a valid email address.</div>
-            </div>
-            <div class="col-12">
-              <select class="form-select" id="project" required aria-label="Select a dimensional manifestation">
-                <option value="">Select a dimensional manifestation</option>
-                <option value="ai">Consciousness AI Training</option>
-                <option value="voice">Voice Artistry</option>
-                <option value="web">Cosmic Web Development</option>
-              </select>
-              <div class="invalid-feedback">Please select a project.</div>
-            </div>
-            <div class="col-12">
-              <textarea class="form-control" id="message" rows="5" required placeholder="Share your cosmic vision..." aria-label="Message"></textarea>
-              <div class="invalid-feedback">Please share your message.</div>
-            </div>
-            <div class="col-12 text-center">
-              <button type="submit" class="btn btn-gradient btn-lg glitter-effect" aria-label="Submit contact form">
-                <i class="fas fa-satellite-dish me-2" aria-hidden="true"></i>Initiate Cosmic Convergence
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-  <!-- Example of a Project Card with Alt Text -->
-  <div class="col-lg-6 fade-in">
-    <div class="project-card tilt-effect" data-tilt data-tilt-max="5" data-tilt-speed="300" tabindex="0">
-      <div class="d-flex align-items-start mb-3">
-        <div class="me-3">
-          <i class="fas fa-comments fa-2x" style="color: var(--accent-primary);"></i>
-        </div>
-        <div>
-          <h4 class="fw-bold mb-2">Consciousness Topic Selector</h4>
-          <p class="text-muted mb-3">Open-source React app for AI training data optimization.</p>
-          <div class="mb-3">
-            <span class="badge bg-primary me-1">React</span>
-            <span class="badge bg-success me-1">AI</span>
-            <span class="badge bg-info">Open Source</span>
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <small class="text-muted">2024 - Active</small>
-            <span class="badge bg-success">Multiversal Usage</span>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="https://github.com/pigletpeakkung" class="social-link" aria-label="GitHub profile" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://voice123.com/thanatsitt" class="social-link" aria-label="Voice123 profile" target="_blank" rel="noopener">
+              <i class="fas fa-microphone"></i>
+            </a>
+            <a href="https://medium.com/@thanatsitt" class="social-link" aria-label="Medium blog" target="_blank" rel="noopener">
+              <i class="fab fa-medium"></i>
+            </a>
+            <a href="https://youtube.com/@pegearts" class="social-link" aria-label="YouTube channel" target="_blank" rel="noopener">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://linktr.ee/ThanttEzekiel" class="social-link" aria-label="Linktree profile" target="_blank" rel="noopener">
+              <i class="fas fa-link"></i>
+            </a>
           </div>
         </div>
+        
+        <!-- Quick Navigation -->
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5 class="fw-bold mb-3 stellar-text">Nexus</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#home" class="text-muted text-decoration-none">Home</a></li>
+            <li class="mb-2"><a href="#about" class="text-muted text-decoration-none">About</a></li>
+            <li class="mb-2"><a href="#projects" class="text-muted text-decoration-none">Projects</a></li>
+            <li class="mb-2"><a href="#journey" class="text-muted text-decoration-none">Timeline</a></li>
+          </ul>
+        </div>
+        
+        <!-- Services -->
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5 class="fw-bold mb-3 stellar-text">Manifestations</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#skills" class="text-muted text-decoration-none">AI Training</a></li>
+            <li class="mb-2"><a href="#skills" class="text-muted text-decoration-none">Voice Artistry</a></li>
+            <li class="mb-2"><a href="#skills" class="text-muted text-decoration-none">Web Development</a></li>
+            <li class="mb-2"><a href="#skills" class="text-muted text-decoration-none">Cosmic Design</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="col-lg-4 col-md-6">
+          <h5 class="fw-bold mb-3 stellar-text">Convergence</h5>
+          <p class="text-muted mb-3">Ready to explore infinite possibilities?</p>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="fas fa-envelope me-2" style="color: var(--accent-primary);" aria-hidden="true"></i>
+              <a href="mailto:thanattsitt.info@yahoo.co.uk" class="text-muted text-decoration-none">thanattsitt.info@yahoo.co.uk</a>
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-map-marker-alt me-2" style="color: var(--accent-secondary);" aria-hidden="true"></i>
+              <span class="text-muted">Kamphaeng Phet, Thailand</span>
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-globe me-2" style="color: var(--accent-tertiary);" aria-hidden="true"></i>
+              <span class="text-muted">Multidimensional Availability</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Contact Form with Placeholder Fix -->
-  <form id="contactForm">
-    <div class="row g-3">
-      <div class="col-md-6">
-        <input type="text" class="form-control" id="name" required placeholder="Your Consciousness Identity" />
+      
+      <!-- Animated Footer Text -->
+      <div class="animated-footer mt-4">
+        <span>✨ Consciousness AI Training • Dimensional Voice Artistry • Cosmic Web Development • Reality Design Strategy • Multidimensional Expertise • Cross-Cultural Bridge Building • Infinite Possibility Exploration ✨</span>
       </div>
-      <div class="col-md-6">
-        <input type="email" class="form-control" id="email" required placeholder="Dimensional Email" />
-      </div>
-      <div class="col-12">
-        <select class="form-select" id="project" required>
-          <option value="">Select a dimensional manifestation</option>
-          <option value="ai">AI Training Data</option>
-          <!-- Add other options -->
-        </select>
-      </div>
-      <div class="col-12">
-        <textarea class="form-control" id="message" rows="5" required placeholder="Share your cosmic vision..."></textarea>
-      </div>
-      <div class="col-12 text-center">
-        <button type="submit" class="btn btn-gradient btn-lg shine-effect">
-          <i class="fas fa-satellite-dish me-2" aria-hidden="true"></i>Initiate Cosmic Convergence
-        </button>
-      </div>
-    </div>
-  </form>
-
-<!-- Footer with Animation -->
-<footer class="py-5">
-  <div class="container">
-    <div class="row g-4">
-      <!-- Logo and Description -->
-      <div class="col-lg-4 col-md-6 col-12">
-        <h4 class="fw-bold mb-3 font-display">
-          <i class="fas fa-atom me-2" style="color: var(--accent-primary);"></i>
-          <span class="stellar-text">Astrotrias Archon</span>
-        </h4>
-        <p class="text-muted mb-4">
-          Bridging consciousness, AI, and cosmic design across infinite dimensions.
+      
+      <!-- Copyright -->
+      <div class="text-center mt-4 pt-4" style="border-top: 1px solid var(--border-color);">
+        <p class="text-muted mb-0">
+          © 2024 Astrotrias Archon (Thanatsitt Santisamranwilai). All rights reserved across all dimensions. 
+          <br class="d-md-none">
+          <small>No consciousness was harmed in the making of this cosmic experience.</small>
         </p>
-        <div class="d-flex flex-wrap gap-3">
-          <!-- GitHub -->
-          <a href="https://github.com/pigletpeakkung" class="social-link" aria-label="GitHub profile">
-            <i class="fab fa-github fa-lg" style="color: var(--accent-secondary);"></i>
-          </a>
-          <!-- Medium -->
-          <a href="https://medium.com/@thanatsitt" class="social-link" aria-label="Medium blog">
-            <i class="fab fa-medium fa-lg" style="color: var(--accent-tertiary);"></i>
-          </a>
-          <!-- YouTube -->
-          <a href="https://youtube.com/@pegearts" class="social-link" aria-label="YouTube channel">
-            <i class="fab fa-youtube fa-lg" style="color: #ff0000;"></i>
-          </a>
-          <!-- LinkedIn -->
-          <a href="https://linkedin.com/in/thanatsitt" class="social-link" aria-label="LinkedIn profile">
-            <i class="fab fa-linkedin-in fa-lg" style="color: #0077b5;"></i>
-          </a>
-          <!-- Twitter/X -->
-          <a href="https://twitter.com/AstrotriasArchon" class="social-link" aria-label="Twitter/X profile">
-            <i class="fab fa-twitter fa-lg" style="color: #1da1f2;"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="col-lg-2 col-md-3 col-6">
-        <h5 class="fw-bold mb-3 text-white">Nexus</h5>
-        <ul class="list-unstyled text-muted">
-          <li><a href="#home" class="text-decoration-none">Home</a></li>
-          <li><a href="#about" class="text-decoration-none">About</a></li>
-          <li><a href="#projects" class="text-decoration-none">Projects</a></li>
-        </ul>
-      </div>
-
-      <!-- Services/Manifestations -->
-      <div class="col-lg-2 col-md-3 col-6">
-        <h5 class="fw-bold mb-3 text-white">Manifestations</h5>
-        <ul class="list-unstyled text-muted">
-          <li><a href="#ai" class="text-decoration-none">Consciousness AI</a></li>
-          <li><a href="#voice" class="text-decoration-none">Voice Artistry</a></li>
-          <li><a href="#web" class="text-decoration-none">Cosmic Web</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div class="col-lg-4 col-md-6 col-12">
-        <h5 class="fw-bold mb-3 text-white">Convergence</h5>
-        <p class="text-muted mb-3">Initiate contact via cosmic coordinates:</p>
-        <ul class="list-unstyled text-muted">
-          <li><a href="mailto:thanattsitt.info@yahoo.co.uk" class="text-decoration-none">📧 thanattsitt.info@yahoo.co.uk</a></li>
-          <li><a href="https://voice123.com/thanatsitt" class="text-decoration-none">🎙️ Voice123 Profile</a></li>
-        </ul>
       </div>
     </div>
-
-    <!-- Animated Footer Text -->
-    <div class="animated-footer mt-5">
-      <div class="footer-scroll">
-        <span>✨ Consciousness AI Training • Dimensional Voice Artistry • Cosmic Web Development • Reality Design Strategy • Multidimensional Expertise • Consciousness Bridge Building ✨</span>
-      </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="text-center text-muted mt-4">
-      <p>© 2025 Astrotrias Archon. All rights reserved. No dimensions were harmed in the making of this site.</p>
-    </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- External Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js" integrity="sha512-..." crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" integrity="sha512-..." crossorigin="anonymous"></script>
-
-  <!-- Custom Scripts -->
-  <script src="/assets/js/quantum.js" onerror="console.error('Quantum.js failed to load')"></script>
-  <script src="/assets/js/custom-interactions.js" onerror="console.error('Custom interactions failed to load')"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js" integrity="sha512-K9tDZvc8nQXR1DMuT97sct9f40dilGp97vx7EXjswJADx1ZReqL+4ZrpnXE6TTK3BamV2GD7vuy8UhZZKN52pQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" integrity="sha512-Kef5sc7gfTacR7TZKelcrRs15ipf7+t+n7Zh6mKNJbmW+/RRdCW9nwfLn4YX0s2nO6Kv5Y2ChqgIakaC6PW09A==" crossorigin="anonymous"></script>
 
   <!-- Main JavaScript Logic -->
   <script>
-    // Theme Toggle
+    // Global Variables
+    let lastScrollTop = 0;
+
+    // Theme Toggle Functionality
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const body = document.body;
@@ -788,6 +1073,9 @@
     themeToggle.addEventListener('click', () => {
       const currentTheme = body.getAttribute('data-theme');
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Add smooth transition
+      body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
       body.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
       updateThemeIcon(newTheme);
@@ -798,59 +1086,117 @@
     body.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 
-    // Scroll to Section
+    // Smooth Scroll Function
     function scrollToSection(sectionId) {
       const element = document.getElementById(sectionId);
-      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
     }
 
-    // Fade-in on Scroll
+    // Navbar Scroll Behavior
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > 100) {
+        navbar.style.backgroundColor = 'rgba(15, 15, 35, 0.95)';
+        navbar.style.backdropFilter = 'blur(20px)';
+      } else {
+        navbar.style.backgroundColor = 'rgba(15, 15, 35, 0.9)';
+        navbar.style.backdropFilter = 'blur(10px)';
+      }
+      
+      lastScrollTop = scrollTop;
+    });
+
+    // Fade-in Animation on Scroll
     const fadeElements = document.querySelectorAll('.fade-in');
     const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    fadeElements.forEach(el => fadeObserver.observe(el));
-
-    // Timeline Animation
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    const timelineObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
-            entry.target.classList.add('animate');
-          }, index * 200);
+            entry.target.classList.add('visible');
+          }, index * 100); // Staggered animation
         }
       });
-    }, { threshold: 0.1 });
-    timelineItems.forEach(item => timelineObserver.observe(item));
+    }, { 
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
 
-    // Contact Form Submission
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
+    fadeElements.forEach(el => fadeObserver.observe(el));
+
+    // Progress Bar Animation
+    const progressBars = document.querySelectorAll('.progress-bar');
+    const progressObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const progressBar = entry.target;
+          const width = progressBar.style.width;
+          progressBar.style.width = '0%';
+          setTimeout(() => {
+            progressBar.style.width = width;
+          }, 200);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    progressBars.forEach(bar => progressObserver.observe(bar));
+
+    // Contact Form Submission with Enhanced Validation
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      // Get form values
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const project = document.getElementById('project').value;
       const message = document.getElementById('message').value.trim();
 
-      if (!name || !email || !project || !message) {
-        alert('Please fill in all fields for cosmic convergence.');
+      // Enhanced validation
+      if (!name || name.length < 2) {
+        showFormError('Please provide a valid name for cosmic identification.');
         return;
       }
 
+      if (!email || !isValidEmail(email)) {
+        showFormError('Please provide a valid email address for dimensional communication.');
+        return;
+      }
+
+      if (!project) {
+        showFormError('Please select a manifestation type to focus our cosmic energy.');
+        return;
+      }
+
+      if (!message || message.length < 10) {
+        showFormError('Please share your cosmic vision with more details (minimum 10 characters).');
+        return;
+      }
+
+      // Form submission animation
       const submitBtn = this.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
+      
       submitBtn.innerHTML = '<i class="fas fa-satellite-dish fa-spin me-2" aria-hidden="true"></i>Transmitting Across Dimensions...';
       submitBtn.disabled = true;
+      submitBtn.classList.add('btn-warning');
+      submitBtn.classList.remove('btn-gradient');
 
+      // Simulate form submission
       setTimeout(() => {
         submitBtn.innerHTML = '<i class="fas fa-check me-2" aria-hidden="true"></i>Cosmic Convergence Initiated!';
-        submitBtn.classList.remove('btn-gradient');
+        submitBtn.classList.remove('btn-warning');
         submitBtn.classList.add('btn-success');
 
+        // Show success message
+        showFormSuccess('Your cosmic message has been transmitted successfully! Expect a response within 24-48 hours.');
+
+        // Reset form after delay
         setTimeout(() => {
           submitBtn.innerHTML = originalText;
           submitBtn.classList.remove('btn-success');
@@ -861,31 +1207,212 @@
       }, 2000);
     });
 
+    // Helper Functions
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function showFormError(message) {
+      // Create or update error alert
+      let errorAlert = document.getElementById('form-error-alert');
+      if (!errorAlert) {
+        errorAlert = document.createElement('div');
+        errorAlert.id = 'form-error-alert';
+        errorAlert.className = 'alert alert-danger alert-dismissible fade show mt-3';
+        errorAlert.innerHTML = `
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          <span id="error-message"></span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        document.getElementById('contactForm').appendChild(errorAlert);
+      }
+      document.getElementById('error-message').textContent = message;
+    }
+
+    function showFormSuccess(message) {
+      // Create success alert
+      const successAlert = document.createElement('div');
+      successAlert.className = 'alert alert-success alert-dismissible fade show mt-3';
+      successAlert.innerHTML = `
+        <i class="fas fa-check-circle me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      document.getElementById('contactForm').appendChild(successAlert);
+    }
+
     // Particles.js Configuration
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 120, density: { enable: true, value_area: 1000 } },
-        color: { value: ['#6366f1', '#8b5cf6', '#06b6d4', '#a855f7'] },
-        shape: { type: 'circle' },
-        opacity: { value: 0.7, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
-        size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.1, sync: false } },
-        line_linked: { enable: true, distance: 150, color: '#6366f1', opacity: 0.3, width: 1 },
-        move: { enable: true, speed: 1.5, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: {
-          onhover: { enable: true, mode: 'repulse' },
-          onclick: { enable: true, mode: 'push' },
-          resize: true
+    if (typeof particlesJS !== 'undefined') {
+      particlesJS('particles-js', {
+        particles: {
+          number: { 
+            value: 120, 
+            density: { enable: true, value_area: 1000 } 
+          },
+          color: { 
+            value: ['#6366f1', '#8b5cf6', '#06b6d4', '#a855f7', '#f59e0b'] 
+          },
+          shape: { 
+            type: 'circle',
+            stroke: { width: 0, color: '#000000' }
+          },
+          opacity: { 
+            value: 0.6, 
+            random: true, 
+            anim: { 
+              enable: true, 
+              speed: 1, 
+              opacity_min: 0.1, 
+              sync: false 
+            } 
+          },
+          size: { 
+            value: 3, 
+            random: true, 
+            anim: { 
+              enable: true, 
+              speed: 2, 
+              size_min: 0.1, 
+              sync: false 
+            } 
+          },
+          line_linked: { 
+            enable: true, 
+            distance: 150, 
+            color: '#6366f1', 
+            opacity: 0.3, 
+            width: 1 
+          },
+          move: { 
+            enable: true, 
+            speed: 1.5, 
+            direction: 'none', 
+            random: true, 
+            straight: false, 
+            out_mode: 'out', 
+            bounce: false,
+            attract: { enable: false, rotateX: 600, rotateY: 1200 }
+          }
         },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { particles_nb: 4 }
+        interactivity: {
+          detect_on: 'canvas',
+          events: {
+            onhover: { enable: true, mode: 'repulse' },
+            onclick: { enable: true, mode: 'push' },
+            resize: true
+          },
+          modes: {
+            grab: { distance: 140, line_linked: { opacity: 1 } },
+            bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+            repulse: { distance: 100, duration: 0.4 },
+            push: { particles_nb: 4 },
+            remove: { particles_nb: 2 }
+          }
+        },
+        retina_detect: true
+      });
+    }
+
+    // Initialize Tilt.js for project cards
+    if (typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(document.querySelectorAll('.tilt-effect'), {
+        max: 5,
+        speed: 300,
+        glare: true,
+        'max-glare': 0.2,
+      });
+    }
+
+    // Keyboard Navigation Enhancement
+    document.addEventListener('keydown', function(e) {
+      // ESC key to close any open modals or overlays
+      if (e.key === 'Escape') {
+        const openModal = document.querySelector('.modal.show');
+        if (openModal) {
+          bootstrap.Modal.getInstance(openModal).hide();
         }
-      },
-      retina_detect: true
+      }
+      
+      // Ctrl/Cmd + K for quick navigation (future enhancement)
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        // Future: Open quick navigation modal
+      }
     });
+
+    // Performance Optimization: Lazy load images
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.classList.remove('lazy');
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+
+    // Console Easter Egg
+    console.log(`
+    🌌 Welcome to the Astrotrias Archon Cosmic Console! 🌌
+    
+    ╔══════════════════════════════════════════════════════════╗
+    ║  Consciousness bridged successfully across dimensions!   ║
+    ║  Multidimensional creative technologist at your service ║
+    ║                                                          ║
+    ║  🧠 AI Training Data • 🎙️ Voice Artistry • 🌐 Web Dev   ║
+    ║                                                          ║
+    ║  Contact: thanattsitt.info@yahoo.co.uk                  ║
+    ║  GitHub: github.com/pigletpeakkung                       ║
+    ╚══════════════════════════════════════════════════════════╝
+    
+    Type 'astrotrias.help()' for cosmic commands!
+    `);
+
+    // Cosmic Console Commands
+    window.astrotrias = {
+      help: () => {
+        console.log(`
+        🚀 Cosmic Commands Available:
+        
+        astrotrias.theme()     - Toggle cosmic theme
+        astrotrias.contact()   - Show contact information
+        astrotrias.projects()  - List current manifestations
+        astrotrias.skills()    - Display dimensional expertise
+        astrotrias.easter()    - Activate hidden cosmic features
+        `);
+      },
+      theme: () => themeToggle.click(),
+      contact: () => scrollToSection('contact'),
+      projects: () => scrollToSection('projects'),
+      skills: () => scrollToSection('skills'),
+      easter: () => {
+        document.body.style.animation = 'cosmic-pulse 2s ease-in-out';
+        setTimeout(() => {
+          document.body.style.animation = '';
+        }, 2000);
+        console.log('🌟 Cosmic energy activated! Reality briefly shifted...');
+      }
+    };
+
+    // Add cosmic pulse animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes cosmic-pulse {
+        0%, 100% { filter: hue-rotate(0deg); }
+        50% { filter: hue-rotate(180deg); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    console.log('🌌 Astrotrias Archon portfolio fully loaded and operational across all dimensions!');
   </script>
 </body>
 </html>
