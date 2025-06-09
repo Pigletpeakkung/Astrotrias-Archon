@@ -5,6 +5,43 @@
    Multidimensional Creative Technologist
    ================================== */
 
+/* Astrotrias Archon - Visibility Fixes */
+
+/* Lighter background for better contrast */
+:root {
+  --bg-primary: #1a202c;     /* Lighter than #0f172a */
+  --bg-secondary: #2d3748;   /* Lighter than #1e293b */
+  --text-primary: #f7fafc;   /* Brighter white */
+  --text-secondary: #e2e8f0; /* Lighter gray */
+  --text-muted: #cbd5e1;     /* Much lighter than dark gray */
+  --cosmic-purple: #8b5cf6;  /* Brighter purple */
+}
+
+/* Apply lighter colors */
+body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Fix all dark gray text */
+.text-muted,
+.text-secondary,
+.small,
+.text-body-secondary {
+  color: var(--text-muted) !important;
+}
+
+/* Make sure all text is visible */
+p, span, div, li {
+  color: var(--text-secondary) !important;
+}
+
+/* Headers should be bright */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+}
+
+
 /* CSS Variables for Cosmic Theme System */
 :root {
   /* Cosmic Dark Theme */
