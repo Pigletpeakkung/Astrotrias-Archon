@@ -1,47 +1,56 @@
-/**
- * Astrotrias Archon - Custom CSS
- * Multidimensional Creative Technologist Portfolio
- * Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
- * Version: 2.0.0
- * License: MIT
- */
+/* css/custom.css */
 
-/* ========================================
-   CSS VARIABLES - COSMIC THEME SYSTEM
-   ======================================== */
+/* ===================================
+   ASTROTRIAS ARCHON CUSTOM STYLES
+   Multidimensional Creative Technologist
+   ================================== */
 
+/* CSS Variables for Cosmic Theme System */
 :root {
-  /* Dark Theme - Primary Cosmic Colors */
+  /* Cosmic Dark Theme */
   --cosmic-primary: #0f0f23;
   --cosmic-secondary: #1a1a2e;
   --cosmic-tertiary: #16213e;
+  --cosmic-quaternary: #2d2d48;
+  
+  /* Cosmic Accent Colors */
   --cosmic-accent: #7c3aed;
   --cosmic-accent-secondary: #a855f7;
   --cosmic-accent-tertiary: #06b6d4;
+  --cosmic-accent-quaternary: #10b981;
+  
+  /* Text Colors */
   --cosmic-text: #eee6ff;
   --cosmic-text-secondary: #b8b8d1;
   --cosmic-text-muted: #8b8ba7;
+  --cosmic-text-inverse: #1e293b;
+  
+  /* Interactive Elements */
   --cosmic-border: #2d2d48;
+  --cosmic-border-light: #3d3d58;
   --cosmic-shadow: rgba(124, 58, 237, 0.3);
   --cosmic-glow: rgba(124, 58, 237, 0.6);
+  --cosmic-glow-secondary: rgba(168, 85, 247, 0.4);
   
-  /* Light Theme Variants */
+  /* Light Mode Variants */
   --light-primary: #ffffff;
   --light-secondary: #f8fafc;
   --light-tertiary: #e2e8f0;
+  --light-quaternary: #cbd5e1;
   --light-text: #1e293b;
   --light-text-secondary: #64748b;
+  --light-text-muted: #94a3b8;
   --light-border: #cbd5e1;
   --light-shadow: rgba(0, 0, 0, 0.1);
+  --light-shadow-strong: rgba(0, 0, 0, 0.15);
   
   /* Animation Variables */
-  --animation-duration: 0.3s;
-  --animation-timing: ease;
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.6s ease;
+  --animation-speed-fast: 0.2s;
+  --animation-speed-normal: 0.3s;
+  --animation-speed-slow: 0.5s;
+  --animation-speed-cosmic: 0.8s;
   
-  /* Spacing Variables */
+  /* Spacing System */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -49,22 +58,23 @@
   --space-xl: 2rem;
   --space-xxl: 3rem;
   
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-full: 50px;
+  /* Border Radius System */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-cosmic: 50px;
   
-  /* Z-Index Scale */
-  --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
-  --z-toast: 1080;
+  /* Typography Scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
 }
 
 /* Theme Switching System */
@@ -72,30 +82,38 @@
   --bg-primary: var(--light-primary);
   --bg-secondary: var(--light-secondary);
   --bg-tertiary: var(--light-tertiary);
+  --bg-quaternary: var(--light-quaternary);
   --text-primary: var(--light-text);
   --text-secondary: var(--light-text-secondary);
+  --text-muted: var(--light-text-muted);
   --border-color: var(--light-border);
   --shadow-color: var(--light-shadow);
+  --shadow-strong: var(--light-shadow-strong);
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --nav-bg: rgba(255, 255, 255, 0.95);
 }
 
 [data-theme="dark"] {
   --bg-primary: var(--cosmic-primary);
   --bg-secondary: var(--cosmic-secondary);
   --bg-tertiary: var(--cosmic-tertiary);
+  --bg-quaternary: var(--cosmic-quaternary);
   --text-primary: var(--cosmic-text);
   --text-secondary: var(--cosmic-text-secondary);
+  --text-muted: var(--cosmic-text-muted);
   --border-color: var(--cosmic-border);
   --shadow-color: var(--cosmic-shadow);
+  --shadow-strong: var(--cosmic-shadow);
+  --card-bg: rgba(26, 26, 46, 0.8);
+  --nav-bg: rgba(15, 15, 35, 0.95);
 }
 
-/* ========================================
+/* ===================================
    BASE STYLES & TYPOGRAPHY
-   ======================================== */
+   ================================== */
 
-* {
-  box-sizing: border-box;
-}
-
+/* Reset and Base Styles */
+*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -103,19 +121,18 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
-  line-height: 1.6;
+  scroll-padding-top: 80px;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: all var(--transition-normal);
+  transition: background-color var(--animation-speed-normal) ease,
+              color var(--animation-speed-normal) ease;
   line-height: 1.6;
   overflow-x: hidden;
-  margin: 0;
-  padding: 0;
+  font-size: var(--font-size-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -127,42 +144,67 @@ body {
   letter-spacing: 0.05em;
 }
 
-.text-gradient {
-  background: linear-gradient(45deg, var(--cosmic-accent), var(--cosmic-accent-secondary), var(--cosmic-accent-tertiary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-.cosmic-gradient-text {
+.text-cosmic {
   background: linear-gradient(45deg, var(--cosmic-accent), var(--cosmic-accent-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
+  font-weight: 700;
 }
 
-/* ========================================
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--space-md);
+}
+
+h1 { font-size: var(--font-size-5xl); }
+h2 { font-size: var(--font-size-4xl); }
+h3 { font-size: var(--font-size-3xl); }
+h4 { font-size: var(--font-size-2xl); }
+h5 { font-size: var(--font-size-xl); }
+h6 { font-size: var(--font-size-lg); }
+
+/* ===================================
    PERFORMANCE OPTIMIZATIONS
-   ======================================== */
+   ================================== */
 
-.cosmic-effect::after,
-.stellar-glow::before,
+/* GPU Acceleration for Animated Elements */
+.cosmic-effect,
+.stellar-glow,
 .dimensional-shift,
-.quantum-particles {
+.quantum-particles,
+.dimensional-card,
+.cosmic-skill,
+.stellar-event {
   will-change: transform, opacity;
-}
-
-.gpu-accelerated {
   transform: translateZ(0);
   backface-visibility: hidden;
-  perspective: 1000px;
 }
 
-/* ========================================
-   ASTROTRIAS HEADER SECTION
-   ======================================== */
+/* Reduce Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .cosmic-grid,
+  .dimensional-portal,
+  .stellar-event,
+  #particles-js {
+    animation: none !important;
+  }
+}
+
+/* ===================================
+   HEADER & HERO SECTION
+   ================================== */
 
 .astrotrias-header {
   position: relative;
@@ -179,6 +221,7 @@ body {
   justify-content: center;
 }
 
+/* Cosmic Grid Background */
 .cosmic-grid {
   position: absolute;
   top: 0;
@@ -191,7 +234,7 @@ body {
   background-size: 50px 50px;
   animation: gridFlow 20s linear infinite;
   opacity: 0.5;
-  pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes gridFlow {
@@ -199,6 +242,7 @@ body {
   100% { transform: translate(50px, 50px); }
 }
 
+/* Dimensional Portal */
 .dimensional-portal {
   position: absolute;
   width: 300px;
@@ -211,7 +255,7 @@ body {
   box-shadow: 
     0 0 50px var(--cosmic-glow),
     inset 0 0 50px rgba(124, 58, 237, 0.2);
-  pointer-events: none;
+  z-index: 2;
 }
 
 .dimensional-portal::before {
@@ -256,28 +300,27 @@ body {
   }
 }
 
-/* ========================================
-   ASTROTRIAS BRAND
-   ======================================== */
-
+/* Astrotrias Brand */
 .astrotrias-brand {
   font-family: 'Orbitron', monospace;
   font-weight: 900;
-  font-size: 2rem;
-  background: linear-gradient(45deg, var(--cosmic-accent), var(--cosmic-accent-secondary), var(--cosmic-accent-tertiary));
+  font-size: var(--font-size-2xl);
+  background: linear-gradient(45deg, 
+    var(--cosmic-accent), 
+    var(--cosmic-accent-secondary), 
+    var(--cosmic-accent-tertiary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 0 30px var(--cosmic-glow);
   animation: brandGlow 3s ease-in-out infinite alternate;
   text-decoration: none;
-  display: inline-block;
-  transition: all var(--transition-normal);
+  transition: filter var(--animation-speed-normal) ease;
 }
 
 .astrotrias-brand:hover {
-  transform: scale(1.05);
   filter: brightness(1.2);
+  text-decoration: none;
 }
 
 @keyframes brandGlow {
@@ -285,32 +328,41 @@ body {
   100% { filter: brightness(1.2); }
 }
 
-/* ========================================
-   QUANTUM NAVIGATION
-   ======================================== */
+/* Particles Container */
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* ===================================
+   NAVIGATION
+   ================================== */
 
 .quantum-nav {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(15, 15, 35, 0.95);
-  border-bottom: 1px solid var(--cosmic-border);
-  box-shadow: 0 4px 20px var(--cosmic-shadow);
-  transition: all var(--transition-normal);
-  z-index: var(--z-sticky);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px var(--shadow-color);
+  transition: all var(--animation-speed-normal) ease;
+  z-index: 1000;
 }
 
 .quantum-nav.scrolled {
-  background: rgba(15, 15, 35, 0.98);
-  box-shadow: 0 8px 32px var(--cosmic-shadow);
-  border-bottom-color: var(--cosmic-accent);
+  background: var(--nav-bg);
+  box-shadow: 0 8px 32px var(--shadow-strong);
 }
 
 .quantum-nav .nav-link {
-  color: var(--cosmic-text-secondary);
-  transition: all var(--transition-normal);
+  color: var(--text-secondary);
+  transition: all var(--animation-speed-normal) ease;
   position: relative;
   padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   font-weight: 500;
   text-decoration: none;
 }
@@ -320,12 +372,7 @@ body {
   color: var(--cosmic-accent);
   text-shadow: 0 0 10px var(--cosmic-glow);
   background: rgba(124, 58, 237, 0.1);
-  outline: none;
-}
-
-.quantum-nav .nav-link.active {
-  color: var(--cosmic-accent);
-  background: rgba(124, 58, 237, 0.15);
+  text-decoration: none;
 }
 
 .quantum-nav .nav-link::after {
@@ -336,27 +383,44 @@ body {
   width: 0;
   height: 2px;
   background: var(--cosmic-accent);
-  transition: all var(--transition-normal);
+  transition: all var(--animation-speed-normal) ease;
   transform: translateX(-50%);
-  border-radius: 1px;
 }
 
 .quantum-nav .nav-link:hover::after,
-.quantum-nav .nav-link:focus::after,
-.quantum-nav .nav-link.active::after {
+.quantum-nav .nav-link:focus::after {
   width: 80%;
   box-shadow: 0 0 10px var(--cosmic-glow);
 }
 
-/* ========================================
-   DIMENSIONAL CARDS
-   ======================================== */
+/* Theme Toggle Button */
+#themeToggle {
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  transition: all var(--animation-speed-normal) ease;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+}
 
+#themeToggle:hover,
+#themeToggle:focus {
+  background: var(--cosmic-accent);
+  border-color: var(--cosmic-accent);
+  color: white;
+  box-shadow: 0 0 15px var(--cosmic-glow);
+}
+
+/* ===================================
+   CARDS & COMPONENTS
+   ================================== */
+
+/* Dimensional Cards */
 .dimensional-card {
-  background: rgba(26, 26, 46, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
   position: relative;
@@ -364,7 +428,7 @@ body {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   height: 100%;
-  transform-style: preserve-3d;
+  box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 .dimensional-card::before {
@@ -374,9 +438,12 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--cosmic-accent), var(--cosmic-accent-secondary), var(--cosmic-accent-tertiary));
+  background: linear-gradient(90deg, 
+    var(--cosmic-accent), 
+    var(--cosmic-accent-secondary), 
+    var(--cosmic-accent-tertiary));
   transform: scaleX(0);
-  transition: transform var(--transition-normal);
+  transition: transform var(--animation-speed-normal) ease;
   transform-origin: left;
 }
 
@@ -387,16 +454,15 @@ body {
 
 .dimensional-card:hover,
 .dimensional-card:focus {
-  transform: translateY(-10px) rotateX(5deg);
+  transform: translateY(-10px) rotateX(2deg);
   box-shadow: 
-    0 20px 40px var(--cosmic-shadow),
+    0 20px 40px var(--shadow-strong),
     0 0 50px var(--cosmic-glow);
   border-color: var(--cosmic-accent);
-  outline: none;
 }
 
 .dimensional-card .card-icon {
-  transition: all var(--transition-normal);
+  transition: all var(--animation-speed-normal) ease;
   display: inline-block;
 }
 
@@ -406,27 +472,9 @@ body {
   filter: drop-shadow(0 0 20px var(--cosmic-glow));
 }
 
-/* Card Content Styling */
-.dimensional-card h4 {
-  color: var(--text-primary);
-  margin-bottom: var(--space-sm);
-}
-
-.dimensional-card p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.dimensional-card .badge {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-full);
-  font-weight: 500;
-}
-
-/* ========================================
-   STELLAR TIMELINE
-   ======================================== */
+/* ===================================
+   TIMELINE SECTION
+   ================================== */
 
 .stellar-timeline {
   position: relative;
@@ -439,7 +487,10 @@ body {
   content: '';
   position: absolute;
   width: 4px;
-  background: linear-gradient(to bottom, var(--cosmic-accent), var(--cosmic-accent-secondary), var(--cosmic-accent-tertiary));
+  background: linear-gradient(to bottom, 
+    var(--cosmic-accent), 
+    var(--cosmic-accent-secondary), 
+    var(--cosmic-accent-tertiary));
   top: 0;
   bottom: 0;
   left: 50%;
@@ -454,7 +505,7 @@ body {
   width: 50%;
   opacity: 0;
   transform: translateY(50px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--animation-speed-cosmic) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stellar-event.animate {
@@ -476,7 +527,6 @@ body {
     0 0 20px var(--cosmic-glow),
     0 0 40px var(--cosmic-accent);
   animation: stellarPulse 2s ease-in-out infinite;
-  border: 3px solid var(--bg-primary);
 }
 
 @keyframes stellarPulse {
@@ -486,20 +536,19 @@ body {
 
 .stellar-content {
   padding: var(--space-xl);
-  background: rgba(26, 26, 46, 0.9);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   position: relative;
-  box-shadow: 0 10px 30px var(--cosmic-shadow);
-  transition: all var(--transition-normal);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transition: all var(--animation-speed-normal) ease;
 }
 
 .stellar-content:hover {
   transform: scale(1.02);
-  box-shadow: 0 15px 40px var(--cosmic-shadow);
-  border-color: var(--cosmic-accent);
+  box-shadow: 0 15px 40px var(--shadow-strong);
 }
 
 .stellar-content::before {
@@ -510,59 +559,35 @@ body {
   width: 0;
   height: 0;
   border: 15px solid transparent;
-  border-left-color: rgba(26, 26, 46, 0.9);
-}
-
-.stellar-content h3 {
-  margin-bottom: var(--space-sm);
-  font-weight: 700;
-}
-
-.stellar-content h5 {
-  margin-bottom: var(--space-md);
-  color: var(--text-primary);
-}
-
-.stellar-content p {
-  color: var(--text-secondary);
-  margin-bottom: 0;
-  line-height: 1.6;
+  border-left-color: var(--card-bg);
 }
 
 /* Timeline Positioning */
-.left { 
-  left: 0; 
-}
-
-.right { 
-  left: 50%; 
-}
-
-.right::after { 
-  left: -12px; 
-}
-
+.left { left: 0; }
+.right { left: 50%; }
+.right::after { left: -12px; }
 .right .stellar-content::before {
   left: -15px;
   border-left-color: transparent;
-  border-right-color: rgba(26, 26, 46, 0.9);
+  border-right-color: var(--card-bg);
 }
 
-/* ========================================
-   COSMIC SKILLS
-   ======================================== */
+/* ===================================
+   SKILLS SECTION
+   ================================== */
 
 .cosmic-skill {
-  background: rgba(26, 26, 46, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   margin-bottom: var(--space-md);
-  transition: all var(--transition-normal);
+  transition: all var(--animation-speed-normal) ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .cosmic-skill::before {
@@ -572,11 +597,15 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.1), transparent);
-  transition: left 0.5s ease;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(124, 58, 237, 0.1), 
+    transparent);
+  transition: left var(--animation-speed-slow) ease;
 }
 
-.cosmic-skill:hover::before {
+.cosmic-skill:hover::before,
+.cosmic-skill:focus::before {
   left: 100%;
 }
 
@@ -584,23 +613,12 @@ body {
 .cosmic-skill:focus {
   transform: translateX(10px);
   border-color: var(--cosmic-accent);
-  box-shadow: 0 5px 20px var(--cosmic-shadow);
-  outline: none;
-}
-
-.cosmic-skill .fw-semibold {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.cosmic-skill .text-muted {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+  box-shadow: 0 5px 20px var(--shadow-color);
 }
 
 .skill-constellation {
   height: 8px;
-  background: var(--cosmic-tertiary);
+  background: var(--bg-tertiary);
   border-radius: 4px;
   overflow: hidden;
   margin-top: var(--space-sm);
@@ -613,7 +631,9 @@ body {
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, var(--cosmic-accent), var(--cosmic-accent-secondary));
+  background: linear-gradient(90deg, 
+    var(--cosmic-accent), 
+    var(--cosmic-accent-secondary));
   border-radius: 4px;
   transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 0 10px var(--cosmic-glow);
@@ -624,52 +644,49 @@ body {
   width: var(--skill-width, 0%);
 }
 
-/* ========================================
-   QUANTUM CONTACT FORM
-   ======================================== */
+/* ===================================
+   FORMS & INPUTS
+   ================================== */
 
 .quantum-form {
-  background: rgba(26, 26, 46, 0.9);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
-  box-shadow: 0 20px 40px var(--cosmic-shadow);
+  box-shadow: 0 20px 40px var(--shadow-color);
 }
 
 .quantum-input {
-  background: rgba(15, 15, 35, 0.8);
-  border: 1px solid var(--cosmic-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: var(--cosmic-text);
+  color: var(--text-primary);
   padding: 0.75rem var(--space-md);
-  transition: all var(--transition-normal);
-  font-size: 1rem;
-  line-height: 1.5;
+  transition: all var(--animation-speed-normal) ease;
+  font-size: var(--font-size-base);
   width: 100%;
 }
 
 .quantum-input:focus {
   border-color: var(--cosmic-accent);
   box-shadow: 0 0 20px var(--cosmic-glow);
-  background: rgba(15, 15, 35, 0.9);
-  color: var(--cosmic-text);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   outline: none;
 }
 
 .quantum-input::placeholder {
-  color: var(--cosmic-text-muted);
-  opacity: 1;
+  color: var(--text-muted);
 }
 
 .quantum-input:invalid {
   border-color: #ef4444;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
 }
 
 .quantum-input:valid {
-  border-color: #10b981;
+  border-color: var(--cosmic-accent-quaternary);
 }
 
 /* Form Labels */
@@ -681,24 +698,26 @@ body {
 }
 
 .form-text {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-xs);
 }
 
-/* ========================================
-   QUANTUM BUTTONS
-   ======================================== */
+/* ===================================
+   BUTTONS
+   ================================== */
 
 .quantum-btn {
-  background: linear-gradient(45deg, var(--cosmic-accent), var(--cosmic-accent-secondary));
+  background: linear-gradient(45deg, 
+    var(--cosmic-accent), 
+    var(--cosmic-accent-secondary));
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-cosmic);
   color: white;
   padding: 0.75rem var(--space-xl);
   font-weight: 600;
-  font-size: 1rem;
-  transition: all var(--transition-normal);
+  font-size: var(--font-size-base);
+  transition: all var(--animation-speed-normal) ease;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -706,9 +725,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px; /* Accessibility: minimum touch target */
-  text-transform: none;
-  letter-spacing: 0.025em;
+  min-width: 160px;
 }
 
 .quantum-btn::before {
@@ -718,8 +735,11 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left var(--animation-speed-slow) ease;
 }
 
 .quantum-btn:hover::before,
@@ -730,9 +750,8 @@ body {
 .quantum-btn:hover,
 .quantum-btn:focus {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px var(--cosmic-shadow);
+  box-shadow: 0 10px 30px var(--shadow-strong);
   filter: brightness(1.1);
-  outline: none;
   text-decoration: none;
   color: white;
 }
@@ -748,30 +767,28 @@ body {
 }
 
 /* Button Variants */
-.quantum-btn-secondary {
-  background: linear-gradient(45deg, var(--cosmic-accent-secondary), var(--cosmic-accent-tertiary));
-}
-
-.quantum-btn-outline {
+.btn-outline-light {
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   background: transparent;
-  border: 2px solid var(--cosmic-accent);
-  color: var(--cosmic-accent);
+  transition: all var(--animation-speed-normal) ease;
 }
 
-.quantum-btn-outline:hover,
-.quantum-btn-outline:focus {
+.btn-outline-light:hover,
+.btn-outline-light:focus {
   background: var(--cosmic-accent);
+  border-color: var(--cosmic-accent);
   color: white;
+  box-shadow: 0 0 20px var(--cosmic-glow);
 }
 
-/* ========================================
+/* ===================================
    LOADING STATES
-   ======================================== */
+   ================================== */
 
 .loading {
   position: relative;
   pointer-events: none;
-  opacity: 0.8;
 }
 
 .loading::after {
@@ -793,23 +810,15 @@ body {
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Success and Error States */
-.success {
-  background: linear-gradient(45deg, #10b981, #059669) !important;
-}
+/* ===================================
+   ANIMATIONS & EFFECTS
+   ================================== */
 
-.error {
-  background: linear-gradient(45deg, #ef4444, #dc2626) !important;
-}
-
-/* ========================================
-   ANIMATIONS & TRANSITIONS
-   ======================================== */
-
+/* Fade In Animation */
 .fade-in-cosmic {
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--animation-speed-cosmic) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fade-in-cosmic.visible {
@@ -817,62 +826,49 @@ body {
   transform: translateY(0);
 }
 
-.slide-in-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: all 0.6s ease;
+/* Stagger Animation Delays */
+.fade-in-cosmic:nth-child(1) { transition-delay: 0ms; }
+.fade-in-cosmic:nth-child(2) { transition-delay: 100ms; }
+.fade-in-cosmic:nth-child(3) { transition-delay: 200ms; }
+.fade-in-cosmic:nth-child(4) { transition-delay: 300ms; }
+.fade-in-cosmic:nth-child(5) { transition-delay: 400ms; }
+
+/* Hover Effects */
+.stellar-glow {
+  transition: all var(--animation-speed-normal) ease;
 }
 
-.slide-in-left.visible {
-  opacity: 1;
-  transform: translateX(0);
+.stellar-glow:hover {
+  text-shadow: 0 0 20px var(--cosmic-glow);
+  filter: brightness(1.2);
 }
 
-.slide-in-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: all 0.6s ease;
+/* ===================================
+   BADGES & TAGS
+   ================================== */
+
+.badge {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.slide-in-right.visible {
-  opacity: 1;
-  transform: translateX(0);
+.bg-primary { background-color: var(--cosmic-accent) !important; }
+.bg-secondary { background-color: var(--cosmic-accent-secondary) !important; }
+.bg-success { background-color: var(--cosmic-accent-quaternary) !important; }
+.bg-info { background-color: var(--cosmic-accent-tertiary) !important; }
+.bg-warning { background-color: #f59e0b !important; }
+
+.bg-opacity-20 {
+  background-color: rgba(var(--cosmic-accent), 0.2) !important;
 }
 
-.scale-in {
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.5s ease;
-}
-
-.scale-in.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ========================================
-   PARTICLES CONTAINER
-   ======================================== */
-
-#particles-js {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Ensure content is above particles */
-.container {
-  position: relative;
-  z-index: 10;
-}
-
-/* ========================================
-   CUSTOM SCROLLBAR
-   ======================================== */
+/* ===================================
+   SCROLLBAR CUSTOMIZATION
+   ================================== */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -880,14 +876,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--cosmic-secondary);
+  background: var(--bg-secondary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--cosmic-accent);
   border-radius: 4px;
-  transition: background var(--transition-normal);
+  transition: background var(--animation-speed-normal) ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -895,113 +891,75 @@ body {
 }
 
 ::-webkit-scrollbar-corner {
-  background: var(--cosmic-secondary);
+  background: var(--bg-secondary);
 }
 
 /* Firefox Scrollbar */
 html {
   scrollbar-width: thin;
-  scrollbar-color: var(--cosmic-accent) var(--cosmic-secondary);
+  scrollbar-color: var(--cosmic-accent) var(--bg-secondary);
 }
 
-/* ========================================
-   ACCESSIBILITY FEATURES
-   ======================================== */
+/* ===================================
+   ACCESSIBILITY IMPROVEMENTS
+   ================================== */
 
 /* Focus Styles */
 .dimensional-card:focus,
 .cosmic-skill:focus,
 .quantum-btn:focus,
 .quantum-input:focus,
-.nav-link:focus {
+.nav-link:focus,
+#themeToggle:focus {
   outline: 2px solid var(--cosmic-accent);
   outline-offset: 2px;
 }
 
-/* Screen Reader Only */
+/* Screen Reader Only Content */
 .sr-only {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-.sr-only-focusable:focus {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0.5rem 1rem !important;
-  margin: 0 !important;
-  overflow: visible !important;
-  clip: auto !important;
-  white-space: normal !important;
-  background: var(--cosmic-accent) !important;
-  color: white !important;
-  border-radius: var(--radius-md) !important;
-  z-index: var(--z-tooltip) !important;
-}
-
-/* Skip Links */
-.skip-links {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: var(--z-tooltip);
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: var(--cosmic-accent);
-  color: white;
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: top var(--transition-normal);
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --cosmic-accent: #9333ea;
+    --cosmic-accent-secondary: #c084fc;
+    --border-color: #4b5563;
+  }
+  
+  .dimensional-card,
+  .cosmic-skill,
+  .quantum-form {
+    border-width: 2px;
+  }
 }
 
-.skip-link:focus {
-  top: 6px;
-}
-
-/* High Contrast Mode */
-.high-contrast {
-  --cosmic-accent: #ffffff;
-  --cosmic-text: #ffffff;
-  --cosmic-border: #ffffff;
-  --bg-primary: #000000;
-  --bg-secondary: #000000;
-}
-
-.high-contrast .dimensional-card,
-.high-contrast .quantum-form,
-.high-contrast .cosmic-skill {
-  border: 2px solid white;
-  background: black;
-}
-
-/* ========================================
+/* ===================================
    RESPONSIVE DESIGN
-   ======================================== */
+   ================================== */
 
-/* Large screens */
+/* Large Screens */
 @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
   }
   
-  .astrotrias-brand {
-    font-size: 2.25rem;
+  .dimensional-portal {
+    width: 350px;
+    height: 350px;
   }
 }
 
-/* Medium screens */
+/* Medium Screens */
 @media (max-width: 992px) {
   .dimensional-portal {
     width: 250px;
@@ -1011,20 +969,20 @@ html {
   }
   
   .astrotrias-brand {
-    font-size: 1.75rem;
+    font-size: var(--font-size-xl);
   }
   
-  .dimensional-card {
-    padding: var(--space-lg);
-  }
-  
-  .quantum-form {
-    padding: var(--space-lg);
-  }
+  h1 { font-size: var(--font-size-4xl); }
+  h2 { font-size: var(--font-size-3xl); }
 }
 
-/* Tablet screens */
+/* Tablet Screens */
 @media (max-width: 768px) {
+  :root {
+    --space-xl: 1.5rem;
+    --space-xxl: 2rem;
+  }
+  
   .dimensional-portal {
     width: 200px;
     height: 200px;
@@ -1033,10 +991,15 @@ html {
   }
   
   .astrotrias-brand {
-    font-size: 1.5rem;
+    font-size: var(--font-size-lg);
   }
   
-  /* Timeline adjustments */
+  .astrotrias-header {
+    min-height: 80vh;
+    padding: var(--space-xl) 0;
+  }
+  
+  /* Timeline Mobile Layout */
   .stellar-timeline::after { 
     left: 31px; 
   }
@@ -1059,9 +1022,10 @@ html {
   .right .stellar-content::before {
     left: -15px;
     border-left-color: transparent;
-    border-right-color: rgba(26, 26, 46, 0.9);
+    border-right-color: var(--card-bg);
   }
   
+  /* Disable hover effects on mobile */
   .cosmic-skill:hover {
     transform: none;
   }
@@ -1070,16 +1034,17 @@ html {
     transform: translateY(-5px);
   }
   
-  .quantum-nav .navbar-collapse {
-    background: rgba(15, 15, 35, 0.98);
+  /* Mobile Navigation */
+  .navbar-collapse {
+    background: var(--nav-bg);
     border-radius: var(--radius-md);
-    margin-top: var(--space-sm);
+    margin-top: var(--space-md);
     padding: var(--space-md);
-    border: 1px solid var(--cosmic-border);
+    border: 1px solid var(--border-color);
   }
 }
 
-/* Mobile screens */
+/* Small Mobile Screens */
 @media (max-width: 576px) {
   .dimensional-portal {
     width: 150px;
@@ -1088,71 +1053,30 @@ html {
     right: 2%;
   }
   
-  .astrotrias-brand {
-    font-size: 1.25rem;
-  }
-  
-  .astrotrias-header {
-    padding: var(--space-xl) 0;
+  .quantum-form {
+    padding: var(--space-lg);
   }
   
   .dimensional-card {
-    padding: var(--space-md);
-    margin-bottom: var(--space-md);
-  }
-  
-  .quantum-form {
-    padding: var(--space-md);
+    padding: var(--space-lg);
   }
   
   .stellar-content {
-    padding: var(--space-md);
+    padding: var(--space-lg);
   }
+  
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
   
   .quantum-btn {
-    padding: 0.625rem var(--space-lg);
-    font-size: 0.9rem;
-  }
-  
-  .cosmic-grid {
-    background-size: 30px 30px;
+    width: 100%;
+    margin-bottom: var(--space-sm);
   }
 }
 
-/* ========================================
-   REDUCED MOTION PREFERENCES
-   ======================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  .cosmic-grid {
-    animation: none;
-  }
-  
-  .dimensional-portal {
-    animation: none;
-  }
-  
-  .astrotrias-brand {
-    animation: none;
-  }
-  
-  .stellar-event::after {
-    animation: none;
-  }
-}
-
-/* ========================================
+/* ===================================
    PRINT STYLES
-   ======================================== */
+   ================================== */
 
 @media print {
   .quantum-nav,
@@ -1169,228 +1093,110 @@ html {
   }
   
   .dimensional-card,
-  .quantum-form,
-  .cosmic-skill {
-    background: white !important;
-    border: 1px solid black !important;
+  .cosmic-skill,
+  .quantum-form {
+    border: 1px solid #ccc !important;
     box-shadow: none !important;
-  }
-  
-  .astrotrias-header {
     background: white !important;
-    min-height: auto !important;
-    padding: 2rem 0 !important;
+  }
+}
+
+/* ===================================
+   UTILITY CLASSES
+   ================================== */
+
+/* Spacing Utilities */
+.mt-cosmic { margin-top: var(--space-xxl); }
+.mb-cosmic { margin-bottom: var(--space-xxl); }
+.pt-cosmic { padding-top: var(--space-xxl); }
+.pb-cosmic { padding-bottom: var(--space-xxl); }
+
+/* Text Utilities */
+.text-cosmic-muted { color: var(--text-muted); }
+.text-cosmic-secondary { color: var(--text-secondary); }
+
+/* Background Utilities */
+.bg-cosmic-primary { background-color: var(--bg-primary); }
+.bg-cosmic-secondary { background-color: var(--bg-secondary); }
+.bg-cosmic-tertiary { background-color: var(--bg-tertiary); }
+
+/* Border Utilities */
+.border-cosmic { border-color: var(--border-color); }
+.border-cosmic-light { border-color: var(--cosmic-border-light); }
+
+/* Shadow Utilities */
+.shadow-cosmic { box-shadow: 0 10px 30px var(--shadow-color); }
+.shadow-cosmic-lg { box-shadow: 0 20px 40px var(--shadow-strong); }
+
+/* Animation Utilities */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* ===================================
+   PERFORMANCE OPTIMIZATIONS
+   ================================== */
+
+/* Optimize for low-end devices */
+@media (max-width: 768px) and (max-resolution: 150dpi) {
+  .cosmic-grid,
+  .dimensional-portal,
+  #particles-js {
+    display: none;
   }
   
-  .text-gradient,
-  .cosmic-gradient-text {
-    -webkit-text-fill-color: black !important;
-    color: black !important;
+  .dimensional-card,
+  .cosmic-skill {
+    transition-duration: 0.1s;
   }
 }
 
-/* ========================================
-   UTILITY CLASSES
-   ======================================== */
-
-.text-cosmic-accent { color: var(--cosmic-accent) !important; }
-.text-cosmic-secondary { color: var(--cosmic-accent-secondary) !important; }
-.text-cosmic-tertiary { color: var(--cosmic-accent-tertiary) !important; }
-
-.bg-cosmic-primary { background-color: var(--cosmic-primary) !important; }
-.bg-cosmic-secondary { background-color: var(--cosmic-secondary) !important; }
-.bg-cosmic-tertiary { background-color: var(--cosmic-tertiary) !important; }
-
-.border-cosmic { border-color: var(--cosmic-border) !important; }
-.border-cosmic-accent { border-color: var(--cosmic-accent) !important; }
-
-.shadow-cosmic { box-shadow: 0 10px 30px var(--cosmic-shadow) !important; }
-.shadow-cosmic-lg { box-shadow: 0 20px 40px var(--cosmic-shadow) !important; }
-
-.rounded-cosmic { border-radius: var(--radius-xl) !important; }
-.rounded-cosmic-lg { border-radius: var(--radius-xl) !important; }
-
-.transition-cosmic { transition: all var(--transition-normal) !important; }
-.transition-cosmic-slow { transition: all var(--transition-slow) !important; }
-
-/* Spacing utilities */
-.p-cosmic { padding: var(--space-xl) !important; }
-.m-cosmic { margin: var(--space-xl) !important; }
-.gap-cosmic { gap: var(--space-md) !important; }
-
-/* Display utilities */
-.d-cosmic-flex {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+/* Optimize animations for better performance */
+@supports (transform: translate3d(0, 0, 0)) {
+  .dimensional-card,
+  .cosmic-skill,
+  .stellar-event {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-/* Position utilities */
-.position-cosmic-center {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
+/* Container Query Support */
+@supports (container-type: inline-size) {
+  .dimensional-card {
+    container-type: inline-size;
+  }
+  
+  @container (max-width: 300px) {
+    .dimensional-card {
+      padding: var(--space-md);
+    }
+    
+    .card-icon {
+      font-size: 1.5rem !important;
+    }
+  }
 }
 
-/* ========================================
-   COMPONENT SPECIFIC STYLES
-   ======================================== */
-
-/* Badge Enhancements */
-.badge {
-  font-weight: 500;
-  letter-spacing: 0.025em;
-  border-radius: var(--radius-full);
-  padding: 0.375rem 0.75rem;
-  font-size: 0.75rem;
-}
-
-.badge.bg-primary { background-color: var(--cosmic-accent) !important; }
-.badge.bg-secondary { background-color: var(--cosmic-accent-secondary) !important; }
-.badge.bg-info { background-color: var(--cosmic-accent-tertiary) !important; }
-
-/* Alert Enhancements */
-.alert {
-  border-radius: var(--radius-md);
-  border: 1px solid;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.alert-success {
-  background-color: rgba(16, 185, 129, 0.1);
-  border-color: #10b981;
-  color: #10b981;
-}
-
-.alert-danger {
-  background-color: rgba(239, 68, 68, 0.1);
-  border-color: #ef4444;
-  color: #ef4444;
-}
-
-.alert-warning {
-  background-color: rgba(245, 158, 11, 0.1);
-  border-color: #f59e0b;
-  color: #f59e0b;
-}
-
-.alert-info {
-  background-color: rgba(6, 182, 212, 0.1);
-  border-color: var(--cosmic-accent-tertiary);
-  color: var(--cosmic-accent-tertiary);
-}
-
-/* Modal Enhancements */
-.modal-content {
-  background: rgba(26, 26, 46, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
-  border-radius: var(--radius-xl);
-}
-
-.modal-header {
-  border-bottom: 1px solid var(--cosmic-border);
-}
-
-.modal-footer {
-  border-top: 1px solid var(--cosmic-border);
-}
-
-/* Dropdown Enhancements */
-.dropdown-menu {
-  background: rgba(26, 26, 46, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
-  border-radius: var(--radius-md);
-  box-shadow: 0 10px 30px var(--cosmic-shadow);
-}
-
-.dropdown-item {
-  color: var(--text-secondary);
-  transition: all var(--transition-normal);
-}
-
-.dropdown-item:hover,
-.dropdown-item:focus {
-  background: rgba(124, 58, 237, 0.1);
-  color: var(--cosmic-accent);
-}
-
-/* ========================================
-   PERFORMANCE OPTIMIZATIONS
-   ======================================== */
-
-/* GPU Acceleration for animations */
-.dimensional-card,
-.stellar-event,
-.cosmic-skill,
-.quantum-btn {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Optimize repaints */
-.quantum-nav {
-  contain: layout style paint;
-}
-
-.dimensional-card {
-  contain: layout style;
-}
-
-/* Optimize font loading */
-.font-cosmic {
-  font-display: swap;
-}
-
-/* ========================================
-   DARK/LIGHT THEME SPECIFIC OVERRIDES
-   ======================================== */
-
-[data-theme="light"] {
-  /* Light theme specific styles */
-}
-
-[data-theme="light"] .quantum-nav {
-  background: rgba(248, 250, 252, 0.95);
-  border-bottom-color: var(--light-border);
-}
-
-[data-theme="light"] .dimensional-card,
-[data-theme="light"] .quantum-form,
-[data-theme="light"] .cosmic-skill {
-  background: rgba(248, 250, 252, 0.8);
-  border-color: var(--light-border);
-}
-
-[data-theme="light"] .stellar-content {
-  background: rgba(248, 250, 252, 0.9);
-  border-color: var(--light-border);
-}
-
-[data-theme="light"] .stellar-content::before {
-  border-left-color: rgba(248, 250, 252, 0.9);
-}
-
-[data-theme="light"] .right .stellar-content::before {
-  border-left-color: transparent;
-  border-right-color: rgba(248, 250, 252, 0.9);
-}
-
-[data-theme="light"] .quantum-input {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: var(--light-border);
-  color: var(--light-text);
-}
-
-[data-theme="light"] .quantum-input::placeholder {
-  color: var(--light-text-secondary);
-}
-
-/* ========================================
-   END OF CUSTOM CSS
-   ======================================== */
+/* ===================================
+   END OF CUSTOM STYLES
+   ================================== */
