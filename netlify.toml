@@ -1,16 +1,6 @@
-# Astrotrias Archon - Netlify Configuration
-# Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
-# Version: 2.2.1 - Fixed NPM Version
-
 [build]
   publish = "."
-  command = ""
-  
-[build.environment]
-  NODE_VERSION = "20"
-  NPM_VERSION = "10.8.2"
 
-# Performance & Security Headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -18,125 +8,38 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    X-DNS-Prefetch-Control = "on"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
-    X-Cosmic-Power = "Quantum-Enabled"
-    X-Astrotrias = "Archon-Active"
-
-# Cache Control for Static Assets
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "*.js"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=31536000"
 
 [[headers]]
-  for = "*.png"
+  for = "*.css"
   [headers.values]
-    Cache-Control = "public, max-age=2592000"
+    Cache-Control = "public, max-age=31536000"
 
 [[headers]]
-  for = "*.woff2"
+  for = "*.html"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=3600"
 
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# Legacy Repository Redirects
-[[redirects]]
-  from = "https://pigletpeakkung.github.io/Codex-Terra-Arcanum/*"
-  to = "https://astrotrias-archon.netlify.app/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://pigletpeakkung.github.io/Astrotrias-Archon/*"
-  to = "https://astrotrias-archon.netlify.app/:splat"
-  status = 301
-  force = true
-
-# Cosmic Navigation Redirects
-[[redirects]]
-  from = "/home"
-  to = "/#home"
-  status = 301
-
-[[redirects]]
-  from = "/projects"
-  to = "/#dimensions"
-  status = 301
-
-[[redirects]]
-  from = "/about"
-  to = "/#timeline"
-  status = 301
-
-[[redirects]]
-  from = "/skills"
-  to = "/#skills"
-  status = 301
-
-[[redirects]]
-  from = "/contact"
-  to = "/#contact"
-  status = 301
-
-# Social Media Shortcuts
 [[redirects]]
   from = "/github"
   to = "https://github.com/Pigletpeakkung"
-  status = 302
+  status = 301
 
 [[redirects]]
   from = "/voice123"
   to = "https://voice123.com/thanatsitt"
-  status = 302
+  status = 301
 
 [[redirects]]
   from = "/linktree"
   to = "https://linktr.ee/ThanttEzekiel"
-  status = 302
+  status = 301
 
-# SPA Fallback (Must be last)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Netlify Plugins for Cosmic Enhancement
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
-  
-  [plugins.inputs.thresholds]
-    performance = 0.9
-    accessibility = 0.9
-    best-practices = 0.9
-    seo = 0.9
-
-[[plugins]]
-  package = "netlify-plugin-minify-html"
-
-  [plugins.inputs]
-    contexts = ["production"]
-
-[[plugins]]
-  package = "netlify-plugin-sitemap"
-
-  [plugins.inputs]
-    baseUrl = "https://astrotrias-archon.netlify.app"
-    pretty = true
-    trailingSlash = false
-
-# Development Settings
-[dev]
-  command = "npm run dev"
-  port = 3000
-  publish = "."
+  from = "/youtube"
+  to = "https://youtube.com/@pegearts"
+  status = 301
