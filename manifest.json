@@ -1,137 +1,154 @@
 {
-  "name": "Astrotrias Archon - Multidimensional Creative Technologist",
-  "short_name": "Astrotrias Archon",
-  "description": "Thanatsitt Santisamranwilai - Bridging consciousness and cosmos through quantum innovation, dimensional design, and transformational experiences across multiple realities.",
+  "name": "Astrotrias Archon - Multidimensional Portfolio",
+  "short_name": "Astrotrias",
+  "description": "A cosmic journey through multidimensional development expertise. Explore the portfolio of a visionary developer crafting digital experiences across infinite dimensions.",
+  "version": "1.2.0",
   "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#7c3aed",
-  "orientation": "portrait-primary",
   "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#6366f1",
+  "background_color": "#0f172a",
   "lang": "en-US",
   "dir": "ltr",
   "categories": [
-    "portfolio",
-    "creative",
-    "technology",
-    "ai",
-    "design",
-    "voice-acting"
+    "business",
+    "developer-tools",
+    "productivity",
+    "portfolio"
   ],
   "screenshots": [
     {
-      "src": "/assets/images/screenshot-desktop.png",
-      "sizes": "1280x720",
+      "src": "/assets/images/screenshots/desktop-home.png",
+      "sizes": "1920x1080",
       "type": "image/png",
       "platform": "wide",
-      "label": "Astrotrias Archon Desktop Experience"
+      "label": "Cosmic home interface showcasing multidimensional design"
     },
     {
-      "src": "/assets/images/screenshot-mobile.png",
-      "sizes": "375x812",
+      "src": "/assets/images/screenshots/mobile-portfolio.png",
+      "sizes": "390x844",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Astrotrias Archon Mobile Experience"
+      "label": "Mobile portfolio view with interactive cosmic elements"
     }
   ],
   "icons": [
     {
-      "src": "/assets/images/icon-72.png",
+      "src": "/assets/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-96.png",
+      "src": "/assets/icons/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-128.png",
+      "src": "/assets/icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-144.png",
+      "src": "/assets/icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-152.png",
+      "src": "/assets/icons/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-192.png",
+      "src": "/assets/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-384.png",
+      "src": "/assets/icons/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/icon-512.png",
+      "src": "/assets/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/maskable-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/monochrome-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ],
   "shortcuts": [
     {
-      "name": "Cosmic Projects",
+      "name": "View Projects",
       "short_name": "Projects",
-      "description": "Explore multidimensional projects and innovations",
+      "description": "Explore multidimensional development projects",
       "url": "/#dimensions",
       "icons": [
         {
-          "src": "/assets/images/shortcut-projects.png",
+          "src": "/assets/icons/shortcut-projects.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "Stellar Timeline",
-      "short_name": "Timeline",
-      "description": "Journey through cosmic achievements",
-      "url": "/#timeline",
-      "icons": [
-        {
-          "src": "/assets/images/shortcut-timeline.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Quantum Contact",
+      "name": "Contact",
       "short_name": "Contact",
       "description": "Connect across dimensions",
       "url": "/#contact",
       "icons": [
         {
-          "src": "/assets/images/shortcut-contact.png",
+          "src": "/assets/icons/shortcut-contact.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "GitHub Repository",
-      "short_name": "GitHub",
-      "description": "Explore the cosmic codebase",
-      "url": "/github",
+      "name": "Skills",
+      "short_name": "Skills",
+      "description": "Discover cosmic development abilities",
+      "url": "/#skills",
       "icons": [
         {
-          "src": "/assets/images/shortcut-github.png",
+          "src": "/assets/icons/shortcut-skills.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Timeline",
+      "short_name": "Journey",
+      "description": "Navigate the development timeline",
+      "url": "/#timeline",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-timeline.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -140,24 +157,48 @@
   ],
   "related_applications": [
     {
-      "platform": "web",
-      "url": "https://astrotrias-archon.netlify.app",
-      "id": "astrotrias-archon-web"
+      "platform": "webapp",
+      "url": "https://astrotrias-archon.netlify.app/manifest.json"
     }
   ],
   "prefer_related_applications": false,
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "handle_links": "preferred",
-  "capture_links": "existing-client-navigate",
+  "edge_side_includes": true,
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "protocol_handlers": [
     {
       "protocol": "mailto",
       "url": "/#contact?email=%s"
     }
-  ]
+  ],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "text/plain": [".txt"],
+        "application/json": [".json"],
+        "text/markdown": [".md"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/#contact",
+    "method": "GET",
+    "params": {
+      "title": "subject",
+      "text": "message",
+      "url": "url"
+    }
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate",
+  "display_override": [
+    "window-controls-overlay",
+    "minimal-ui",
+    "standalone",
+    "browser"
+  ],
+  "edge_side_includes": true
 }
