@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://astrotrias-archon.netlify.app/sitemap.xml
+
+# Disallow admin areas (if any)
+Disallow: /admin/
+Disallow: /.netlify/
+
+# Allow important pages
+Allow: /index.html
+Allow: /manifest.json
+Allow: /assets/
