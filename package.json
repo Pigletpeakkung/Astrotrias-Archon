@@ -7,29 +7,48 @@
     "build": "npm run optimize",
     "optimize": "npm run minify-html && npm run optimize-images",
     "minify-html": "html-minifier-terser --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --minify-css --minify-js || cp index.html dist/",
-    "optimize-images": "imagemin assets/images/* --out-dir=dist/assets/images || cp -r assets dist/",
+    "optimize-images": "imagemin assets/images/* --out-dir=dist/assets/images || cp -r assets dist/ || echo 'No assets to optimize'",
     "dev": "live-server .",
     "lighthouse": "lighthouse https://astrotrias-archon.netlify.app --output=html --output-path=./lighthouse-report.html",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "echo \"No tests specified\" && exit 0",
+    "postinstall": "echo 'Cosmic dependencies installed successfully! 🚀✨'"
   },
   "keywords": [
     "portfolio",
     "creative-technologist",
     "quantum-design",
     "consciousness-ai",
-    "cosmic-design"
+    "cosmic-design",
+    "astrotrias-archon",
+    "multidimensional",
+    "ai-training",
+    "voice-acting",
+    "web-development"
   ],
   "author": "Thanatsitt Santisamranwilai",
   "license": "MIT",
   "devDependencies": {
+    "@netlify/plugin-lighthouse": "^6.0.0",
     "html-minifier-terser": "^7.2.0",
     "imagemin": "^8.0.1",
     "imagemin-webp": "^8.0.0",
-    "live-server": "^1.2.2"
+    "lighthouse": "^11.4.0",
+    "live-server": "^1.2.2",
+    "netlify-plugin-minify-html": "^0.4.1",
+    "netlify-plugin-sitemap": "^0.8.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Pigletpeakkung/Astrotrias-Archon.git"
   },
-  "homepage": "https://astrotrias-archon.netlify.app"
+  "homepage": "https://astrotrias-archon.netlify.app",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
