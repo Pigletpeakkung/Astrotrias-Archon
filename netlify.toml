@@ -120,3 +120,16 @@
   command = "npx live-server ."
   port = 3000
   publish = "."
+
+  [build]
+  command = "npm run build && npm run lighthouse"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs.thresholds]
+    performance = 0.9
+    accessibility = 0.9
+    best-practices = 0.9
+    seo = 0.9
+
