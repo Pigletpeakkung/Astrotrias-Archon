@@ -1,1805 +1,1593 @@
 /**
  * Astrotrias Archon - Quantum JavaScript Engine
- * Multidimensional Creative Technologist Portfolio
- * Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
- * Version: 2.0.0
- * License: MIT
+ * Multidimensional Creative Technologist Interface
+ * Author: Thanatsitt Santisamranwilai
+ * Version: 2.0.0 - Quantum Enhanced
  */
 
-'use strict';
-
-// Quantum Namespace
-const QuantumEngine = {
-  version: '2.0.0',
-  initialized: false,
-  debug: false,
-  performance: {
-    startTime: performance.now(),
-    metrics: {}
-  }
-};
-
-/**
- * ========================================
- * QUANTUM CORE SYSTEM
- * ========================================
- */
-
-class QuantumCore {
+class AstrotriasQuantumEngine {
   constructor() {
-    this.observers = new Map();
-    this.animations = new Map();
-    this.particles = null;
-    this.theme = 'dark';
-    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.isLowEndDevice = this.detectLowEndDevice();
+    this.isInitialized = false;
+    this.cosmicState = {
+      theme: 'dark',
+      particlesActive: true,
+      dimensionalShift: false,
+      quantumEntanglement: new Map(),
+      stellarEvents: [],
+      cosmicEnergy: 100
+    };
     
-    this.init();
+    this.observers = {
+      intersection: null,
+      mutation: null,
+      resize: null
+    };
+    
+    this.animations = new Map();
+    this.quantumParticles = null;
+    this.dimensionalPortal = null;
+    
+    // Performance monitoring
+    this.performanceMetrics = {
+      initTime: 0,
+      renderTime: 0,
+      interactionCount: 0,
+      lastFrameTime: 0
+    };
+    
+    // Bind methods
+    this.init = this.init.bind(this);
+    this.handleScroll = this.throttle(this.handleScroll.bind(this), 16);
+    this.handleResize = this.debounce(this.handleResize.bind(this), 250);
+    
+    console.log('🚀 Astrotrias Quantum Engine Initializing...');
   }
 
   /**
-   * Initialize Quantum Core Systems
+   * Initialize the Quantum Engine
    */
   async init() {
+    const startTime = performance.now();
+    
     try {
-      console.log('🌟 Initializing Astrotrias Archon Quantum Engine v' + QuantumEngine.version);
+      // Check if DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.init());
+        return;
+      }
+
+      // Initialize core systems
+      await this.initializeCoreSystems();
+      await this.initializeCosmicFeatures();
+      await this.initializeInteractions();
+      await this.initializeObservers();
       
-      // Core system initialization
-      await this.initializeThemeSystem();
-      await this.initializeParticleSystem();
-      await this.initializeAnimationSystem();
-      await this.initializeNavigationSystem();
-      await this.initializeFormSystem();
-      await this.initializePerformanceMonitoring();
-      await this.initializeAccessibilityFeatures();
-      await this.initializePWAFeatures();
+      // Start quantum loops
+      this.startQuantumLoop();
+      this.startCosmicHeartbeat();
       
-      // Mark as initialized
-      QuantumEngine.initialized = true;
+      this.performanceMetrics.initTime = performance.now() - startTime;
+      this.isInitialized = true;
       
-      // Dispatch ready event
-      this.dispatchQuantumEvent('quantum:ready', {
-        version: QuantumEngine.version,
-        performance: this.getPerformanceMetrics()
-      });
-      
-      console.log('✨ Quantum Engine fully operational across all dimensions');
+      console.log(`✨ Quantum Engine Initialized in ${this.performanceMetrics.initTime.toFixed(2)}ms`);
+      this.dispatchCosmicEvent('quantum:initialized', { metrics: this.performanceMetrics });
       
     } catch (error) {
-      console.error('❌ Quantum Engine initialization failed:', error);
+      console.error('❌ Quantum Engine Initialization Failed:', error);
       this.handleQuantumError(error);
     }
   }
 
   /**
-   * Detect low-end devices for performance optimization
+   * Initialize Core Systems
    */
-  detectLowEndDevice() {
-    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    const hardwareConcurrency = navigator.hardwareConcurrency || 4;
-    const deviceMemory = navigator.deviceMemory || 4;
+  async initializeCoreSystems() {
+    // Theme System
+    this.initializeThemeSystem();
     
-    return (
-      hardwareConcurrency < 4 ||
-      deviceMemory < 4 ||
-      (connection && connection.effectiveType && connection.effectiveType.includes('2g'))
-    );
-  }
-
-  /**
-   * Performance metrics collection
-   */
-  getPerformanceMetrics() {
-    const navigation = performance.getEntriesByType('navigation')[0];
-    return {
-      loadTime: navigation ? navigation.loadEventEnd - navigation.fetchStart : 0,
-      domContentLoaded: navigation ? navigation.domContentLoadedEventEnd - navigation.fetchStart : 0,
-      firstPaint: this.getFirstPaint(),
-      memoryUsage: this.getMemoryUsage()
-    };
-  }
-
-  getFirstPaint() {
-    const paintEntries = performance.getEntriesByType('paint');
-    const firstPaint = paintEntries.find(entry => entry.name === 'first-contentful-paint');
-    return firstPaint ? firstPaint.startTime : 0;
-  }
-
-  getMemoryUsage() {
-    return performance.memory ? {
-      used: Math.round(performance.memory.usedJSHeapSize / 1048576),
-      total: Math.round(performance.memory.totalJSHeapSize / 1048576),
-      limit: Math.round(performance.memory.jsHeapSizeLimit / 1048576)
-    } : null;
-  }
-
-  /**
-   * Custom event dispatcher
-   */
-  dispatchQuantumEvent(eventName, detail = {}) {
-    const event = new CustomEvent(eventName, {
-      detail: { ...detail, timestamp: Date.now() },
-      bubbles: true,
-      cancelable: true
-    });
-    document.dispatchEvent(event);
-  }
-
-  /**
-   * Error handling system
-   */
-  handleQuantumError(error, context = 'unknown') {
-    console.error(`🚨 Quantum Error in ${context}:`, error);
+    // Navigation Enhancement
+    this.enhanceQuantumNavigation();
     
-    // Send error to analytics (if available)
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'exception', {
-        description: error.message,
-        fatal: false,
-        custom_map: { context }
+    // Form Quantum Enhancement
+    this.enhanceQuantumForms();
+    
+    // Accessibility Features
+    this.initializeAccessibilityFeatures();
+    
+    // Performance Monitoring
+    this.initializePerformanceMonitoring();
+  }
+
+  /**
+   * Initialize Cosmic Features
+   */
+  async initializeCosmicFeatures() {
+    // Particle System
+    await this.initializeParticleSystem();
+    
+    // Dimensional Portal
+    this.initializeDimensionalPortal();
+    
+    // Stellar Timeline
+    this.initializeStellarTimeline();
+    
+    // Cosmic Skills Animation
+    this.initializeCosmicSkills();
+    
+    // Dimensional Cards
+    this.initializeDimensionalCards();
+    
+    // Quantum Loading States
+    this.initializeQuantumLoading();
+  }
+
+  /**
+   * Theme System with Cosmic Transitions
+   */
+  initializeThemeSystem() {
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('astrotrias-theme') || 'dark';
+    
+    // Set initial theme
+    this.setCosmicTheme(savedTheme);
+    
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        this.setCosmicTheme(newTheme, true);
       });
     }
-    
-    // Dispatch error event
-    this.dispatchQuantumEvent('quantum:error', { error, context });
-  }
-}
-
-/**
- * ========================================
- * QUANTUM THEME SYSTEM
- * ========================================
- */
-
-class QuantumThemeSystem {
-  constructor(core) {
-    this.core = core;
-    this.currentTheme = localStorage.getItem('astrotrias-theme') || 'dark';
-    this.themeToggle = null;
-    this.themeIcon = null;
-    
-    this.init();
   }
 
-  async init() {
-    this.themeToggle = document.getElementById('themeToggle');
-    this.themeIcon = document.getElementById('themeIcon');
-    
-    if (!this.themeToggle || !this.themeIcon) {
-      console.warn('⚠️ Theme toggle elements not found');
-      return;
+  /**
+   * Set Cosmic Theme with Smooth Transition
+   */
+  setCosmicTheme(theme, animate = false) {
+    if (animate) {
+      document.body.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+      
+      // Create cosmic transition effect
+      this.createCosmicTransition();
     }
-
-    // Apply saved theme
-    this.applyTheme(this.currentTheme);
     
-    // Setup event listeners
-    this.themeToggle.addEventListener('click', () => this.toggleTheme());
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('astrotrias-theme', theme);
+    this.cosmicState.theme = theme;
     
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('astrotrias-theme')) {
-        this.applyTheme(e.matches ? 'dark' : 'light');
+    // Update theme toggle icon
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      const icon = themeToggle.querySelector('i');
+      if (icon) {
+        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
       }
-    });
-
-    console.log('🎨 Quantum Theme System initialized');
-  }
-
-  toggleTheme() {
-    const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-    this.applyTheme(newTheme);
-    
-    // Announce theme change for accessibility
-    this.announceThemeChange(newTheme);
+    }
     
     // Dispatch theme change event
-    this.core.dispatchQuantumEvent('quantum:theme-changed', { 
-      oldTheme: this.currentTheme, 
-      newTheme 
+    this.dispatchCosmicEvent('theme:changed', { theme });
+    
+    if (animate) {
+      setTimeout(() => {
+        document.body.style.transition = '';
+      }, 500);
+    }
+  }
+
+  /**
+   * Create Cosmic Transition Effect
+   */
+  createCosmicTransition() {
+    const overlay = document.createElement('div');
+    overlay.className = 'cosmic-transition-overlay';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, transparent 70%);
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Animate transition
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.remove(), 300);
+      }, 200);
     });
   }
 
-  applyTheme(theme) {
-    this.currentTheme = theme;
-    document.body.setAttribute('data-theme', theme);
-    localStorage.setItem('astrotrias-theme', theme);
-    
-    // Update theme icon
-    if (this.themeIcon) {
-      this.themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-      this.themeToggle.setAttribute('aria-label', 
-        theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
-      );
-    }
+  /**
+   * Initialize Particle System
+   */
+  async initializeParticleSystem() {
+    const particlesContainer = document.getElementById('particles-js');
+    if (!particlesContainer || !window.particlesJS) return;
 
-    // Update particles color scheme
-    if (this.core.particles) {
-      this.updateParticlesTheme(theme);
-    }
-  }
-
-  updateParticlesTheme(theme) {
-    const colors = theme === 'dark' 
-      ? ['#7c3aed', '#a855f7', '#06b6d4']
-      : ['#6366f1', '#8b5cf6', '#0ea5e9'];
-    
-    if (window.pJSDom && window.pJSDom[0]) {
-      window.pJSDom[0].pJS.particles.color.value = colors;
-      window.pJSDom[0].pJS.particles.line_linked.color = colors[0];
-      window.pJSDom[0].pJS.fn.particlesRefresh();
-    }
-  }
-
-  announceThemeChange(theme) {
-    const announcement = document.createElement('div');
-    announcement.setAttribute('aria-live', 'polite');
-    announcement.setAttribute('aria-atomic', 'true');
-    announcement.className = 'sr-only';
-    announcement.textContent = `Theme changed to ${theme} mode`;
-    document.body.appendChild(announcement);
-    
-    setTimeout(() => {
-      if (announcement.parentNode) {
-        announcement.parentNode.removeChild(announcement);
-      }
-    }, 1000);
-  }
-}
-
-/**
- * ========================================
- * QUANTUM PARTICLE SYSTEM
- * ========================================
- */
-
-class QuantumParticleSystem {
-  constructor(core) {
-    this.core = core;
-    this.container = document.getElementById('particles-js');
-    this.config = this.getParticleConfig();
-    
-    this.init();
-  }
-
-  async init() {
-    if (!this.container) {
-      console.warn('⚠️ Particles container not found');
-      return;
-    }
-
-    try {
-      // Load particles.js if not already loaded
-      if (typeof particlesJS === 'undefined') {
-        await this.loadParticlesJS();
-      }
-
-      // Initialize particles with quantum configuration
-      particlesJS('particles-js', this.config);
-      
-      console.log('⚛️ Quantum Particle System activated');
-      
-    } catch (error) {
-      console.warn('⚠️ Particles.js failed to load, continuing without particles');
-      this.core.handleQuantumError(error, 'particle-system');
-    }
-  }
-
-  async loadParticlesJS() {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js';
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-  }
-
-  getParticleConfig() {
-    const baseConfig = {
+    const particleConfig = {
       particles: {
-        number: { 
-          value: this.core.isLowEndDevice ? 60 : 120, 
-          density: { enable: true, value_area: 1000 } 
+        number: {
+          value: this.getOptimalParticleCount(),
+          density: { enable: true, value_area: 800 }
         },
-        color: { 
-          value: ['#7c3aed', '#a855f7', '#06b6d4'] 
-        },
-        shape: { 
+        color: { value: ['#7c3aed', '#a855f7', '#06b6d4'] },
+        shape: {
           type: 'circle',
           stroke: { width: 0, color: '#000000' }
         },
-        opacity: { 
-          value: 0.7, 
-          random: true, 
-          anim: { 
-            enable: !this.core.reducedMotion, 
-            speed: 1.5, 
-            opacity_min: 0.1, 
-            sync: false 
-          } 
+        opacity: {
+          value: 0.5,
+          random: true,
+          anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
         },
-        size: { 
-          value: 4, 
-          random: true, 
-          anim: { 
-            enable: !this.core.reducedMotion, 
-            speed: 3, 
-            size_min: 0.1, 
-            sync: false 
-          } 
+        size: {
+          value: 3,
+          random: true,
+          anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
         },
-        line_linked: { 
-          enable: true, 
-          distance: this.core.isLowEndDevice ? 150 : 200, 
-          color: '#7c3aed', 
-          opacity: 0.3, 
-          width: 1 
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#7c3aed',
+          opacity: 0.2,
+          width: 1
         },
-        move: { 
-          enable: true, 
-          speed: this.core.isLowEndDevice ? 1 : 1.5, 
-          direction: 'none', 
-          random: true, 
-          straight: false, 
-          out_mode: 'out', 
-          bounce: false 
+        move: {
+          enable: true,
+          speed: 1,
+          direction: 'none',
+          random: false,
+          straight: false,
+          out_mode: 'out',
+          bounce: false,
+          attract: { enable: false, rotateX: 600, rotateY: 1200 }
         }
       },
       interactivity: {
         detect_on: 'canvas',
         events: {
-          onhover: { 
-            enable: !this.core.isLowEndDevice, 
-            mode: 'repulse' 
-          },
-          onclick: { 
-            enable: true, 
-            mode: 'push' 
-          },
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' },
           resize: true
         },
         modes: {
-          repulse: { distance: 150, duration: 0.4 },
-          push: { particles_nb: this.core.isLowEndDevice ? 3 : 6 }
+          grab: { distance: 140, line_linked: { opacity: 1 } },
+          bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 },
+          remove: { particles_nb: 2 }
         }
       },
       retina_detect: true
     };
 
-    // Disable animations for reduced motion
-    if (this.core.reducedMotion) {
-      baseConfig.particles.opacity.anim.enable = false;
-      baseConfig.particles.size.anim.enable = false;
-      baseConfig.particles.move.speed = 0.5;
-      baseConfig.interactivity.events.onhover.enable = false;
-    }
-
-    return baseConfig;
-  }
-
-  updateConfig(newConfig) {
-    this.config = { ...this.config, ...newConfig };
-    if (window.pJSDom && window.pJSDom[0]) {
-      window.pJSDom[0].pJS.fn.particlesRefresh();
+    // Initialize particles with error handling
+    try {
+      particlesJS('particles-js', particleConfig);
+      this.quantumParticles = window.pJSDom[0].pJS;
+      console.log('✨ Quantum Particles Initialized');
+    } catch (error) {
+      console.warn('⚠️ Particles.js failed to initialize:', error);
     }
   }
-}
 
-/**
- * ========================================
- * QUANTUM ANIMATION SYSTEM
- * ========================================
- */
-
-class QuantumAnimationSystem {
-  constructor(core) {
-    this.core = core;
-    this.observers = new Map();
-    this.animatedElements = new Set();
+  /**
+   * Get Optimal Particle Count Based on Device Performance
+   */
+  getOptimalParticleCount() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const area = width * height;
+    const devicePixelRatio = window.devicePixelRatio || 1;
     
-    this.init();
+    // Reduce particles on mobile and high-DPI displays
+    if (width < 768) return 30;
+    if (devicePixelRatio > 1.5) return 50;
+    if (area > 2000000) return 100;
+    return 80;
   }
 
-  async init() {
-    // Initialize intersection observers for different animation types
-    this.setupFadeInObserver();
-    this.setupTimelineObserver();
-    this.setupSkillsObserver();
-    this.setupCounterObserver();
+  /**
+   * Initialize Dimensional Portal
+   */
+  initializeDimensionalPortal() {
+    const portal = document.querySelector('.dimensional-portal');
+    if (!portal) return;
+
+    let portalEnergy = 0;
     
-    // Setup scroll-based animations
-    this.setupScrollAnimations();
+    const animatePortal = () => {
+      portalEnergy += 0.02;
+      const intensity = Math.sin(portalEnergy) * 0.5 + 0.5;
+      
+      portal.style.boxShadow = `
+        0 0 ${50 + intensity * 30}px rgba(124, 58, 237, ${0.6 + intensity * 0.4}),
+        inset 0 0 ${50 + intensity * 20}px rgba(124, 58, 237, ${0.2 + intensity * 0.3})
+      `;
+      
+      requestAnimationFrame(animatePortal);
+    };
     
-    console.log('🎬 Quantum Animation System activated');
+    animatePortal();
+    this.dimensionalPortal = portal;
+    
+    // Add interaction
+    portal.addEventListener('click', () => {
+      this.activateDimensionalShift();
+    });
   }
 
-  setupFadeInObserver() {
-    const fadeElements = document.querySelectorAll('.fade-in-cosmic');
+  /**
+   * Activate Dimensional Shift Effect
+   */
+  activateDimensionalShift() {
+    if (this.cosmicState.dimensionalShift) return;
     
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-          const delay = this.core.reducedMotion ? 0 : index * 150;
-          
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-            this.animatedElements.add(entry.target);
-            
-            this.core.dispatchQuantumEvent('quantum:element-animated', {
-              element: entry.target,
-              type: 'fade-in'
-            });
-          }, delay);
+    this.cosmicState.dimensionalShift = true;
+    document.body.classList.add('dimensional-shift');
+    
+    // Create ripple effect
+    const ripple = document.createElement('div');
+    ripple.className = 'dimensional-ripple';
+    ripple.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border: 2px solid rgba(124, 58, 237, 0.8);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9998;
+      pointer-events: none;
+      animation: dimensionalRipple 2s ease-out forwards;
+    `;
+    
+    document.body.appendChild(ripple);
+    
+    // Add CSS animation
+    if (!document.getElementById('dimensional-styles')) {
+      const style = document.createElement('style');
+      style.id = 'dimensional-styles';
+      style.textContent = `
+        @keyframes dimensionalRipple {
+          to {
+            width: 200vmax;
+            height: 200vmax;
+            opacity: 0;
+          }
         }
+        .dimensional-shift {
+          filter: hue-rotate(45deg) brightness(1.1);
+          transition: filter 2s ease;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    setTimeout(() => {
+      ripple.remove();
+      document.body.classList.remove('dimensional-shift');
+      this.cosmicState.dimensionalShift = false;
+    }, 2000);
+    
+    this.dispatchCosmicEvent('dimensional:shift', { energy: this.cosmicState.cosmicEnergy });
+  }
+
+  /**
+   * Initialize Stellar Timeline
+   */
+  initializeStellarTimeline() {
+    const timelineEvents = document.querySelectorAll('.stellar-event');
+    if (!timelineEvents.length) return;
+
+    timelineEvents.forEach((event, index) => {
+      this.cosmicState.stellarEvents.push({
+        element: event,
+        index,
+        animated: false
       });
-    }, { 
-      threshold: 0.1,
-      rootMargin: '0px 0px -20px 0px'
     });
 
-    fadeElements.forEach(element => observer.observe(element));
-    this.observers.set('fade-in', observer);
+    // Animate timeline events on scroll
+    this.observeTimelineEvents();
   }
 
-  setupTimelineObserver() {
-    const stellarEvents = document.querySelectorAll('.stellar-event');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-          const delay = this.core.reducedMotion ? 0 : index * 300;
-          
-          setTimeout(() => {
-            entry.target.classList.add('animate');
-            this.animatedElements.add(entry.target);
-            
-            this.core.dispatchQuantumEvent('quantum:timeline-animated', {
-              element: entry.target,
-              index
-            });
-          }, delay);
-        }
-      });
-    }, { 
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-
-    stellarEvents.forEach(event => observer.observe(event));
-    this.observers.set('timeline', observer);
-  }
-
-  setupSkillsObserver() {
-    const skillConstellations = document.querySelectorAll('.skill-constellation');
-    
+  /**
+   * Observe Timeline Events for Animation
+   */
+  observeTimelineEvents() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-          const width = entry.target.getAttribute('data-width');
-          const delay = this.core.reducedMotion ? 0 : 500;
+        if (entry.isIntersecting) {
+          const event = this.cosmicState.stellarEvents.find(
+            e => e.element === entry.target
+          );
           
-          setTimeout(() => {
-            entry.target.style.setProperty('--skill-width', width + '%');
-            entry.target.classList.add('animate');
-            this.animatedElements.add(entry.target);
-            
-            this.core.dispatchQuantumEvent('quantum:skill-animated', {
-              element: entry.target,
-              width
-            });
-          }, delay);
+          if (event && !event.animated) {
+            setTimeout(() => {
+              entry.target.classList.add('animate');
+              event.animated = true;
+              this.animateStellarEvent(entry.target);
+            }, event.index * 200);
+          }
         }
       });
-    }, { 
-      threshold: 0.5 
-    });
+    }, { threshold: 0.3 });
 
-    skillConstellations.forEach(skill => observer.observe(skill));
-    this.observers.set('skills', observer);
+    this.cosmicState.stellarEvents.forEach(event => {
+      observer.observe(event.element);
+    });
   }
 
-  setupCounterObserver() {
-    const counters = document.querySelectorAll('[data-counter]');
+  /**
+   * Animate Stellar Event
+   */
+  animateStellarEvent(element) {
+    const content = element.querySelector('.stellar-content');
+    if (!content) return;
+
+    // Add cosmic glow effect
+    content.style.animation = 'stellarGlow 0.8s ease-out';
     
+    // Add CSS if not exists
+    if (!document.getElementById('stellar-styles')) {
+      const style = document.createElement('style');
+      style.id = 'stellar-styles';
+      style.textContent = `
+        @keyframes stellarGlow {
+          0% { box-shadow: 0 10px 30px var(--cosmic-shadow); }
+          50% { box-shadow: 0 20px 60px rgba(124, 58, 237, 0.6); }
+          100% { box-shadow: 0 10px 30px var(--cosmic-shadow); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  /**
+   * Initialize Cosmic Skills
+   */
+  initializeCosmicSkills() {
+    const skills = document.querySelectorAll('.cosmic-skill');
+    if (!skills.length) return;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-          this.animateCounter(entry.target);
-          this.animatedElements.add(entry.target);
+        if (entry.isIntersecting) {
+          this.animateSkillConstellation(entry.target);
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.5 });
 
-    counters.forEach(counter => observer.observe(counter));
-    this.observers.set('counters', observer);
+    skills.forEach(skill => observer.observe(skill));
   }
 
-  animateCounter(element) {
-    const target = parseInt(element.getAttribute('data-counter'));
-    const duration = this.core.reducedMotion ? 100 : 2000;
-    const start = performance.now();
+  /**
+   * Animate Skill Constellation
+   */
+  animateSkillConstellation(skillElement) {
+    const constellation = skillElement.querySelector('.skill-constellation');
+    if (!constellation) return;
+
+    const skillName = skillElement.querySelector('h6')?.textContent || '';
+    const skillWidth = this.getSkillWidth(skillName);
     
-    const animate = (currentTime) => {
-      const elapsed = currentTime - start;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      const current = Math.floor(progress * target);
-      element.textContent = current.toLocaleString();
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        this.core.dispatchQuantumEvent('quantum:counter-completed', {
-          element,
-          finalValue: target
-        });
-      }
+    constellation.style.setProperty('--skill-width', `${skillWidth}%`);
+    constellation.classList.add('animate');
+    
+    // Add particle burst effect
+    this.createSkillParticleBurst(constellation);
+  }
+
+  /**
+   * Get Skill Width Based on Skill Name
+   */
+  getSkillWidth(skillName) {
+    const skillLevels = {
+      'JavaScript': 95,
+      'TypeScript': 90,
+      'React': 92,
+      'Node.js': 88,
+      'Python': 85,
+      'AI/ML': 80,
+      'Blockchain': 75,
+      'WebGL': 70,
+      'Three.js': 85,
+      'GSAP': 90,
+      'Docker': 80,
+      'AWS': 75,
+      'GraphQL': 85,
+      'MongoDB': 80,
+      'PostgreSQL': 85,
+      'Redis': 75,
+      'Kubernetes': 70,
+      'Microservices': 80,
+      'DevOps': 75,
+      'UI/UX Design': 88
     };
     
-    requestAnimationFrame(animate);
+    return skillLevels[skillName] || 70;
   }
 
-  setupScrollAnimations() {
-    let ticking = false;
+  /**
+   * Create Skill Particle Burst
+   */
+  createSkillParticleBurst(element) {
+    const rect = element.getBoundingClientRect();
+    const particles = 12;
     
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          this.updateScrollAnimations();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-  }
-
-  updateScrollAnimations() {
-    const scrollY = window.pageYOffset;
-    const windowHeight = window.innerHeight;
-    
-    // Parallax effects for non-reduced motion
-    if (!this.core.reducedMotion) {
-      const parallaxElements = document.querySelectorAll('[data-parallax]');
-      parallaxElements.forEach(element => {
-        const speed = parseFloat(element.getAttribute('data-parallax')) || 0.5;
-        const yPos = -(scrollY * speed);
-        element.style.transform = `translateY(${yPos}px)`;
-      });
+    for (let i = 0; i < particles; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'skill-particle';
+      particle.style.cssText = `
+        position: fixed;
+        left: ${rect.left + rect.width * Math.random()}px;
+        top: ${rect.top + rect.height / 2}px;
+        width: 4px;
+        height: 4px;
+        background: rgba(124, 58, 237, 0.8);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1000;
+        animation: skillParticleBurst 1s ease-out forwards;
+      `;
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => particle.remove(), 1000);
     }
     
-    // Update navigation active state
-    this.updateNavigationState(scrollY);
+    // Add CSS animation if not exists
+    if (!document.getElementById('skill-particle-styles')) {
+      const style = document.createElement('style');
+      style.id = 'skill-particle-styles';
+      style.textContent = `
+        @keyframes skillParticleBurst {
+          0% {
+            transform: scale(1) translate(0, 0);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0) translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }
 
-  updateNavigationState(scrollY) {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-    
-    let currentSection = '';
-    
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.offsetHeight;
+  /**
+   * Initialize Dimensional Cards
+   */
+  initializeDimensionalCards() {
+    const cards = document.querySelectorAll('.dimensional-card');
+    if (!cards.length) return;
+
+    cards.forEach((card, index) => {
+      // Add hover sound effect (if audio is enabled)
+      card.addEventListener('mouseenter', () => {
+        this.playCosmicSound('hover');
+        this.createCardAura(card);
+      });
       
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        currentSection = section.getAttribute('id');
+      card.addEventListener('mouseleave', () => {
+        this.removeCardAura(card);
+      });
+      
+      // Add click interaction
+      card.addEventListener('click', (e) => {
+        if (!e.target.closest('a')) {
+          this.activateCardDimension(card);
+        }
+      });
+      
+      // Add keyboard navigation
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.activateCardDimension(card);
+        }
+      });
+    });
+  }
+
+  /**
+   * Create Card Aura Effect
+   */
+  createCardAura(card) {
+    const aura = document.createElement('div');
+    aura.className = 'card-aura';
+    aura.style.cssText = `
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, rgba(124, 58, 237, 0.3), rgba(168, 85, 247, 0.3));
+      border-radius: 25px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      filter: blur(15px);
+    `;
+    
+    card.style.position = 'relative';
+    card.appendChild(aura);
+    
+    requestAnimationFrame(() => {
+      aura.style.opacity = '1';
+    });
+  }
+
+  /**
+   * Remove Card Aura Effect
+   */
+  removeCardAura(card) {
+    const aura = card.querySelector('.card-aura');
+    if (aura) {
+      aura.style.opacity = '0';
+      setTimeout(() => aura.remove(), 300);
+    }
+  }
+
+  /**
+   * Activate Card Dimension
+   */
+  activateCardDimension(card) {
+    card.style.transform = 'scale(1.05) rotateY(5deg)';
+    card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    
+    setTimeout(() => {
+      card.style.transform = '';
+    }, 300);
+    
+    this.playCosmicSound('activate');
+    this.dispatchCosmicEvent('card:activated', { card });
+  }
+
+  /**
+   * Enhance Quantum Navigation
+   */
+  enhanceQuantumNavigation() {
+    const nav = document.querySelector('.quantum-nav');
+    if (!nav) return;
+
+    // Smooth scroll for navigation links
+    const navLinks = nav.querySelectorAll('a[href^="#"]');
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        
+        if (target) {
+          this.smoothScrollTo(target);
+          this.highlightActiveSection(targetId);
+        }
+      });
+    });
+
+    // Add scroll spy
+    this.initializeScrollSpy();
+    
+    // Add navigation background on scroll
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
       }
     });
+  }
+
+  /**
+   * Smooth Scroll to Element
+   */
+  smoothScrollTo(element) {
+    const targetPosition = element.offsetTop - 80;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 800;
+    let start = null;
+
+    const animation = (currentTime) => {
+      if (start === null) start = currentTime;
+      const timeElapsed = currentTime - start;
+      const run = this.easeInOutQuad(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    };
+
+    requestAnimationFrame(animation);
+  }
+
+  /**
+   * Easing function for smooth scroll
+   */
+  easeInOutQuad(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return c / 2 * t * t + b;
+    t--;
+    return -c / 2 * (t * (t - 2) - 1) + b;
+  }
+
+  /**
+   * Initialize Scroll Spy
+   */
+  initializeScrollSpy() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.quantum-nav a[href^="#"]');
     
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.highlightActiveSection(entry.target.id);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => observer.observe(section));
+  }
+
+  /**
+   * Highlight Active Navigation Section
+   */
+  highlightActiveSection(sectionId) {
+    const navLinks = document.querySelectorAll('.quantum-nav a[href^="#"]');
     navLinks.forEach(link => {
       link.classList.remove('active');
-      if (link.getAttribute('href') === `#${currentSection}`) {
+      if (link.getAttribute('href') === `#${sectionId}`) {
         link.classList.add('active');
       }
     });
   }
 
-  // Cleanup method
-  destroy() {
-    this.observers.forEach(observer => observer.disconnect());
-    this.observers.clear();
-    this.animatedElements.clear();
-  }
-}
+  /**
+   * Enhance Quantum Forms
+   */
+  enhanceQuantumForms() {
+    const forms = document.querySelectorAll('.quantum-form');
+    if (!forms.length) return;
 
-/**
- * ========================================
- * QUANTUM NAVIGATION SYSTEM
- * ========================================
- */
-
-class QuantumNavigationSystem {
-  constructor(core) {
-    this.core = core;
-    this.navbar = document.getElementById('mainNav');
-    this.navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-    this.mobileToggle = document.querySelector('.navbar-toggler');
-    this.navCollapse = document.querySelector('.navbar-collapse');
-    
-    this.init();
-  }
-
-  async init() {
-    if (!this.navbar) {
-      console.warn('⚠️ Navigation elements not found');
-      return;
-    }
-
-    // Setup scroll effects
-    this.setupScrollEffects();
-    
-    // Setup smooth scrolling
-    this.setupSmoothScrolling();
-    
-    // Setup mobile navigation
-    this.setupMobileNavigation();
-    
-    // Setup keyboard navigation
-    this.setupKeyboardNavigation();
-    
-    console.log('🧭 Quantum Navigation System activated');
-  }
-
-  setupScrollEffects() {
-    let lastScrollY = 0;
-    let ticking = false;
-    
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollY = window.pageYOffset;
-          
-          // Add scrolled class for styling
-          if (scrollY > 100) {
-            this.navbar.classList.add('scrolled');
-          } else {
-            this.navbar.classList.remove('scrolled');
-          }
-          
-          // Hide/show navbar on scroll (mobile)
-          if (window.innerWidth <= 768) {
-            if (scrollY > lastScrollY && scrollY > 200) {
-              this.navbar.style.transform = 'translateY(-100%)';
-            } else {
-              this.navbar.style.transform = 'translateY(0)';
-            }
-          }
-          
-          lastScrollY = scrollY;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-  }
-
-  setupSmoothScrolling() {
-    this.navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        const targetId = link.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
-          this.scrollToElement(targetElement);
-          
-          // Close mobile menu if open
-          if (this.navCollapse.classList.contains('show')) {
-            this.mobileToggle.click();
-          }
-          
-          // Update URL without triggering scroll
-          history.pushState(null, null, `#${targetId}`);
-          
-          this.core.dispatchQuantumEvent('quantum:navigation', {
-            target: targetId,
-            element: targetElement
-          });
-        }
+    forms.forEach(form => {
+      const inputs = form.querySelectorAll('.quantum-input');
+      const submitBtn = form.querySelector('.quantum-btn');
+      
+      // Enhance inputs
+      inputs.forEach(input => {
+        this.enhanceQuantumInput(input);
       });
-    });
-  }
-
-  scrollToElement(element) {
-    const headerOffset = this.navbar.offsetHeight + 20;
-    const elementPosition = element.offsetTop;
-    const offsetPosition = elementPosition - headerOffset;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: this.core.reducedMotion ? 'auto' : 'smooth'
-    });
-
-    // Focus management for accessibility
-    setTimeout(() => {
-      const focusableElement = element.querySelector('h1, h2, h3, [tabindex="0"]');
-      if (focusableElement) {
-        focusableElement.focus();
-      }
-    }, this.core.reducedMotion ? 0 : 500);
-  }
-
-  setupMobileNavigation() {
-    if (!this.mobileToggle || !this.navCollapse) return;
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (this.navCollapse.classList.contains('show') && 
-          !this.navbar.contains(e.target)) {
-        this.mobileToggle.click();
-      }
-    });
-
-    // Close menu on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.navCollapse.classList.contains('show')) {
-        this.mobileToggle.click();
-        this.mobileToggle.focus();
+      
+      // Enhance form submission
+      if (submitBtn) {
+        form.addEventListener('submit', (e) => {
+          this.handleQuantumFormSubmission(e, form);
+        });
       }
     });
   }
 
-  setupKeyboardNavigation() {
-    // Skip to main content link
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'sr-only sr-only-focusable';
-    skipLink.style.cssText = `
+  /**
+   * Enhance Quantum Input
+   */
+  enhanceQuantumInput(input) {
+    // Add floating label effect
+    const label = input.previousElementSibling;
+    if (label && label.tagName === 'LABEL') {
+      label.classList.add('floating-label');
+    }
+    
+    // Add focus effects
+    input.addEventListener('focus', () => {
+      input.parentElement.classList.add('focused');
+      this.createInputAura(input);
+    });
+    
+    input.addEventListener('blur', () => {
+      input.parentElement.classList.remove('focused');
+      this.removeInputAura(input);
+    });
+    
+    // Add real-time validation
+    input.addEventListener('input', () => {
+      this.validateQuantumInput(input);
+    });
+  }
+
+  /**
+   * Create Input Aura Effect
+   */
+  createInputAura(input) {
+    const aura = document.createElement('div');
+    aura.className = 'input-aura';
+    aura.style.cssText = `
       position: absolute;
-      top: -40px;
-      left: 6px;
-      width: 1px;
-      height: 1px;
-      padding: 8px 16px;
-      margin: 0;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-      z-index: 9999;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, rgba(124, 58, 237, 0.5), rgba(6, 182, 212, 0.5));
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      filter: blur(8px);
     `;
     
-    skipLink.addEventListener('focus', () => {
-      skipLink.style.cssText = `
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        width: auto;
-        height: auto;
-        padding: 8px 16px;
-        margin: 0;
-        overflow: visible;
-        clip: auto;
-        background: var(--cosmic-accent);
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        z-index: 9999;
-      `;
-    });
+    input.parentElement.style.position = 'relative';
+    input.parentElement.appendChild(aura);
     
-    document.body.insertBefore(skipLink, document.body.firstChild);
-  }
-}
-
-/**
- * ========================================
- * QUANTUM FORM SYSTEM
- * ========================================
- */
-
-class QuantumFormSystem {
-  constructor(core) {
-    this.core = core;
-    this.form = document.getElementById('quantumForm');
-    this.submitButton = null;
-    this.originalButtonText = '';
-    
-    this.init();
-  }
-
-  async init() {
-    if (!this.form) {
-      console.warn('⚠️ Quantum form not found');
-      return;
-    }
-
-    this.submitButton = this.form.querySelector('button[type="submit"]');
-    if (this.submitButton) {
-      this.originalButtonText = this.submitButton.innerHTML;
-    }
-
-    // Setup form validation
-    this.setupFormValidation();
-    
-    // Setup form submission
-    this.setupFormSubmission();
-    
-    // Setup real-time validation
-    this.setupRealTimeValidation();
-    
-    // Setup accessibility features
-    this.setupAccessibilityFeatures();
-    
-    console.log('📡 Quantum Form System activated');
-  }
-
-  setupFormValidation() {
-    const inputs = this.form.querySelectorAll('input, select, textarea');
-    
-    inputs.forEach(input => {
-      // Custom validation messages
-      input.addEventListener('invalid', (e) => {
-        e.preventDefault();
-        this.showCustomValidationMessage(input);
-      });
-      
-      // Clear validation on input
-      input.addEventListener('input', () => {
-        this.clearValidationMessage(input);
-      });
+    requestAnimationFrame(() => {
+      aura.style.opacity = '1';
     });
   }
 
-  setupFormSubmission() {
-    this.form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      if (!this.validateForm()) {
-        return;
-      }
-
-      try {
-        await this.submitForm();
-      } catch (error) {
-        this.core.handleQuantumError(error, 'form-submission');
-        this.showSubmissionError();
-      }
-    });
-  }
-
-  async submitForm() {
-    const formData = new FormData(this.form);
-    
-    // Show loading state
-    this.setSubmissionState('loading');
-    
-    // Simulate network delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      });
-      
-      if (response.ok) {
-        this.setSubmissionState('success');
-        this.showSuccessMessage();
-        
-        // Reset form after delay
-        setTimeout(() => {
-          this.resetForm();
-        }, 3000);
-        
-        // Analytics tracking
-        this.trackFormSubmission(formData);
-        
-      } else {
-        throw new Error('Network response was not ok');
-      }
-      
-    } catch (error) {
-      this.setSubmissionState('error');
-      throw error;
+  /**
+   * Remove Input Aura Effect
+   */
+  removeInputAura(input) {
+    const aura = input.parentElement.querySelector('.input-aura');
+    if (aura) {
+      aura.style.opacity = '0';
+      setTimeout(() => aura.remove(), 300);
     }
   }
 
-  validateForm() {
-    const inputs = this.form.querySelectorAll('input[required], select[required], textarea[required]');
+  /**
+   * Validate Quantum Input
+   */
+  validateQuantumInput(input) {
+    const value = input.value.trim();
+    const type = input.type;
     let isValid = true;
     
-    inputs.forEach(input => {
-      if (!input.value.trim()) {
-        this.showCustomValidationMessage(input);
-        isValid = false;
-      } else if (input.type === 'email' && !this.isValidEmail(input.value)) {
-        this.showCustomValidationMessage(input, 'Please enter a valid quantum frequency (email)');
-        isValid = false;
-      }
-    });
+    // Basic validation
+    if (input.required && !value) {
+      isValid = false;
+    } else if (type === 'email' && value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      isValid = emailRegex.test(value);
+    } else if (type === 'tel' && value) {
+      const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+      isValid = phoneRegex.test(value.replace(/\s/g, ''));
+    }
+    
+    // Update visual state
+    input.classList.toggle('valid', isValid && value);
+    input.classList.toggle('invalid', !isValid && value);
     
     return isValid;
   }
 
-  isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  showCustomValidationMessage(input, message = null) {
-    const defaultMessages = {
-      'name': 'Please enter your cosmic identity',
-      'email': 'Please enter a valid quantum frequency',
-      'dimension': 'Please select a dimensional project',
-      'message': 'Please share your cosmic vision'
-    };
+  /**
+   * Handle Quantum Form Submission
+   */
+  async handleQuantumFormSubmission(e, form) {
+    e.preventDefault();
     
-    const validationMessage = message || defaultMessages[input.name] || 'This field is required';
+    const submitBtn = form.querySelector('.quantum-btn');
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
     
-    // Remove existing error message
-    this.clearValidationMessage(input);
+    // Validate all inputs
+    const inputs = form.querySelectorAll('.quantum-input[required]');
+    let isFormValid = true;
     
-    // Create error message element
-    const errorElement = document.createElement('div');
-    errorElement.className = 'invalid-feedback d-block';
-    errorElement.textContent = validationMessage;
-    errorElement.setAttribute('role', 'alert');
-    
-    // Add error styling
-    input.classList.add('is-invalid');
-    
-    // Insert error message
-    input.parentNode.appendChild(errorElement);
-    
-    // Focus the input
-    input.focus();
-  }
-
-  clearValidationMessage(input) {
-    input.classList.remove('is-invalid');
-    const errorElement = input.parentNode.querySelector('.invalid-feedback');
-    if (errorElement) {
-      errorElement.remove();
-    }
-  }
-
-  setSubmissionState(state) {
-    if (!this.submitButton) return;
-    
-    const states = {
-      loading: {
-        html: '<i class="fas fa-satellite fa-spin me-2"></i>Establishing Quantum Link...',
-        disabled: true,
-        className: 'loading'
-      },
-      success: {
-        html: '<i class="fas fa-check me-2"></i>Quantum Link Established!',
-        disabled: true,
-        className: 'success',
-        style: 'background: linear-gradient(45deg, #10b981, #059669);'
-      },
-      error: {
-        html: '<i class="fas fa-exclamation-triangle me-2"></i>Transmission Failed',
-        disabled: true,
-        className: 'error',
-        style: 'background: linear-gradient(45deg, #ef4444, #dc2626);'
-      },
-      default: {
-        html: this.originalButtonText,
-        disabled: false,
-        className: '',
-        style: ''
-      }
-    };
-    
-    const config = states[state] || states.default;
-    
-    this.submitButton.innerHTML = config.html;
-    this.submitButton.disabled = config.disabled;
-    this.submitButton.className = this.submitButton.className.replace(/\b(loading|success|error)\b/g, '');
-    
-    if (config.className) {
-      this.submitButton.classList.add(config.className);
-    }
-    
-    if (config.style) {
-      this.submitButton.style.cssText = config.style;
-    } else {
-      this.submitButton.style.cssText = '';
-    }
-  }
-
-  showSuccessMessage() {
-    const successMessage = document.createElement('div');
-    successMessage.className = 'alert alert-success mt-3';
-    successMessage.innerHTML = `
-      <i class="fas fa-check-circle me-2"></i>
-      Your cosmic message has been transmitted across dimensional frequencies!
-    `;
-    successMessage.setAttribute('role', 'alert');
-    
-    this.form.appendChild(successMessage);
-    
-    // Announce success for screen readers
-    this.announceToScreenReader('Form submitted successfully');
-  }
-
-  showSubmissionError() {
-    const errorMessage = document.createElement('div');
-    errorMessage.className = 'alert alert-danger mt-3';
-    errorMessage.innerHTML = `
-      <i class="fas fa-exclamation-triangle me-2"></i>
-      Quantum transmission failed. Please try again or contact directly.
-    `;
-    errorMessage.setAttribute('role', 'alert');
-    
-    this.form.appendChild(errorMessage);
-    
-    // Reset button after delay
-    setTimeout(() => {
-      this.setSubmissionState('default');
-      if (errorMessage.parentNode) {
-        errorMessage.remove();
-      }
-    }, 5000);
-  }
-
-  resetForm() {
-    this.form.reset();
-    this.setSubmissionState('default');
-    
-    // Remove any messages
-    const messages = this.form.querySelectorAll('.alert');
-    messages.forEach(message => message.remove());
-    
-    // Clear validation states
-    const inputs = this.form.querySelectorAll('.is-invalid');
-    inputs.forEach(input => this.clearValidationMessage(input));
-  }
-
-  setupRealTimeValidation() {
-    const emailInput = this.form.querySelector('input[type="email"]');
-    if (emailInput) {
-      let timeout;
-      emailInput.addEventListener('input', () => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          if (emailInput.value && !this.isValidEmail(emailInput.value)) {
-            this.showCustomValidationMessage(emailInput, 'Please enter a valid quantum frequency');
-          } else {
-            this.clearValidationMessage(emailInput);
-          }
-        }, 500);
-      });
-    }
-  }
-
-  setupAccessibilityFeatures() {
-    // Add aria-describedby for help text
-    const inputs = this.form.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
-      const helpText = input.parentNode.querySelector('.form-text');
-      if (helpText) {
-        const helpId = `${input.id}-help`;
-        helpText.id = helpId;
-        input.setAttribute('aria-describedby', helpId);
+      if (!this.validateQuantumInput(input)) {
+        isFormValid = false;
       }
     });
-  }
-
-  announceToScreenReader(message) {
-    const announcement = document.createElement('div');
-    announcement.setAttribute('aria-live', 'polite');
-    announcement.setAttribute('aria-atomic', 'true');
-    announcement.className = 'sr-only';
-    announcement.textContent = message;
-    document.body.appendChild(announcement);
     
-    setTimeout(() => {
-      if (announcement.parentNode) {
-        announcement.parentNode.removeChild(announcement);
-      }
-    }, 1000);
-  }
-
-  trackFormSubmission(formData) {
-    // Google Analytics tracking
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'form_submit', {
-        event_category: 'engagement',
-        event_label: 'quantum_contact_form',
-        value: 1
-      });
+    if (!isFormValid) {
+      this.showQuantumNotification('Please fill in all required fields correctly.', 'error');
+      return;
     }
     
-    // Custom event
-    this.core.dispatchQuantumEvent('quantum:form-submitted', {
-      dimension: formData.get('dimension'),
-      timestamp: Date.now()
-    });
-  }
-}
-
-/**
- * ========================================
- * QUANTUM PERFORMANCE MONITOR
- * ========================================
- */
-
-class QuantumPerformanceMonitor {
-  constructor(core) {
-    this.core = core;
-    this.metrics = {};
-    this.observers = [];
+    // Show loading state
+    this.setQuantumButtonLoading(submitBtn, true);
     
-    this.init();
-  }
-
-  async init() {
-    // Monitor Core Web Vitals
-    this.monitorCoreWebVitals();
-    
-    // Monitor resource loading
-    this.monitorResourceLoading();
-    
-    // Monitor user interactions
-    this.monitorUserInteractions();
-    
-    // Setup periodic reporting
-    this.setupPeriodicReporting();
-    
-    console.log('📊 Quantum Performance Monitor activated');
+    try {
+      // Simulate form submission (replace with actual endpoint)
+      await this.submitToQuantumDimension(data);
+      
+      // Success
+      this.showQuantumNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+      form.reset();
+      
+      // Create success particle effect
+      this.createSuccessParticleEffect(form);
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      this.showQuantumNotification('Something went wrong. Please try again.', 'error');
+    } finally {
+      this.setQuantumButtonLoading(submitBtn, false);
+    }
   }
 
-  monitorCoreWebVitals() {
-    // Largest Contentful Paint (LCP)
-    new PerformanceObserver((entryList) => {
-      const entries = entryList.getEntries();
-      const lastEntry = entries[entries.length - 1];
-      this.metrics.lcp = lastEntry.startTime;
-      this.reportMetric('LCP', lastEntry.startTime);
-    }).observe({ entryTypes: ['largest-contentful-paint'] });
-
-    // First Input Delay (FID)
-    new PerformanceObserver((entryList) => {
-      const entries = entryList.getEntries();
-      entries.forEach(entry => {
-        this.metrics.fid = entry.processingStart - entry.startTime;
-        this.reportMetric('FID', this.metrics.fid);
-      });
-    }).observe({ entryTypes: ['first-input'] });
-
-    // Cumulative Layout Shift (CLS)
-    let clsValue = 0;
-    new PerformanceObserver((entryList) => {
-      const entries = entryList.getEntries();
-      entries.forEach(entry => {
-        if (!entry.hadRecentInput) {
-          clsValue += entry.value;
+  /**
+   * Submit to Quantum Dimension (Mock API)
+   */
+  async submitToQuantumDimension(data) {
+    // Simulate API call
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Math.random() > 0.1) { // 90% success rate
+          resolve({ success: true, id: this.generateCosmicId() });
+        } else {
+          reject(new Error('Quantum interference detected'));
         }
-      });
-      this.metrics.cls = clsValue;
-      this.reportMetric('CLS', clsValue);
-    }).observe({ entryTypes: ['layout-shift'] });
-  }
-
-  monitorResourceLoading() {
-    // Monitor long tasks
-    new PerformanceObserver((entryList) => {
-      const entries = entryList.getEntries();
-      entries.forEach(entry => {
-        if (entry.duration > 50) {
-          this.reportMetric('Long Task', entry.duration);
-        }
-      });
-    }).observe({ entryTypes: ['longtask'] });
-
-    // Monitor navigation timing
-    window.addEventListener('load', () => {
-      const navigation = performance.getEntriesByType('navigation')[0];
-      if (navigation) {
-        this.metrics.loadTime = navigation.loadEventEnd - navigation.fetchStart;
-        this.metrics.domContentLoaded = navigation.domContentLoadedEventEnd - navigation.fetchStart;
-        this.reportMetric('Load Time', this.metrics.loadTime);
-        this.reportMetric('DOM Content Loaded', this.metrics.domContentLoaded);
-      }
+      }, 2000);
     });
   }
 
-  monitorUserInteractions() {
-    // Track interaction delays
-    ['click', 'keydown', 'touchstart'].forEach(eventType => {
-      document.addEventListener(eventType, (event) => {
-        const startTime = performance.now();
-        
-        requestAnimationFrame(() => {
-          const endTime = performance.now();
-          const delay = endTime - startTime;
-          
-          if (delay > 16) { // More than one frame
-            this.reportMetric('Interaction Delay', delay);
-          }
-        });
-      }, { passive: true });
-    });
-  }
-
-  setupPeriodicReporting() {
-    // Report metrics every 30 seconds
-    setInterval(() => {
-      this.reportPerformanceSnapshot();
-    }, 30000);
-    
-    // Report on page unload
-    window.addEventListener('beforeunload', () => {
-      this.reportPerformanceSnapshot();
-    });
-  }
-
-  reportMetric(name, value) {
-    // Console logging for development
-    if (this.core.debug) {
-      console.log(`📊 ${name}: ${value.toFixed(2)}ms`);
-    }
-    
-    // Send to analytics
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'performance_metric', {
-        event_category: 'performance',
-        event_label: name,
-        value: Math.round(value)
-      });
-    }
-    
-    // Dispatch custom event
-    this.core.dispatchQuantumEvent('quantum:performance-metric', {
-      name,
-      value,
-      timestamp: Date.now()
-    });
-  }
-
-  reportPerformanceSnapshot() {
-    const snapshot = {
-      ...this.metrics,
-      memory: this.core.getMemoryUsage(),
-      timestamp: Date.now()
-    };
-    
-    this.core.dispatchQuantumEvent('quantum:performance-snapshot', snapshot);
-    
-    if (this.core.debug) {
-      console.table(snapshot);
-    }
-  }
-
-  getPerformanceScore() {
-    const scores = {
-      lcp: this.metrics.lcp < 2500 ? 100 : Math.max(0, 100 - (this.metrics.lcp - 2500) / 25),
-      fid: this.metrics.fid < 100 ? 100 : Math.max(0, 100 - (this.metrics.fid - 100) / 10),
-      cls: this.metrics.cls < 0.1 ? 100 : Math.max(0, 100 - (this.metrics.cls - 0.1) * 1000)
-    };
-    
-    return Math.round((scores.lcp + scores.fid + scores.cls) / 3);
-  }
-}
-
-/**
- * ========================================
- * QUANTUM ACCESSIBILITY SYSTEM
- * ========================================
- */
-
-class QuantumAccessibilitySystem {
-  constructor(core) {
-    this.core = core;
-    this.focusVisible = false;
-    this.announcements = [];
-    
-    this.init();
-  }
-
-  async init() {
-    // Setup focus management
-    this.setupFocusManagement();
-    
-    // Setup keyboard navigation
-    this.setupKeyboardNavigation();
-    
-    // Setup screen reader support
-    this.setupScreenReaderSupport();
-    
-    // Setup reduced motion support
-    this.setupReducedMotionSupport();
-    
-    // Setup high contrast support
-    this.setupHighContrastSupport();
-    
-    console.log('♿ Quantum Accessibility System activated');
-  }
-
-  setupFocusManagement() {
-    // Track focus method (mouse vs keyboard)
-    document.addEventListener('mousedown', () => {
-      this.focusVisible = false;
-    });
-    
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        this.focusVisible = true;
-      }
-    });
-    
-    // Apply focus-visible class
-    document.addEventListener('focusin', (e) => {
-      if (this.focusVisible) {
-        e.target.classList.add('focus-visible');
-      }
-    });
-    
-    document.addEventListener('focusout', (e) => {
-      e.target.classList.remove('focus-visible');
-    });
-    
-    // Focus trap for modals
-    this.setupFocusTrap();
-  }
-
-  setupFocusTrap() {
-    const modals = document.querySelectorAll('[role="dialog"]');
-    
-    modals.forEach(modal => {
-      modal.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          this.trapFocus(e, modal);
-        }
-      });
-    });
-  }
-
-  trapFocus(event, container) {
-    const focusableElements = container.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-    
-    if (event.shiftKey) {
-      if (document.activeElement === firstElement) {
-        lastElement.focus();
-        event.preventDefault();
-      }
+  /**
+   * Set Quantum Button Loading State
+   */
+  setQuantumButtonLoading(button, loading) {
+    if (loading) {
+      button.classList.add('loading');
+      button.disabled = true;
+      button.dataset.originalText = button.textContent;
+      button.textContent = 'Transmitting...';
     } else {
-      if (document.activeElement === lastElement) {
-        firstElement.focus();
-        event.preventDefault();
-      }
+      button.classList.remove('loading');
+      button.disabled = false;
+      button.textContent = button.dataset.originalText || 'Send Message';
     }
   }
 
-  setupKeyboardNavigation() {
-    // Card navigation
-    const cards = document.querySelectorAll('.dimensional-card');
-    cards.forEach(card => {
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          card.click();
-        }
-      });
-    });
-    
-    // Skip links
-    this.createSkipLinks();
-    
-    // Escape key handling
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.handleEscapeKey();
-      }
-    });
-  }
-
-  createSkipLinks() {
-    const skipLinks = [
-      { href: '#main', text: 'Skip to main content' },
-      { href: '#dimensions', text: 'Skip to projects' },
-      { href: '#contact', text: 'Skip to contact' }
-    ];
-    
-    const skipContainer = document.createElement('div');
-    skipContainer.className = 'skip-links';
-    skipContainer.setAttribute('aria-label', 'Skip links');
-    
-    skipLinks.forEach(link => {
-      const skipLink = document.createElement('a');
-      skipLink.href = link.href;
-      skipLink.textContent = link.text;
-      skipLink.className = 'skip-link sr-only sr-only-focusable';
-      skipContainer.appendChild(skipLink);
-    });
-    
-    document.body.insertBefore(skipContainer, document.body.firstChild);
-  }
-
-  handleEscapeKey() {
-    // Close any open modals or menus
-    const openElements = document.querySelectorAll('.show[data-bs-toggle]');
-    openElements.forEach(element => {
-      const trigger = document.querySelector(`[data-bs-target="#${element.id}"]`);
-      if (trigger) {
-        trigger.click();
-        trigger.focus();
-      }
-    });
-  }
-
-  setupScreenReaderSupport() {
-    // Live region for announcements
-    this.createLiveRegion();
-    
-    // Enhanced form labels
-    this.enhanceFormLabels();
-    
-    // Progress announcements
-    this.setupProgressAnnouncements();
-  }
-
-  createLiveRegion() {
-    const liveRegion = document.createElement('div');
-    liveRegion.id = 'quantum-live-region';
-    liveRegion.setAttribute('aria-live', 'polite');
-    liveRegion.setAttribute('aria-atomic', 'true');
-    liveRegion.className = 'sr-only';
-    document.body.appendChild(liveRegion);
-  }
-
-  announce(message, priority = 'polite') {
-    const liveRegion = document.getElementById('quantum-live-region');
-    if (liveRegion) {
-      liveRegion.setAttribute('aria-live', priority);
-      liveRegion.textContent = message;
-      
-      // Clear after announcement
-      setTimeout(() => {
-        liveRegion.textContent = '';
-      }, 1000);
-    }
-  }
-
-  enhanceFormLabels() {
-    const inputs = document.querySelectorAll('input, select, textarea');
-    inputs.forEach(input => {
-      const label = document.querySelector(`label[for="${input.id}"]`);
-      if (label && !input.getAttribute('aria-label')) {
-        input.setAttribute('aria-label', label.textContent);
-      }
-    });
-  }
-
-  setupProgressAnnouncements() {
-    // Announce skill progress
-    document.addEventListener('quantum:skill-animated', (e) => {
-      const skillName = e.detail.element.parentNode.querySelector('.fw-semibold').textContent;
-      this.announce(`${skillName} skill level revealed`);
-    });
-    
-    // Announce form submission states
-    document.addEventListener('quantum:form-submitted', () => {
-      this.announce('Form submitted successfully');
-    });
-  }
-
-  setupReducedMotionSupport() {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
-    const handleReducedMotion = (e) => {
-      if (e.matches) {
-        document.body.classList.add('reduced-motion');
-        this.announce('Reduced motion mode activated');
-      } else {
-        document.body.classList.remove('reduced-motion');
-      }
-    };
-    
-    mediaQuery.addEventListener('change', handleReducedMotion);
-    handleReducedMotion(mediaQuery);
-  }
-
-  setupHighContrastSupport() {
-    const mediaQuery = window.matchMedia('(prefers-contrast: high)');
-    
-    const handleHighContrast = (e) => {
-      if (e.matches) {
-        document.body.classList.add('high-contrast');
-        this.announce('High contrast mode detected');
-      } else {
-        document.body.classList.remove('high-contrast');
-      }
-    };
-    
-    mediaQuery.addEventListener('change', handleHighContrast);
-    handleHighContrast(mediaQuery);
-  }
-}
-
-/**
- * ========================================
- * QUANTUM PWA SYSTEM
- * ========================================
- */
-
-class QuantumPWASystem {
-  constructor(core) {
-    this.core = core;
-    this.deferredPrompt = null;
-    this.isInstalled = false;
-    
-    this.init();
-  }
-
-  async init() {
-    // Register service worker
-    await this.registerServiceWorker();
-    
-    // Setup install prompt
-    this.setupInstallPrompt();
-    
-    // Setup offline detection
-    this.setupOfflineDetection();
-    
-    // Setup update notifications
-    this.setupUpdateNotifications();
-    
-    console.log('📱 Quantum PWA System activated');
-  }
-
-  async registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
-        console.log('🔧 Service Worker registered:', registration);
-        
-        // Listen for updates
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              this.showUpdateNotification();
-            }
-          });
-        });
-        
-      } catch (error) {
-        console.warn('⚠️ Service Worker registration failed:', error);
-      }
-    }
-  }
-
-  setupInstallPrompt() {
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      this.deferredPrompt = e;
-      this.showInstallButton();
-    });
-    
-    window.addEventListener('appinstalled', () => {
-      this.isInstalled = true;
-      this.hideInstallButton();
-      this.core.dispatchQuantumEvent('quantum:app-installed');
-    });
-  }
-
-  showInstallButton() {
-    const installButton = document.createElement('button');
-    installButton.id = 'quantum-install-btn';
-    installButton.className = 'quantum-btn position-fixed';
-    installButton.style.cssText = `
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      border-radius: 50px;
-      padding: 12px 20px;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
-    `;
-    installButton.innerHTML = '<i class="fas fa-download me-2"></i>Install App';
-    installButton.setAttribute('aria-label', 'Install Astrotrias Archon as an app');
-    
-    installButton.addEventListener('click', () => {
-      this.promptInstall();
-    });
-    
-    document.body.appendChild(installButton);
-    
-    // Animate in
-    setTimeout(() => {
-      installButton.style.transform = 'translateY(0)';
-      installButton.style.opacity = '1';
-    }, 100);
-  }
-
-  async promptInstall() {
-    if (this.deferredPrompt) {
-      this.deferredPrompt.prompt();
-      const { outcome } = await this.deferredPrompt.userChoice;
-      
-      if (outcome === 'accepted') {
-        console.log('📱 User accepted the install prompt');
-      } else {
-        console.log('📱 User dismissed the install prompt');
-      }
-      
-      this.deferredPrompt = null;
-      this.hideInstallButton();
-    }
-  }
-
-  hideInstallButton() {
-    const installButton = document.getElementById('quantum-install-btn');
-    if (installButton) {
-      installButton.style.transform = 'translateY(100px)';
-      installButton.style.opacity = '0';
-      setTimeout(() => {
-        if (installButton.parentNode) {
-          installButton.parentNode.removeChild(installButton);
-        }
-      }, 300);
-    }
-  }
-
-  setupOfflineDetection() {
-    const updateOnlineStatus = () => {
-      const isOnline = navigator.onLine;
-      document.body.classList.toggle('offline', !isOnline);
-      
-      if (isOnline) {
-        this.showNotification('🌐 Back online - Quantum connection restored', 'success');
-      } else {
-        this.showNotification('📡 Offline mode - Limited functionality available', 'warning');
-      }
-      
-      this.core.dispatchQuantumEvent('quantum:connection-changed', { isOnline });
-    };
-    
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-  }
-
-  setupUpdateNotifications() {
-    // Check for updates periodically
-    setInterval(() => {
-      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ command: 'CHECK_FOR_UPDATES' });
-      }
-    }, 60000); // Check every minute
-  }
-
-  showUpdateNotification() {
+  /**
+   * Show Quantum Notification
+   */
+  showQuantumNotification(message, type = 'info') {
     const notification = document.createElement('div');
-    notification.className = 'quantum-update-notification';
-    notification.innerHTML = `
-      <div class="d-flex align-items-center justify-content-between p-3">
-        <div>
-          <i class="fas fa-sync-alt me-2"></i>
-          <span>New version available!</span>
-        </div>
-        <button class="btn btn-sm btn-outline-light" onclick="location.reload()">
-          Update
-        </button>
-      </div>
-    `;
+    notification.className = `quantum-notification ${type}`;
     notification.style.cssText = `
       position: fixed;
       top: 20px;
       right: 20px;
-      background: var(--cosmic-accent);
+      background: ${type === 'success' ? 'rgba(16, 185, 129, 0.9)' : 
+                   type === 'error' ? 'rgba(239, 68, 68, 0.9)' : 
+                   'rgba(124, 58, 237, 0.9)'};
       color: white;
-      border-radius: 10px;
-      z-index: 1001;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
       transform: translateX(100%);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 300px;
+      font-weight: 500;
     `;
     
+    notification.textContent = message;
     document.body.appendChild(notification);
     
     // Animate in
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       notification.style.transform = 'translateX(0)';
-    }, 100);
+    });
     
-    // Auto-hide after 10 seconds
+    // Auto remove
     setTimeout(() => {
-      if (notification.parentNode) {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-          }
-        }, 300);
-      }
-    }, 10000);
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
   }
 
-  showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type} quantum-notification`;
-    notification.textContent = message;
-    notification.style.cssText = `
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      z-index: 1000;
-      min-width: 300px;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
+  /**
+   * Create Success Particle Effect
+   */
+  createSuccessParticleEffect(form) {
+    const rect = form.getBoundingClientRect();
+    const particles = 20;
+    
+    for (let i = 0; i < particles; i++) {
+      const particle = document.createElement('div');
+      particle.style.cssText = `
+        position: fixed;
+        left: ${rect.left + rect.width / 2}px;
+        top: ${rect.top + rect.height / 2}px;
+        width: 6px;
+        height: 6px;
+        background: rgba(16, 185, 129, 0.8);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1000;
+        animation: successParticle 2s ease-out forwards;
+      `;
+      
+      document.body.appendChild(particle);
+      setTimeout(() => particle.remove(), 2000);
+    }
+    
+    // Add CSS animation if not exists
+    if (!document.getElementById('success-particle-styles')) {
+      const style = document.createElement('style');
+      style.id = 'success-particle-styles';
+      style.textContent = `
+        @keyframes successParticle {
+          0% {
+            transform: scale(1) translate(0, 0);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0) translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  /**
+   * Initialize Accessibility Features
+   */
+  initializeAccessibilityFeatures() {
+    // Add skip link
+    this.addSkipLink();
+    
+    // Enhance keyboard navigation
+    this.enhanceKeyboardNavigation();
+    
+    // Add ARIA labels
+    this.enhanceAriaLabels();
+    
+    // Add focus management
+    this.initializeFocusManagement();
+  }
+
+  /**
+   * Add Skip Link for Screen Readers
+   */
+  addSkipLink() {
+    const skipLink = document.createElement('a');
+    skipLink.href = '#main-content';
+    skipLink.textContent = 'Skip to main content';
+    skipLink.className = 'skip-link';
+    skipLink.style.cssText = `
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--cosmic-accent);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      z-index: 10001;
+      transition: top 0.3s;
     `;
     
-    document.body.appendChild(notification);
+    skipLink.addEventListener('focus', () => {
+      skipLink.style.top = '6px';
+    });
     
-    // Animate in
-    setTimeout(() => {
-      notification.style.transform = 'translateX(0)';
-    }, 100);
+    skipLink.addEventListener('blur', () => {
+      skipLink.style.top = '-40px';
+    });
     
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-      if (notification.parentNode) {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-          }
-        }, 300);
+    document.body.insertBefore(skipLink, document.body.firstChild);
+  }
+
+  /**
+   * Enhance Keyboard Navigation
+   */
+  enhanceKeyboardNavigation() {
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Alt + T for theme toggle
+      if (e.altKey && e.key === 't') {
+        e.preventDefault();
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) themeToggle.click();
       }
-    }, 5000);
+      
+      // Alt + H for home
+      if (e.altKey && e.key === 'h') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // Escape to close modals/overlays
+      if (e.key === 'Escape') {
+        this.closeAllOverlays();
+      }
+    });
+  }
+
+  /**
+   * Enhance ARIA Labels
+   */
+  enhanceAriaLabels() {
+    // Add ARIA labels to interactive elements
+    const cards = document.querySelectorAll('.dimensional-card');
+    cards.forEach((card, index) => {
+      card.setAttribute('aria-label', `Project card ${index + 1}`);
+      card.setAttribute('role', 'button');
+    });
+    
+    // Add ARIA labels to skills
+    const skills = document.querySelectorAll('.cosmic-skill');
+    skills.forEach(skill => {
+      const skillName = skill.querySelector('h6')?.textContent;
+      if (skillName) {
+        skill.setAttribute('aria-label', `Skill: ${skillName}`);
+      }
+    });
+  }
+
+  /**
+   * Initialize Focus Management
+   */
+  initializeFocusManagement() {
+    // Track focus for better UX
+    let focusedElement = null;
+    
+    document.addEventListener('focusin', (e) => {
+      focusedElement = e.target;
+    });
+    
+    // Restore focus after dynamic content changes
+    this.restoreFocus = () => {
+      if (focusedElement && document.contains(focusedElement)) {
+        focusedElement.focus();
+      }
+    };
+  }
+
+  /**
+   * Initialize Performance Monitoring
+   */
+  initializePerformanceMonitoring() {
+    // Monitor frame rate
+    let lastTime = performance.now();
+    let frameCount = 0;
+    
+    const monitorFrameRate = (currentTime) => {
+      frameCount++;
+      
+      if (currentTime - lastTime >= 1000) {
+        const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+        this.performanceMetrics.fps = fps;
+        
+        // Adjust particle count based on performance
+        if (fps < 30 && this.quantumParticles) {
+          this.optimizeParticles();
+        }
+        
+        frameCount = 0;
+        lastTime = currentTime;
+      }
+      
+      requestAnimationFrame(monitorFrameRate);
+    };
+    
+    requestAnimationFrame(monitorFrameRate);
+    
+    // Monitor memory usage (if available)
+    if ('memory' in performance) {
+      setInterval(() => {
+        this.performanceMetrics.memory = performance.memory.usedJSHeapSize;
+      }, 5000);
+    }
+  }
+
+  /**
+   * Optimize Particles for Better Performance
+   */
+  optimizeParticles() {
+    if (!this.quantumParticles) return;
+    
+    const currentCount = this.quantumParticles.particles.array.length;
+    const newCount = Math.max(20, Math.floor(currentCount * 0.7));
+    
+    this.quantumParticles.particles.array.splice(newCount);
+    console.log(`🔧 Optimized particles: ${currentCount} → ${newCount}`);
+  }
+
+  /**
+   * Initialize Observers
+   */
+  async initializeObservers() {
+    // Intersection Observer for animations
+    this.observers.intersection = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    // Observe fade-in elements
+    document.querySelectorAll('.fade-in-cosmic').forEach(el => {
+      this.observers.intersection.observe(el);
+    });
+    
+    // Resize Observer for responsive adjustments
+    if ('ResizeObserver' in window) {
+      this.observers.resize = new ResizeObserver(entries => {
+        this.handleResize();
+      });
+      
+      this.observers.resize.observe(document.body);
+    }
+  }
+
+  /**
+   * Handle Scroll Events
+   */
+  handleScroll() {
+    const scrollY = window.pageYOffset;
+    this.performanceMetrics.scrollY = scrollY;
+    
+    // Parallax effects
+    this.updateParallaxEffects(scrollY);
+    
+    // Update cosmic energy based on scroll
+    this.updateCosmicEnergy(scrollY);
+  }
+
+  /**
+   * Update Parallax Effects
+   */
+  updateParallaxEffects(scrollY) {
+    const portal = this.dimensionalPortal;
+    if (portal) {
+      const speed = 0.5;
+      portal.style.transform = `translateY(${scrollY * speed}px) rotate(${scrollY * 0.1}deg)`;
+    }
+    
+    // Parallax for cosmic grid
+    const grid = document.querySelector('.cosmic-grid');
+    if (grid) {
+      grid.style.transform = `translateY(${scrollY * 0.3}px)`;
+    }
+  }
+
+  /**
+   * Update Cosmic Energy
+   */
+  updateCosmicEnergy(scrollY) {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = Math.min(scrollY / maxScroll, 1);
+    this.cosmicState.cosmicEnergy = Math.round(100 - (scrollProgress * 30));
+    
+    // Dispatch energy update event
+    this.dispatchCosmicEvent('cosmic:energy-update', { 
+      energy: this.cosmicState.cosmicEnergy,
+      progress: scrollProgress 
+    });
+  }
+
+  /**
+   * Handle Resize Events
+   */
+  handleResize() {
+    // Recalculate particle count
+    if (this.quantumParticles) {
+      const newCount = this.getOptimalParticleCount();
+      // Adjust particle count if needed
+    }
+    
+    // Update dimensional portal size
+    const portal = this.dimensionalPortal;
+    if (portal && window.innerWidth < 768) {
+      portal.style.width = '150px';
+      portal.style.height = '150px';
+    }
+  }
+
+  /**
+   * Start Quantum Loop
+   */
+  startQuantumLoop() {
+    const quantumLoop = (timestamp) => {
+      this.performanceMetrics.lastFrameTime = timestamp;
+      
+      // Update quantum entanglements
+      this.updateQuantumEntanglements();
+      
+      // Update cosmic animations
+      this.updateCosmicAnimations(timestamp);
+      
+      requestAnimationFrame(quantumLoop);
+    };
+    
+    requestAnimationFrame(quantumLoop);
+  }
+
+  /**
+   * Start Cosmic Heartbeat
+   */
+  startCosmicHeartbeat() {
+    setInterval(() => {
+      // Pulse cosmic elements
+      this.pulseCosmicElements();
+      
+      // Update performance metrics
+      this.updatePerformanceMetrics();
+      
+      // Cleanup old animations
+      this.cleanupAnimations();
+      
+    }, 2000);
+  }
+
+  /**
+   * Update Quantum Entanglements
+   */
+  updateQuantumEntanglements() {
+    // Update entangled elements (elements that react to each other)
+    this.cosmicState.quantumEntanglement.forEach((value, key) => {
+      if (value.active) {
+        // Update entangled state
+        value.energy = Math.sin(Date.now() * 0.001) * 0.5 + 0.5;
+      }
+    });
+  }
+
+  /**
+   * Update Cosmic Animations
+   */
+  updateCosmicAnimations(timestamp) {
+    // Update any custom animations
+    this.animations.forEach((animation, key) => {
+      if (animation.active) {
+        animation.update(timestamp);
+      }
+    });
+  }
+
+  /**
+   * Pulse Cosmic Elements
+   */
+  pulseCosmicElements() {
+    const cosmicElements = document.querySelectorAll('.cosmic-pulse');
+    cosmicElements.forEach(element => {
+      element.style.animation = 'cosmicPulse 2s ease-in-out';
+    });
+  }
+
+  /**
+   * Update Performance Metrics
+   */
+  updatePerformanceMetrics() {
+    this.performanceMetrics.interactionCount++;
+    
+    // Log performance data (in production, send to analytics)
+    if (this.performanceMetrics.interactionCount % 10 === 0) {
+      console.log('🔍 Performance Metrics:', this.performanceMetrics);
+    }
+  }
+
+  /**
+   * Cleanup Animations
+   */
+  cleanupAnimations() {
+    // Remove completed animations
+    this.animations.forEach((animation, key) => {
+      if (animation.completed) {
+        this.animations.delete(key);
+      }
+    });
+  }
+
+  /**
+   * Play Cosmic Sound
+   */
+  playCosmicSound(type) {
+    // Placeholder for sound effects
+    // In a real implementation, you would load and play audio files
+    if (this.cosmicState.soundEnabled) {
+      console.log(`🔊 Playing cosmic sound: ${type}`);
+    }
+  }
+
+  /**
+   * Generate Cosmic ID
+   */
+  generateCosmicId() {
+    const prefixes = ['ASTRO', 'QUANTUM', 'STELLAR', 'COSMIC', 'NEXUS'];
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const timestamp = Date.now().toString(36);
+    const random = Math.random().toString(36).substring(2, 7);
+    return `${prefix}-${timestamp}-${random}`.toUpperCase();
+  }
+
+  /**
+   * Dispatch Cosmic Event
+   */
+  dispatchCosmicEvent(eventName, detail = {}) {
+    const event = new CustomEvent(eventName, {
+      detail: {
+        ...detail,
+        timestamp: Date.now(),
+        cosmicState: this.cosmicState
+      }
+    });
+    
+    document.dispatchEvent(event);
+    console.log(`🌟 Cosmic Event: ${eventName}`, detail);
+  }
+
+  /**
+   * Handle Quantum Error
+   */
+  handleQuantumError(error) {
+    console.error('⚠️ Quantum Error:', error);
+    
+    // Graceful degradation
+    this.cosmicState.particlesActive = false;
+    
+    // Show user-friendly message
+    this.showQuantumNotification(
+      'Some cosmic features are temporarily unavailable.',
+      'warning'
+    );
+    
+    // Report error (in production)
+    this.dispatchCosmicEvent('quantum:error', { error: error.message });
+  }
+
+  /**
+   * Close All Overlays
+   */
+  closeAllOverlays() {
+    // Close any open modals, dropdowns, etc.
+    const overlays = document.querySelectorAll('.overlay, .modal, .dropdown-open');
+    overlays.forEach(overlay => {
+      overlay.classList.remove('open', 'active', 'dropdown-open');
+    });
+  }
+
+  /**
+   * Throttle Function
+   */
+  throttle(func, limit) {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    };
+  }
+
+  /**
+   * Debounce Function
+   */
+  debounce(func, wait, immediate) {
+    let timeout;
+    return function() {
+      const context = this;
+      const args = arguments;
+      const later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
+
+  /**
+   * Destroy Quantum Engine
+   */
+  destroy() {
+    // Cleanup observers
+    Object.values(this.observers).forEach(observer => {
+      if (observer) observer.disconnect();
+    });
+    
+    // Cleanup event listeners
+    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+    
+    // Cleanup animations
+    this.animations.clear();
+    
+    // Reset state
+    this.isInitialized = false;
+    
+    console.log('🔄 Quantum Engine Destroyed');
   }
 }
 
-/**
- * ========================================
- * QUANTUM ENGINE INITIALIZATION
- * ========================================
- */
-
-// Global utility functions
-window.scrollToSection = function(sectionId) {
-  const element = document.getElementById(sectionId);
-  if (element && window.quantumCore) {
-    window.quantumCore.navigationSystem.scrollToElement(element);
-  }
-};
-
 // Initialize Quantum Engine when DOM is ready
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    // Initialize core systems
-    window.quantumCore = new QuantumCore();
-    
-    // Initialize subsystems
-    window.quantumCore.themeSystem = new QuantumThemeSystem(window.quantumCore);
-    window.quantumCore.particleSystem = new QuantumParticleSystem(window.quantumCore);
-    window.quantumCore.animationSystem = new QuantumAnimationSystem(window.quantumCore);
-    window.quantumCore.navigationSystem = new QuantumNavigationSystem(window.quantumCore);
-    window.quantumCore.formSystem = new QuantumFormSystem(window.quantumCore);
-    window.quantumCore.performanceMonitor = new QuantumPerformanceMonitor(window.quantumCore);
-    window.quantumCore.accessibilitySystem = new QuantumAccessibilitySystem(window.quantumCore);
-    window.quantumCore.pwaSystem = new QuantumPWASystem(window.quantumCore);
-    
-    // Global error handling
-    window.addEventListener('error', (e) => {
-      window.quantumCore.handleQuantumError(e.error, 'global');
-    });
-    
-    window.addEventListener('unhandledrejection', (e) => {
-      window.quantumCore.handleQuantumError(e.reason, 'promise');
-    });
-    
-  } catch (error) {
-    console.error('❌ Failed to initialize Quantum Engine:', error);
-  }
-});
+const astrotriasEngine = new AstrotriasQuantumEngine();
+
+// Auto-initialize
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => astrotriasEngine.init());
+} else {
+  astrotriasEngine.init();
+}
+
+// Global access for debugging
+window.AstrotriasEngine = astrotriasEngine;
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { QuantumEngine, QuantumCore };
+  module.exports = AstrotriasQuantumEngine;
 }
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('🔧 Service Worker registered:', registration);
+        astrotriasEngine.dispatchCosmicEvent('sw:registered', { registration });
+      })
+      .catch(error => {
+        console.log('❌ Service Worker registration failed:', error);
+      });
+  });
+}
+
+// Konami Code Easter Egg
+(() => {
+  const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+  let konamiIndex = 0;
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.keyCode === konamiCode[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === konamiCode.length) {
+        astrotriasEngine.activateCosmicMode();
+        konamiIndex = 0;
+      }
+    } else {
+      konamiIndex = 0;
+    }
+  });
+})();
+
+// Add Cosmic Mode activation
+AstrotriasQuantumEngine.prototype.activateCosmicMode = function() {
+  document.body.classList.add('cosmic-mode-active');
+  this.showQuantumNotification('🚀 COSMIC MODE ACTIVATED! 🌟', 'success');
+  
+  // Add special effects
+  const style = document.createElement('style');
+  style.textContent = `
+    .cosmic-mode-active {
+      animation: cosmicModeActivation 3s ease-in-out;
+    }
+    @keyframes cosmicModeActivation {
+      0%, 100% { filter: hue-rotate(0deg); }
+      25% { filter: hue-rotate(90deg) brightness(1.2); }
+      50% { filter: hue-rotate(180deg) brightness(1.4); }
+      75% { filter: hue-rotate(270deg) brightness(1.2); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  setTimeout(() => {
+    document.body.classList.remove('cosmic-mode-active');
+    style.remove();
+  }, 3000);
+};
+
+console.log('🌟 Astrotrias Quantum Engine Loaded Successfully! 🚀');
