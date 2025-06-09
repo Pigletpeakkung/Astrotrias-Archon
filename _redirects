@@ -7,38 +7,33 @@ https://pigletpeakkung.github.io/Astrotrias-Archon/* https://astrotrias-archon.n
 # Redirect www to non-www
 https://www.astrotrias-archon.netlify.app/* https://astrotrias-archon.netlify.app/:splat 301!
 
-# Cosmic Navigation - Redirect old URLs to new sections
+# Cosmic Navigation Redirects
 /home              /#home              301
 /projects          /#dimensions        301
-/about             /#timeline          301
-/skills            /#skills            301
-/contact           /#contact           301
-
-# Legacy portfolio redirects
 /portfolio         /#dimensions        301
-/work              /#dimensions        301
+/about             /#timeline          301
 /cv                /#timeline          301
 /resume            /#timeline          301
-/experience        /#timeline          301
+/skills            /#skills            301
 /expertise         /#skills            301
+/contact           /#contact           301
 /contact-me        /#contact           301
 
-# Social media shortcuts
+# Social Media Shortcuts
 /github            https://github.com/Pigletpeakkung 302
 /repo              https://github.com/Pigletpeakkung/Astrotrias-Archon 302
 /voice123          https://voice123.com/thanatsitt 302
 /linktree          https://linktr.ee/ThanttEzekiel 302
 /youtube           https://youtube.com/@pegearts 302
 /medium            https://medium.com/@thanatsitt 302
-/email             mailto:thanattsitt.info@yahoo.co.uk 302
 
-# Project shortcuts
+# Project Shortcuts
 /conversation      https://github.com/Pigletpeakkung/conversation-topic-selector 302
 /ton               https://github.com/Pigletpeakkung/ton-mini-app 302
 /ecommerce         https://github.com/Pigletpeakkung/ai-ecommerce-pipeline 302
 
-# API redirects (for future cosmic integrations)
+# API Endpoints (Future Use)
 /api/*             https://api.astrotrias-archon.com/:splat  200
 
-# Fallback for SPA (Single Page Application)
+# SPA Fallback (Must be last)
 /*                 /index.html         200
