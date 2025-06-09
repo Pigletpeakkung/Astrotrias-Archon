@@ -1,334 +1,501 @@
 /**
- * Astrotrias Archon - Service Worker
- * PWA Caching Strategy for Cosmic Performance
- * Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
- * Version: 1.0.0
+ * ===============================================
+ * ASTROTRIAS ARCHON - SERVICE WORKER
+ * Progressive Web App Implementation
+ * ===============================================
  */
 
-const CACHE_NAME = 'astrotrias-archon-v1.0.0';
-const STATIC_CACHE = 'astrotrias-static-v1.0.0';
-const DYNAMIC_CACHE = 'astrotrias-dynamic-v1.0.0';
+const CACHE_NAME = 'astrotrias-archon-v1.2.0';
+const STATIC_CACHE = 'astrotrias-static-v1.2.0';
+const DYNAMIC_CACHE = 'astrotrias-dynamic-v1.2.0';
+const IMAGE_CACHE = 'astrotrias-images-v1.2.0';
 
-// 🌟 Critical resources to cache immediately
+// Assets to cache immediately
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/css/custom.css',
-  // External CDN resources
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;900&display=swap',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js'
+    '/',
+    '/index.html',
+    '/assets/css/custom.css',
+    '/assets/js/quantum.js',
+    '/assets/js/custom-interactions.js',
+    '/assets/fonts/inter-v12-latin-regular.woff2',
+    '/assets/fonts/inter-v12-latin-600.woff2',
+    '/assets/fonts/inter-v12-latin-700.woff2',
+    '/assets/fonts/playfair-display-v30-latin-regular.woff2',
+    '/assets/fonts/playfair-display-v30-latin-600.woff2',
+    '/assets/fonts/jetbrains-mono-v13-latin-regular.woff2',
+    '/manifest.json',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
-// 🎯 Dynamic resources to cache on demand
-const DYNAMIC_ASSETS = [
-  'https://fonts.gstatic.com/',
-  'https://plausible.io/js/script.js'
+// Routes that should always be fetched from network first
+const NETWORK_FIRST_ROUTES = [
+    '/api/',
+    '/contact',
+    '/submit-form'
 ];
 
-// 🚀 Install Event - Cache static assets
+// Routes that can be served from cache first
+const CACHE_FIRST_ROUTES = [
+    '/assets/',
+    '/images/',
+    '/icons/'
+];
+
+/**
+ * Service Worker Installation
+ */
 self.addEventListener('install', (event) => {
-  console.log('🌌 Astrotrias Archon SW: Installing...');
-  
-  event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        console.log('📦 Caching static assets...');
-        return cache.addAll(STATIC_ASSETS);
-      })
-      .then(() => {
-        console.log('✅ Static assets cached successfully');
-        return self.skipWaiting();
-      })
-      .catch((error) => {
-        console.error('❌ Failed to cache static assets:', error);
-      })
-  );
-});
-
-// 🔄 Activate Event - Clean old caches
-self.addEventListener('activate', (event) => {
-  console.log('🌟 Astrotrias Archon SW: Activating...');
-  
-  event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-              console.log('🗑️ Deleting old cache:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-      .then(() => {
-        console.log('✅ Cache cleanup completed');
-        return self.clients.claim();
-      })
-  );
-});
-
-// 🌐 Fetch Event - Serve cached content with fallback
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // 🏠 Handle navigation requests (HTML pages)
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      caches.match('/index.html')
-        .then((response) => {
-          return response || fetch(request);
-        })
-        .catch(() => {
-          return caches.match('/index.html');
-        })
-    );
-    return;
-  }
-
-  // 🎨 Handle static assets
-  if (STATIC_ASSETS.some(asset => request.url.includes(asset))) {
-    event.respondWith(
-      caches.match(request)
-        .then((response) => {
-          return response || fetch(request)
-            .then((fetchResponse) => {
-              const responseClone = fetchResponse.clone();
-              caches.open(STATIC_CACHE)
-                .then((cache) => {
-                  cache.put(request, responseClone);
-                });
-              return fetchResponse;
-            });
-        })
-        .catch(() => {
-          console.log('🔄 Serving from cache:', request.url);
-          return caches.match(request);
-        })
-    );
-    return;
-  }
-
-  // 🌊 Handle dynamic content
-  if (request.method === 'GET') {
-    event.respondWith(
-      caches.match(request)
-        .then((response) => {
-          if (response) {
-            // Serve from cache, but update in background
-            fetch(request)
-              .then((fetchResponse) => {
-                const responseClone = fetchResponse.clone();
-                caches.open(DYNAMIC_CACHE)
-                  .then((cache) => {
-                    cache.put(request, responseClone);
-                  });
-              })
-              .catch(() => {
-                console.log('🔄 Background update failed for:', request.url);
-              });
-            return response;
-          }
-
-          // Not in cache, fetch and cache
-          return fetch(request)
-            .then((fetchResponse) => {
-              const responseClone = fetchResponse.clone();
-              caches.open(DYNAMIC_CACHE)
-                .then((cache) => {
-                  cache.put(request, responseClone);
-                });
-              return fetchResponse;
-            });
-        })
-        .catch(() => {
-          // Network failed, try to serve from cache
-          return caches.match(request);
-        })
-    );
-  }
-});
-
-// 📱 Handle background sync for form submissions
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'contact-form-sync') {
-    console.log('🔄 Background sync: Contact form');
-    event.waitUntil(
-      // Handle offline form submissions
-      syncContactForm()
-    );
-  }
-});
-
-// 🔔 Handle push notifications (future feature)
-self.addEventListener('push', (event) => {
-  console.log('🔔 Push notification received');
-  
-  const options = {
-    body: event.data ? event.data.text() : 'New cosmic update available!',
-    icon: '/assets/images/icon-192.png',
-    badge: '/assets/images/icon-192.png',
-    vibrate: [200, 100, 200],
-    data: {
-      url: '/'
-    },
-    actions: [
-      {
-        action: 'explore',
-        title: 'Explore Dimensions',
-        icon: '/assets/images/icon-192.png'
-      },
-      {
-        action: 'close',
-        title: 'Close',
-        icon: '/assets/images/icon-192.png'
-      }
-    ]
-  };
-
-  event.waitUntil(
-    self.registration.showNotification('Astrotrias Archon', options)
-  );
-});
-
-// 🎯 Handle notification clicks
-self.addEventListener('notificationclick', (event) => {
-  console.log('🎯 Notification clicked:', event.action);
-  
-  event.notification.close();
-
-  if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/#dimensions')
-    );
-  } else if (event.action === 'close') {
-    // Just close the notification
-    return;
-  } else {
-    // Default action - open the app
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  }
-});
-
-// 🌐 Utility function for contact form sync
-async function syncContactForm() {
-  try {
-    // Get stored form data from IndexedDB
-    const formData = await getStoredFormData();
+    console.log('🚀 Service Worker: Installing...');
     
-    if (formData) {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(formData).toString()
-      });
-
-      if (response.ok) {
-        // Clear stored data after successful submission
-        await clearStoredFormData();
-        console.log('✅ Contact form synced successfully');
-      }
-    }
-  } catch (error) {
-    console.error('❌ Contact form sync failed:', error);
-  }
-}
-
-// 📊 Utility functions for IndexedDB (simplified)
-async function getStoredFormData() {
-  // Implementation for retrieving stored form data
-  // This would integrate with IndexedDB for offline form storage
-  return null;
-}
-
-async function clearStoredFormData() {
-  // Implementation for clearing stored form data
-  // This would clear IndexedDB after successful sync
-}
-
-// 🎨 Cache management utilities
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    console.log('🔄 Skipping waiting...');
-    self.skipWaiting();
-  }
-  
-  if (event.data && event.data.type === 'CACHE_URLS') {
-    console.log('📦 Caching additional URLs...');
     event.waitUntil(
-      caches.open(DYNAMIC_CACHE)
-        .then((cache) => {
-          return cache.addAll(event.data.payload);
-        })
+        Promise.all([
+            // Cache static assets
+            caches.open(STATIC_CACHE).then((cache) => {
+                console.log('📦 Service Worker: Caching static assets');
+                return cache.addAll(STATIC_ASSETS);
+            }),
+            
+            // Skip waiting to activate immediately
+            self.skipWaiting()
+        ])
     );
-  }
 });
 
-// 🌟 Performance monitoring
+/**
+ * Service Worker Activation
+ */
+self.addEventListener('activate', (event) => {
+    console.log('✅ Service Worker: Activating...');
+    
+    event.waitUntil(
+        Promise.all([
+            // Clean up old caches
+            cleanupOldCaches(),
+            
+            // Claim all clients immediately
+            self.clients.claim()
+        ])
+    );
+});
+
+/**
+ * Fetch Event Handler
+ */
 self.addEventListener('fetch', (event) => {
-  // Track performance metrics
-  const startTime = performance.now();
-  
-  event.respondWith(
-    handleRequest(event.request)
-      .then((response) => {
-        const endTime = performance.now();
-        const duration = endTime - startTime;
+    const { request } = event;
+    const url = new URL(request.url);
+    
+    // Skip non-GET requests
+    if (request.method !== 'GET') {
+        return;
+    }
+    
+    // Skip chrome-extension and other non-http requests
+    if (!url.protocol.startsWith('http')) {
+        return;
+    }
+    
+    // Handle different types of requests
+    if (isImageRequest(request)) {
+        event.respondWith(handleImageRequest(request));
+    } else if (isStaticAsset(request)) {
+        event.respondWith(handleStaticAsset(request));
+    } else if (isNetworkFirstRoute(request)) {
+        event.respondWith(handleNetworkFirst(request));
+    } else if (isCacheFirstRoute(request)) {
+        event.respondWith(handleCacheFirst(request));
+    } else {
+        event.respondWith(handleStaleWhileRevalidate(request));
+    }
+});
+
+/**
+ * Background Sync for form submissions
+ */
+self.addEventListener('sync', (event) => {
+    console.log('🔄 Service Worker: Background sync triggered');
+    
+    if (event.tag === 'contact-form-sync') {
+        event.waitUntil(syncContactForm());
+    }
+});
+
+/**
+ * Push Notification Handler
+ */
+self.addEventListener('push', (event) => {
+    console.log('📱 Service Worker: Push notification received');
+    
+    const options = {
+        body: event.data ? event.data.text() : 'New update available!',
+        icon: '/assets/icons/icon-192x192.png',
+        badge: '/assets/icons/badge-72x72.png',
+        vibrate: [100, 50, 100],
+        data: {
+            dateOfArrival: Date.now(),
+            primaryKey: 1
+        },
+        actions: [
+            {
+                action: 'explore',
+                title: 'Explore',
+                icon: '/assets/icons/action-explore.png'
+            },
+            {
+                action: 'close',
+                title: 'Close',
+                icon: '/assets/icons/action-close.png'
+            }
+        ]
+    };
+    
+    event.waitUntil(
+        self.registration.showNotification('Astrotrias Archon', options)
+    );
+});
+
+/**
+ * Notification Click Handler
+ */
+self.addEventListener('notificationclick', (event) => {
+    console.log('🔔 Service Worker: Notification clicked');
+    
+    event.notification.close();
+    
+    if (event.action === 'explore') {
+        event.waitUntil(
+            clients.openWindow('/')
+        );
+    }
+});
+
+/**
+ * Message Handler for communication with main thread
+ */
+self.addEventListener('message', (event) => {
+    console.log('💬 Service Worker: Message received', event.data);
+    
+    if (event.data && event.data.type) {
+        switch (event.data.type) {
+            case 'SKIP_WAITING':
+                self.skipWaiting();
+                break;
+                
+            case 'GET_VERSION':
+                event.ports[0].postMessage({ version: CACHE_NAME });
+                break;
+                
+            case 'CACHE_URLS':
+                event.waitUntil(cacheUrls(event.data.urls));
+                break;
+                
+            case 'CLEAR_CACHE':
+                event.waitUntil(clearAllCaches());
+                break;
+        }
+    }
+});
+
+/**
+ * Cleanup old caches
+ */
+async function cleanupOldCaches() {
+    const cacheNames = await caches.keys();
+    const validCaches = [STATIC_CACHE, DYNAMIC_CACHE, IMAGE_CACHE];
+    
+    return Promise.all(
+        cacheNames
+            .filter(cacheName => !validCaches.includes(cacheName))
+            .map(cacheName => {
+                console.log('🗑️ Service Worker: Deleting old cache', cacheName);
+                return caches.delete(cacheName);
+            })
+    );
+}
+
+/**
+ * Handle image requests with cache-first strategy
+ */
+async function handleImageRequest(request) {
+    try {
+        const cache = await caches.open(IMAGE_CACHE);
+        const cachedResponse = await cache.match(request);
         
-        // Log performance metrics (could send to analytics)
-        if (duration > 1000) {
-          console.warn(`⚠️ Slow request: ${event.request.url} took ${duration}ms`);
+        if (cachedResponse) {
+            // Return cached image and update in background
+            fetchAndCache(request, cache);
+            return cachedResponse;
         }
         
-        return response;
-      })
-  );
-});
-
-// 🚀 Main request handler
-async function handleRequest(request) {
-  try {
-    // Try cache first
-    const cachedResponse = await caches.match(request);
-    if (cachedResponse) {
-      return cachedResponse;
+        // Fetch and cache new image
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+        
+    } catch (error) {
+        console.error('❌ Service Worker: Image request failed', error);
+        return new Response('Image not available', { status: 404 });
     }
-
-    // Fetch from network
-    const networkResponse = await fetch(request);
-    
-    // Cache successful responses
-    if (networkResponse.ok) {
-      const cache = await caches.open(DYNAMIC_CACHE);
-      cache.put(request, networkResponse.clone());
-    }
-    
-    return networkResponse;
-  } catch (error) {
-    console.error('🌐 Request failed:', error);
-    
-    // Return cached version if available
-    const cachedResponse = await caches.match(request);
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-    
-    // Return offline page for navigation requests
-    if (request.mode === 'navigate') {
-      return caches.match('/index.html');
-    }
-    
-    throw error;
-  }
 }
 
-console.log('🌌 Astrotrias Archon Service Worker loaded successfully!');
+/**
+ * Handle static assets with cache-first strategy
+ */
+async function handleStaticAsset(request) {
+    try {
+        const cache = await caches.open(STATIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+        
+    } catch (error) {
+        console.error('❌ Service Worker: Static asset request failed', error);
+        return new Response('Asset not available', { status: 404 });
+    }
+}
+
+/**
+ * Handle network-first requests
+ */
+async function handleNetworkFirst(request) {
+    try {
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            const cache = await caches.open(DYNAMIC_CACHE);
+            cache.put(request, networkResponse.clone());
+        }
+        
+        return networkResponse;
+        
+    } catch (error) {
+        console.log('🌐 Service Worker: Network failed, trying cache', error);
+        
+        const cache = await caches.open(DYNAMIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        return new Response('Content not available offline', { 
+            status: 503,
+            statusText: 'Service Unavailable'
+        });
+    }
+}
+
+/**
+ * Handle cache-first requests
+ */
+async function handleCacheFirst(request) {
+    try {
+        const cache = await caches.open(STATIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+        
+    } catch (error) {
+        console.error('❌ Service Worker: Cache-first request failed', error);
+        return new Response('Resource not available', { status: 404 });
+    }
+}
+
+/**
+ * Handle stale-while-revalidate strategy
+ */
+async function handleStaleWhileRevalidate(request) {
+    try {
+        const cache = await caches.open(DYNAMIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        // Fetch fresh version in background
+        const fetchPromise = fetch(request).then(networkResponse => {
+            if (networkResponse.ok) {
+                cache.put(request, networkResponse.clone());
+            }
+            return networkResponse;
+        });
+        
+        // Return cached version immediately if available
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        // Otherwise wait for network
+        return await fetchPromise;
+        
+    } catch (error) {
+        console.error('❌ Service Worker: Stale-while-revalidate failed', error);
+        return new Response('Content not available', { status: 404 });
+    }
+}
+
+/**
+ * Fetch and cache helper function
+ */
+async function fetchAndCache(request, cache) {
+    try {
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            cache.put(request, networkResponse.clone());
+        }
+    } catch (error) {
+        console.log('🔄 Service Worker: Background fetch failed', error);
+    }
+}
+
+/**
+ * Sync contact form submissions
+ */
+async function syncContactForm() {
+    try {
+        // Get pending form submissions from IndexedDB
+        const pendingSubmissions = await getPendingSubmissions();
+        
+        for (const submission of pendingSubmissions) {
+            try {
+                const response = await fetch('/submit-form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(submission.data)
+                });
+                
+                if (response.ok) {
+                    await removePendingSubmission(submission.id);
+                    console.log('✅ Service Worker: Form submission synced');
+                }
+            } catch (error) {
+                console.error('❌ Service Worker: Form sync failed', error);
+            }
+        }
+    } catch (error) {
+        console.error('❌ Service Worker: Sync process failed', error);
+    }
+}
+
+/**
+ * Cache specific URLs
+ */
+async function cacheUrls(urls) {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    return Promise.all(
+        urls.map(url => {
+            return fetch(url).then(response => {
+                if (response.ok) {
+                    return cache.put(url, response);
+                }
+            }).catch(error => {
+                console.error('❌ Service Worker: Failed to cache URL', url, error);
+            });
+        })
+    );
+}
+
+/**
+ * Clear all caches
+ */
+async function clearAllCaches() {
+    const cacheNames = await caches.keys();
+    return Promise.all(
+        cacheNames.map(cacheName => caches.delete(cacheName))
+    );
+}
+
+/**
+ * Helper functions for request classification
+ */
+function isImageRequest(request) {
+    return request.destination === 'image' || 
+           /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(request.url);
+}
+
+function isStaticAsset(request) {
+    return CACHE_FIRST_ROUTES.some(route => request.url.includes(route)) ||
+           /\.(css|js|woff|woff2|ttf|eot)$/i.test(request.url);
+}
+
+function isNetworkFirstRoute(request) {
+    return NETWORK_FIRST_ROUTES.some(route => request.url.includes(route));
+}
+
+function isCacheFirstRoute(request) {
+    return CACHE_FIRST_ROUTES.some(route => request.url.includes(route));
+}
+
+/**
+ * IndexedDB helpers for offline form submissions
+ */
+function openDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('AstrotriasDB', 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('submissions')) {
+                const store = db.createObjectStore('submissions', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('timestamp', 'timestamp', { unique: false });
+            }
+        };
+    });
+}
+
+async function getPendingSubmissions() {
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(['submissions'], 'readonly');
+        const store = transaction.objectStore('submissions');
+        
+        return new Promise((resolve, reject) => {
+            const request = store.getAll();
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => resolve(request.result);
+        });
+    } catch (error) {
+        console.error('❌ Service Worker: Failed to get pending submissions', error);
+        return [];
+    }
+}
+
+async function removePendingSubmission(id) {
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(['submissions'], 'readwrite');
+        const store = transaction.objectStore('submissions');
+        
+        return new Promise((resolve, reject) => {
+            const request = store.delete(id);
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => resolve();
+        });
+    } catch (error) {
+        console.error('❌ Service Worker: Failed to remove submission', error);
+    }
+}
+
+console.log('🌌 Astrotrias Archon Service Worker Loaded');
