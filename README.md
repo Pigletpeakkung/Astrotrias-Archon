@@ -1,4 +1,6 @@
 # Astrotrias-Archon
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a9f3fe1c-0913-41ad-855a-72f7172528c0/deploy-status)](https://app.netlify.com/projects/astrotrias-archon/deploys)
 Astrotrias Archon ports
 ```Astrotrias-Archon/
 ├── index.html                 # Main portfolio
