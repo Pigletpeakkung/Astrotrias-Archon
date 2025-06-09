@@ -19,11 +19,7 @@
     "quantum-design",
     "consciousness-ai",
     "cosmic-design",
-    "astrotrias-archon",
-    "multidimensional",
-    "ai-training",
-    "voice-acting",
-    "web-development"
+    "astrotrias-archon"
   ],
   "author": "Thanatsitt Santisamranwilai",
   "license": "MIT",
@@ -44,11 +40,6 @@
   "homepage": "https://astrotrias-archon.netlify.app",
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "npm": ">=10.0.0"
+  }
 }
