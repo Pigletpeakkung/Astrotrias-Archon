@@ -1,45 +1,58 @@
-{
-  "name": "astrotrias-archon",
-  "version": "1.0.0",
-  "description": "Multidimensional Creative Technologist Portfolio",
-  "main": "index.html",
-  "scripts": {
-    "build": "npm run optimize",
-    "optimize": "npm run minify-html && npm run optimize-images",
-    "minify-html": "html-minifier-terser --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --minify-css --minify-js || cp index.html dist/",
-    "optimize-images": "imagemin assets/images/* --out-dir=dist/assets/images || cp -r assets dist/ || echo 'No assets to optimize'",
-    "dev": "live-server .",
-    "lighthouse": "lighthouse https://astrotrias-archon.netlify.app --output=html --output-path=./lighthouse-report.html",
-    "test": "echo \"No tests specified\" && exit 0",
-    "postinstall": "echo 'Cosmic dependencies installed successfully! 🚀✨'"
-  },
-  "keywords": [
-    "portfolio",
-    "creative-technologist",
-    "quantum-design",
-    "consciousness-ai",
-    "cosmic-design",
-    "astrotrias-archon"
-  ],
-  "author": "Thanatsitt Santisamranwilai",
-  "license": "MIT",
-  "devDependencies": {
-    "@netlify/plugin-lighthouse": "^6.0.0",
-    "html-minifier-terser": "^7.2.0",
-    "imagemin": "^8.0.1",
-    "imagemin-webp": "^8.0.0",
-    "lighthouse": "^11.4.0",
-    "live-server": "^1.2.2",
-    "netlify-plugin-minify-html": "^0.4.1",
-    "netlify-plugin-sitemap": "^0.8.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Pigletpeakkung/Astrotrias-Archon.git"
-  },
-  "homepage": "https://astrotrias-archon.netlify.app",
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=10.0.0"
-  }
-}
+[build]
+  publish = "."
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Basic security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache optimization
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Social media redirects
+[[redirects]]
+  from = "/github"
+  to = "https://github.com/Pigletpeakkung"
+  status = 301
+
+[[redirects]]
+  from = "/voice123"
+  to = "https://voice123.com/thanatsitt"
+  status = 301
+
+[[redirects]]
+  from = "/linktree"
+  to = "https://linktr.ee/ThanttEzekiel"
+  status = 301
+
+[[redirects]]
+  from = "/youtube"
+  to = "https://youtube.com/@pegearts"
+  status = 301
+
+# Fallback for SPA (if needed)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
