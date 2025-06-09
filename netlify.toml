@@ -1,6 +1,6 @@
 # Astrotrias Archon - Netlify Configuration
 # Author: Thanatsitt Santisamranwilai (Astrotrias Archon)
-# Version: 2.1.0
+# Version: 2.1.1
 # Cosmic Portfolio Deployment Configuration
 
 [build]
@@ -336,10 +336,6 @@
     baseUrl = "https://astrotrias-archon.netlify.app"
     pretty = true
     trailingSlash = false
-
-# Edge Functions (Future Use)
-[edge_functions]
-  directory = "netlify/edge-functions"
 
 # Context-specific Settings
 [context.production]
