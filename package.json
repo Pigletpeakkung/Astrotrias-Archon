@@ -2,35 +2,7 @@
   "name": "astrotrias-archon",
   "version": "1.0.0",
   "description": "Multidimensional Creative Technologist Portfolio",
-  "main": "index.html",
-  "scripts": {
-    "build": "echo 'Building Astrotrias Archon... 🚀' && npm run copy-files",
-    "copy-files": "cp -r . dist/ 2>/dev/null || echo 'Files ready for deployment! ✨'",
-    "dev": "echo 'Development server ready! 🌌'",
-    "start": "npm run build",
-    "test": "echo 'No tests specified' && exit 0",
-    "postinstall": "echo 'Cosmic dependencies installed successfully! 🚀✨'"
-  },
-  "keywords": [
-    "portfolio",
-    "creative-technologist",
-    "quantum-design",
-    "consciousness-ai",
-    "cosmic-design",
-    "astrotrias-archon"
-  ],
   "author": "Thanatsitt Santisamranwilai",
   "license": "MIT",
-  "devDependencies": {
-    "lighthouse": "^11.4.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Pigletpeakkung/Astrotrias-Archon.git"
-  },
-  "homepage": "https://astrotrias-archon.netlify.app",
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=10.0.0"
-  }
+  "homepage": "https://astrotrias-archon.netlify.app"
 }
