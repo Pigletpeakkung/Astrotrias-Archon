@@ -5,6 +5,155 @@
  * Version: 2.0.0 - Quantum Enhanced
  */
 
+
+class CosmicInterface {
+  constructor() {
+    this.cosmicState = {
+      dimensionalShift: false,
+      cosmicEnergy: 100,
+      stellarEvents: [],
+    };
+    this.quantumParticles = null;
+    this.dimensionalPortal = null;
+  }
+
+  initializeParticles(particleConfig) {
+    try {
+      particlesJS('particles-js', particleConfig);
+      this.quantumParticles = window.pJSDom[0].pJS;
+      console.log('✨ Quantum Particles Initialized');
+    } catch (error) {
+      console.warn('⚠️ Particles.js failed to initialize:', error);
+    }
+  }
+
+  getOptimalParticleCount() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const area = width * height;
+    const devicePixelRatio = window.devicePixelRatio || 1;
+
+    if (width < 768) return 30;
+    if (devicePixelRatio > 1.5) return 50;
+    if (area > 2000000) return 100;
+    return 80;
+  }
+
+  initializeDimensionalPortal() {
+    // your existing implementation
+  }
+
+  activateDimensionalShift() {
+    // your existing implementation
+  }
+
+  initializeStellarTimeline() {
+    // your existing implementation
+  }
+
+  observeTimelineEvents() {
+    // your existing implementation
+  }
+
+  animateStellarEvent(element) {
+    // your existing implementation
+  }
+
+  initializeCosmicSkills() {
+    // your existing implementation
+  }
+
+  animateSkillConstellation(skillElement) {
+    // your existing implementation
+  }
+
+  getSkillWidth(skillName) {
+    // your existing implementation
+  }
+
+  createSkillParticleBurst(element) {
+    // your existing implementation
+  }
+
+  initializeDimensionalCards() {
+    // your existing implementation
+  }
+
+  createCardAura(card) {
+    // your existing implementation
+  }
+
+  removeCardAura(card) {
+    // your existing implementation
+  }
+
+  activateCardDimension(card) {
+    // your existing implementation
+  }
+
+  /**
+   * Enhance Quantum Navigation
+   */
+  enhanceQuantumNavigation() {
+    // For example: smooth scrolling with cosmic easing and keypress support
+
+    // Smooth scroll links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+          this.dispatchCosmicEvent('navigation:scroll', { targetId });
+        }
+      });
+    });
+
+    // Keyboard navigation: arrow keys scroll by viewport height
+    window.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+      let scrollAmount = window.innerHeight * 0.8;
+      if (e.key === 'ArrowDown') {
+        window.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+        e.preventDefault();
+      } else if (e.key === 'ArrowUp') {
+        window.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+        e.preventDefault();
+      }
+    });
+  }
+
+  /**
+   * Play Cosmic Sound
+   */
+  playCosmicSound(name) {
+    // Minimal example: play a sound from predefined sources
+    const sounds = {
+      hover: '/sounds/hover.wav',
+      activate: '/sounds/activate.wav',
+    };
+
+    const soundSrc = sounds[name];
+    if (!soundSrc) return;
+
+    const audio = new Audio(soundSrc);
+    audio.volume = 0.2;
+    audio.play().catch(() => {
+      // Handle promise rejection silently (e.g. autoplay disabled)
+    });
+  }
+
+  /**
+   * Dispatch Cosmic Custom Event
+   */
+  dispatchCosmicEvent(name, detail = {}) {
+    const event = new CustomEvent(name, { detail });
+    window.dispatchEvent(event);
+  }
+}
+
+
 class AstrotriasQuantumEngine {
   constructor() {
     this.isInitialized = false;
