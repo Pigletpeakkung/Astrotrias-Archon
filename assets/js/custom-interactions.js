@@ -129,3 +129,29 @@ const imageObserver = new IntersectionObserver((entries, observer) => {
 
 lazyImages.forEach(img => imageObserver.observe(img));
 ```
+navList.addEventListener('keydown', (e) => {
+  const focusableElements = navList.querySelectorAll('a, button');
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+
+  if (e.key === 'Escape') {
+    navList.classList.add('hidden');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.textContent = '☰';
+    navToggle.focus();
+  }
+
+  if (e.key === 'Tab') {
+    if (e.shiftKey) {
+      if (document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      }
+    } else {
+      if (document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }
+});
