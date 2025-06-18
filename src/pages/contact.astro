@@ -1,0 +1,47 @@
+---
+title: "Contact Me"
+---
+
+<style>
+  main {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  input, textarea {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  button {
+    padding: 0.75rem;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+
+<main>
+  <h1>Contact Me</h1>
+  <form name="contact" method="POST" data-netlify="true">
+    <input type="hidden" name="form-name" value="contact" />
+    <label>
+      Name:
+      <input type="text" name="name" required />
+    </label>
+    <label>
+      Email:
+      <input type="email" name="email" required />
+    </label>
+    <label>
+      Message:
+      <textarea name="message" rows="5" required></textarea>
+    </label>
+    <button type="submit">Send</button>
+  </form>
+</main>
