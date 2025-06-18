@@ -1,9 +1,6 @@
 ```toml
 [build]
-  command = "npm run build"  # Astro build command
-  publish = "dist"           # Astro output directory
-  environment = { NODE_VERSION = "20" }  # Specify Node.js version for Netlify
-
-[build.environment]
-  ASTRO_TELEMETRY_DISABLED = "true"  # Optional: Disable Astro telemetry
+command = "npm run build"
+publish = "dist"
+environment = { NODE_VERSION = "20", ASTRO_TELEMETRY_DISABLED = "true" }
 ```
