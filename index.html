@@ -137,6 +137,10 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- Add Vanta.js for 3D animated background -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.stars.min.js"></script>
+  
   <style>
     /* CSS Variables for Theme Support */
     :root {
@@ -159,18 +163,18 @@
 
     [data-theme="dark"] {
       --bg-primary: #0f0f23;
-      --bg-secondary: #1a1a2e;
-      --bg-tertiary: #16213e;
-      --text-primary: #eee6ff;
+      --bg-secondary: #181828;
+      --bg-tertiary: #1e1e2e;
+      --text-primary: #f3f3fa;
       --text-secondary: #b8b8d1;
-      --text-muted: #8b8ba7;
-      --accent-primary: #7c3aed;
-      --accent-secondary: #a855f7;
-      --accent-tertiary: #06b6d4;
-      --card-bg: #1a1a2e;
+      --text-muted: #b0b0c3;
+      --accent-primary: #a78bfa;
+      --accent-secondary: #c084fc;
+      --accent-tertiary: #22d3ee;
+      --card-bg: #181828;
       --shadow-color: rgba(124, 58, 237, 0.2);
       --border-color: #2d2d48;
-      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
       --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     }
@@ -656,6 +660,192 @@
     .cert-item:hover {
       transform: translateX(5px);
     }
+
+    /* Fix: Improve contrast for dark mode text and badges */
+    [data-theme="dark"] {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #181828;
+      --bg-tertiary: #1e1e2e;
+      --text-primary: #f3f3fa;
+      --text-secondary: #b8b8d1;
+      --text-muted: #b0b0c3;
+      --accent-primary: #a78bfa;
+      --accent-secondary: #c084fc;
+      --accent-tertiary: #22d3ee;
+      --card-bg: #181828;
+      --shadow-color: rgba(124, 58, 237, 0.2);
+      --border-color: #2d2d48;
+      --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+      --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    /* Fix: Make sure all text is readable in dark mode */
+    [data-theme="dark"] body,
+    [data-theme="dark"] .text-primary,
+    [data-theme="dark"] .text-white,
+    [data-theme="dark"] .fw-bold,
+    [data-theme="dark"] .fw-semibold,
+    [data-theme="dark"] .display-3,
+    [data-theme="dark"] .display-5,
+    [data-theme="dark"] .display-6 {
+      color: #f3f3fa !important;
+    }
+    [data-theme="dark"] .text-muted,
+    [data-theme="dark"] .text-white-50,
+    [data-theme="dark"] .small,
+    [data-theme="dark"] .lead {
+      color: #b0b0c3 !important;
+    }
+
+    /* Fix: Badge backgrounds for dark mode */
+    [data-theme="dark"] .badge.bg-primary,
+    [data-theme="dark"] .badge.bg-secondary,
+    [data-theme="dark"] .badge.bg-success,
+    [data-theme="dark"] .badge.bg-info,
+    [data-theme="dark"] .badge.bg-warning {
+      color: #181828 !important;
+      background-color: #f3f3fa !important;
+      border: 1px solid #6366f1;
+    }
+    [data-theme="dark"] .badge.bg-primary {
+      background-color: #6366f1 !important;
+      color: #fff !important;
+    }
+    [data-theme="dark"] .badge.bg-secondary {
+      background-color: #a78bfa !important;
+      color: #181828 !important;
+    }
+    [data-theme="dark"] .badge.bg-success {
+      background-color: #22d3ee !important;
+      color: #181828 !important;
+    }
+    [data-theme="dark"] .badge.bg-info {
+      background-color: #38bdf8 !important;
+      color: #181828 !important;
+    }
+    [data-theme="dark"] .badge.bg-warning {
+      background-color: #fde68a !important;
+      color: #181828 !important;
+    }
+
+    /* Fix: Card backgrounds and modal backgrounds for dark mode */
+    [data-theme="dark"] .glass-card,
+    [data-theme="dark"] .project-card,
+    [data-theme="dark"] .modal-content {
+      background: rgba(24, 24, 40, 0.98) !important;
+      color: #f3f3fa !important;
+      border: 1px solid #6366f1 !important;
+    }
+
+    /* Fix: Input and select backgrounds for dark mode */
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .form-select {
+      background-color: #23233a !important;
+      color: #f3f3fa !important;
+      border-color: #6366f1 !important;
+    }
+
+    /* Fix: Button outline for dark mode */
+    [data-theme="dark"] .btn-outline-light {
+      color: #fff;
+      border-color: #6366f1;
+      background: transparent;
+    }
+    [data-theme="dark"] .btn-outline-light:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+
+    /* Fix: Modal header/footer border color */
+    [data-theme="dark"] .modal-header,
+    [data-theme="dark"] .modal-footer {
+      border-color: #6366f1 !important;
+    }
+
+    /* Fix: Timeline line and dot color for dark mode */
+    [data-theme="dark"] .timeline::after {
+      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+    }
+    [data-theme="dark"] .timeline-item::after {
+      background: #a78bfa;
+      box-shadow: 0 0 20px #a78bfa88;
+    }
+
+    /* Fix: Footer background and text for dark mode */
+    [data-theme="dark"] footer,
+    [data-theme="dark"] .animated-footer {
+      background: #181828 !important;
+      color: #b0b0c3 !important;
+    }
+
+    /* Fix: Social link icons for dark mode */
+    [data-theme="dark"] .social-link {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a78bfa;
+      border: 1px solid #6366f1;
+    }
+    [data-theme="dark"] .social-link:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+
+    /* Add a subtle glass effect for cards and modals */
+    .glass-card, .project-card, .modal-content {
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(12px);
+    }
+    /* Add hover effect for cards */
+    .project-card:hover, .glass-card:hover {
+      box-shadow: 0 16px 40px 0 rgba(99,102,241,0.25);
+      transform: translateY(-6px) scale(1.02);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      z-index: 2;
+    }
+    /* Animated gradient border for buttons */
+    .btn-gradient {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(90deg, #6366f1, #a78bfa, #06b6d4, #a855f7, #6366f1);
+      background-size: 400% 400%;
+      animation: gradientBorder 8s ease infinite;
+      z-index: -1;
+      border-radius: 50px;
+      opacity: 0.7;
+    }
+    @keyframes gradientBorder {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+    /* Add focus ring for accessibility */
+    .btn:focus, .project-card:focus, .glass-card:focus {
+      outline: 2px solid #a78bfa;
+      outline-offset: 2px;
+    }
+    /* Animate section fade-in */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .page-header { min-height: 70vh; }
+      .sacred-geometry { width: 120px; height: 120px; }
+    }
   </style>
 </head>
 <body>
@@ -685,17 +875,14 @@
     </div>
   </nav>
 
-  <!-- Enhanced Header with Sacred Geometry -->
+  <!-- Enhanced Header with Sacred Geometry and 3D Vanta.js Stars -->
   <header id="home" class="page-header position-relative">
-    <div class="cosmic-bg"></div>
-    <div id="particles-js"></div>
+    <div id="vanta-bg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;"></div>
     <span class="mask"></span>
-    
     <!-- Sacred Geometry Elements -->
     <div class="sacred-geometry geometry-1"></div>
     <div class="sacred-geometry geometry-2"></div>
-    
-    <div class="container position-relative" style="z-index: 2;">
+    <div class="container position-relative" style="z-index: 3;">
       <div class="row justify-content-center text-center">
         <div class="col-lg-10">
           <div class="fade-in">
@@ -795,6 +982,15 @@
           <img class="img-fluid opacity-50 hover-opacity-100" style="max-height: 3rem; transition: opacity 0.3s ease;" 
                src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" 
                alt="Python Serpent Code" loading="lazy">
+        </div>
+        <!-- Libaru Showcase (fixed broken image with fallback) -->
+        <div class="col d-flex justify-content-center align-items-center fade-in">
+          <img class="img-fluid opacity-50 hover-opacity-100"
+               style="max-height: 3rem; transition: opacity 0.3s ease;"
+               src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/libreoffice/libreoffice-original.svg"
+               alt="Libaru Showcase"
+               loading="lazy"
+               onerror="this.onerror=null;this.src='https://via.placeholder.com/64x48?text=Libaru';">
         </div>
       </div>
     </div>
@@ -1841,9 +2037,89 @@
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <!-- Vanta.js 3D Stars Background -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.VANTA) {
+        VANTA.STARS({
+          el: "#vanta-bg",
+          mouseControls: true,
+          touchControls: true,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          backgroundColor: 0x0f0f23,
+          color: 0xa78bfa,
+          size: 1.5,
+          spacing: 25.00
+        });
+      }
+    });
+  </script>
+  <!-- Sparkling Star Animation Script (optional, can be removed if Vanta.js is enough) -->
+  <script>
+    // Sparkling Star Canvas Animation
+    const canvas = document.getElementById('star-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      // Use header height for canvas height
+      const header = document.querySelector('.page-header');
+      canvas.height = header ? header.offsetHeight : window.innerHeight;
+    }
+
+    function createStars() {
+      stars = [];
+      const numStars = Math.floor(window.innerWidth / 3.5);
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.2 + 0.3,
+          alpha: Math.random(),
+          dAlpha: (Math.random() * 0.02 + 0.01) * (Math.random() > 0.5 ? 1 : -1)
+        });
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let star of stars) {
+        ctx.save();
+        ctx.globalAlpha = Math.abs(star.alpha);
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fff';
+        ctx.shadowColor = '#fff';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+
+        star.alpha += star.dAlpha;
+        if (star.alpha <= 0 || star.alpha >= 1) star.dAlpha *= -1;
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    function initStars() {
+      resizeCanvas();
+      createStars();
+      drawStars();
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createStars();
+    });
+
+    window.addEventListener('DOMContentLoaded', initStars);
+  </script>
 
   <script>
     // Particles.js Configuration for Enhanced Cosmic Effect
@@ -1890,6 +2166,72 @@
       retina_detect: true
     });
 
+    // 3D Cosmic Orb Animation with Three.js
+    (function() {
+      const container = document.getElementById('threejs-bg');
+      if (!container) return;
+      let width = container.offsetWidth;
+      let height = container.offsetHeight;
+
+      // Scene setup
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+      camera.position.z = 8;
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(width, height);
+      renderer.setClearColor(0x000000, 0); // transparent
+      container.appendChild(renderer.domElement);
+
+      // Responsive resize
+      window.addEventListener('resize', () => {
+        width = container.offsetWidth;
+        height = container.offsetHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      });
+
+      // Create a glowing orb (icosahedron geometry)
+      const geometry = new THREE.IcosahedronGeometry(2.2, 2);
+      const material = new THREE.MeshPhysicalMaterial({
+        color: 0x8b5cf6,
+        roughness: 0.25,
+        metalness: 0.7,
+        clearcoat: 1,
+        clearcoatRoughness: 0.1,
+        transmission: 0.8,
+        thickness: 1.5,
+        emissive: 0x6366f1,
+        emissiveIntensity: 0.5,
+        transparent: true,
+        opacity: 0.85
+      });
+      const orb = new THREE.Mesh(geometry, material);
+      scene.add(orb);
+
+      // Add a soft point light
+      const pointLight = new THREE.PointLight(0xa78bfa, 1.5, 100);
+      pointLight.position.set(5, 5, 10);
+      scene.add(pointLight);
+
+      // Add a subtle ambient light
+      scene.add(new THREE.AmbientLight(0x6366f1, 0.6));
+
+      // Animate
+      function animate() {
+        orb.rotation.x += 0.003;
+        orb.rotation.y += 0.005;
+        orb.position.x = Math.sin(Date.now() * 0.0007) * 0.3;
+        orb.position.y = Math.cos(Date.now() * 0.0005) * 0.2;
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+
+  <script>
     // Enhanced Theme Toggle for Cosmic Mode
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
