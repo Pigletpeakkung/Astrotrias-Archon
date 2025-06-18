@@ -1,8 +1,14 @@
+```json
 {
   "name": "astrotrias-archon",
   "version": "1.0.0",
-  "description": "Multidimensional Creative Technologist Portfolio",
-  "author": "Thanatsitt Santisamranwilai",
-  "license": "MIT",
-  "homepage": "https://astrotrias-archon.netlify.app"
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^4.0.0"
+  }
 }
+```
