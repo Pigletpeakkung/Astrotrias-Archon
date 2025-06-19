@@ -1,92 +1,63 @@
-/**
- * ===============================================
- * ASTROTRIAS ARCHON - SECURITY HEADERS
- * Advanced security implementation
- * ===============================================
- */
-
-import type { Context } from "https://edge.netlify.com";
+// netlify/edge-functions/security-headers.ts
+import { Context } from "netlify:edge";
 
 export default async (request: Request, context: Context) => {
-  // Get the original response
   const response = await context.next();
   
-  // Clone response to modify headers
-  const newResponse = new Response(response.body, response);
-  
-  // Security Headers
-  const securityHeaders = {
-    // Content Security Policy
-    'Content-Security-Policy': [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
-      "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
-      "img-src 'self' data: https: blob:",
-      "connect-src 'self' https:",
-      "media-src 'self' https:",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'none'",
-      "upgrade-insecure-requests"
-    ].join('; '),
-    
-    // Prevent XSS attacks
-    'X-XSS-Protection': '1; mode=block',
-    
-    // Prevent content type sniffing
-    'X-Content-Type-Options': 'nosniff',
-    
-    // Prevent clickjacking
-    'X-Frame-Options': 'DENY',
-    
-    // Referrer Policy
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
-    
-    // Permissions Policy
-    'Permissions-Policy': [
-      'camera=()',
-      'microphone=()',
-      'geolocation=()',
-      'payment=()',
-      'usb=()',
-      'magnetometer=()',
-      'accelerometer=()',
-      'gyroscope=()'
-    ].join(', '),
-    
-    // Strict Transport Security (HTTPS only)
-    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-    
-    // Cross-Origin Policies
-    'Cross-Origin-Embedder-Policy': 'require-corp',
-    'Cross-Origin-Opener-Policy': 'same-origin',
-    'Cross-Origin-Resource-Policy': 'same-origin',
-    
-    // Cache Control for security-sensitive pages
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0'
-  };
-  
-  // Apply security headers
-  Object.entries(securityHeaders).forEach(([key, value]) => {
-    newResponse.headers.set(key, value);
-  });
-  
-  // Add custom security headers based on path
-  const url = new URL(request.url);
-  
-  if (url.pathname.includes('/admin') || url.pathname.includes('/api')) {
-    // Extra security for admin/API routes
-    newResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
-    newResponse.headers.set('X-Admin-Access', 'restricted');
+  // Skip for static assets
+  if (request.url.includes("/assets/")) {
+    return response;
   }
+
+  // Core security headers
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
   
-  // Add performance headers
-  newResponse.headers.set('X-DNS-Prefetch-Control', 'on');
-  newResponse.headers.set('X-Powered-By', 'Astrotrias-Archon-Edge');
-  
-  return newResponse;
+  // Modern CSP (adjust based on your needs)
+  const csp = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://plausible.io", // Allow Plausible analytics
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https:",
+    "font-src 'self'",
+    "connect-src 'self' https://plausible.io",
+    "frame-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'"
+  ].join("; ");
+
+  response.headers.set("Content-Security-Policy", csp);
+
+  // Feature Policy (for older browsers)
+  response.headers.set("Feature-Policy", [
+    "geolocation 'none'",
+    "microphone 'none'",
+    "camera 'none'",
+    "fullscreen 'self'"
+  ].join("; "));
+
+  // HSTS (enable only in production)
+  if (context.site.environment === "production") {
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  }
+
+  // Add nonce for inline scripts (advanced)
+  if (!response.headers.get("x-nonce")) {
+    const nonce = crypto.randomUUID();
+    response.headers.set("x-nonce", nonce);
+    
+    // Replace placeholder in HTML
+    if (response.headers.get("Content-Type")?.includes("text/html")) {
+      const body = await response.text();
+      const newBody = body.replace(/<script nonce-placeholder>/g, `<script nonce="${nonce}">`);
+      return new Response(newBody, {
+        status: response.status,
+        headers: response.headers
+      });
+    }
+  }
+
+  return response;
 };

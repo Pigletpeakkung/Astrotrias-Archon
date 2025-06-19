@@ -1,0 +1,18 @@
+---
+const { children } = Astro.props;
+---
+
+<html lang="en" class="cosmic-theme">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quantum Cosmic UI</title>
+    <link rel="stylesheet" href="/styles/cosmic.css" />
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
+    <script type="module" src="/scripts/cosmic-interface.js" defer></script>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+    {children}
+  </body>
+</html>
