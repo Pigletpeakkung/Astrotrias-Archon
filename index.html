@@ -138,6 +138,108 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   
   <style>
+
+    :root {
+  --cosmic-accent: #7c3aed;
+  --cosmic-accent-secondary: #a855f7;
+  --cosmic-text: #f8f8ff;
+  --cosmic-text-secondary: #d1d5db;
+  --bg-primary: #0a0a23;
+  --bg-secondary: #1a1a2e;
+  --cosmic-border: rgba(255, 255, 255, 0.1);
+}
+
+.glass-morphism {
+  background: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--cosmic-border);
+  @supports not (backdrop-filter: blur(20px)) {
+    background: rgba(26, 26, 46, 0.95);
+  }
+}
+
+.card-container {
+  position: relative;
+  perspective: 1000px;
+}
+
+.card-front, .card-back {
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-back {
+  transform: rotateY(0deg);
+}
+
+.text-cosmic-accent {
+  color: var(--cosmic-accent);
+}
+
+.bg-cosmic-accent {
+  background-color: var(--cosmic-accent);
+}
+
+.bg-cosmic-accent-secondary {
+  background-color: var(--cosmic-accent-secondary);
+}
+
+.bg-cosmic-accent\/10 {
+  background-color: rgba(124, 58, 237, 0.1);
+}
+
+.fade-in-cosmic {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-cosmic.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ensure Bootstrap compatibility */
+.d-flex {
+  display: flex !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
+}
+
+.flex-grow {
+  flex-grow: 1 !important;
+}
+
+.align-items-start {
+  align-items: flex-start !important;
+}
+
+.rounded-pill {
+  border-radius: 50rem !important;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.h-100 {
+  height: 100% !important;
+}
     /* CSS Variables for Cosmic Theme */
     :root {
       --cosmic-primary: #0f0f23;
@@ -789,108 +891,6 @@
     .text-dark, .text-body, .text-secondary, .text-muted {
       color: #f8f8ff !important;
     }
-:root {
-  --cosmic-accent: #7c3aed;
-  --cosmic-accent-secondary: #a855f7;
-  --cosmic-text: #f8f8ff;
-  --cosmic-text-secondary: #d1d5db;
-  --bg-primary: #0a0a23;
-  --bg-secondary: #1a1a2e;
-  --cosmic-border: rgba(255, 255, 255, 0.1);
-}
-
-.glass-morphism {
-  background: rgba(26, 26, 46, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--cosmic-border);
-  @supports not (backdrop-filter: blur(20px)) {
-    background: rgba(26, 26, 46, 0.95);
-  }
-}
-
-.card-container {
-  position: relative;
-  perspective: 1000px;
-}
-
-.card-front, .card-back {
-  backface-visibility: hidden;
-  transition: transform 0.6s;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-}
-
-.card-container.flipped .card-front {
-  transform: rotateY(180deg);
-}
-
-.card-container.flipped .card-back {
-  transform: rotateY(0deg);
-}
-
-.text-cosmic-accent {
-  color: var(--cosmic-accent);
-}
-
-.bg-cosmic-accent {
-  background-color: var(--cosmic-accent);
-}
-
-.bg-cosmic-accent-secondary {
-  background-color: var(--cosmic-accent-secondary);
-}
-
-.bg-cosmic-accent\/10 {
-  background-color: rgba(124, 58, 237, 0.1);
-}
-
-.fade-in-cosmic {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.fade-in-cosmic.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Ensure Bootstrap compatibility */
-.d-flex {
-  display: flex !important;
-}
-
-.flex-column {
-  flex-direction: column !important;
-}
-
-.flex-grow {
-  flex-grow: 1 !important;
-}
-
-.align-items-start {
-  align-items: flex-start !important;
-}
-
-.rounded-pill {
-  border-radius: 50rem !important;
-}
-
-.w-100 {
-  width: 100% !important;
-}
-
-.h-100 {
-  height: 100% !important;
-}
-    
   </style>
 </head>
 <body data-theme="dark">
@@ -911,9 +911,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#dimensions" aria-label="Navigate to Projects section">Dimensions</a>
-          </li>
-          <li class="nav-item">
-  <a class="nav-link" href="#projects" aria-label="Navigate to Projects section">Projects</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#timeline" aria-label="Navigate to Timeline section">Stellar Journey</a>
@@ -1091,7 +1088,7 @@
     </div>
   </section>
 
-<section id="projects" class="py-5" style="background: var(--bg-secondary);" aria-labelledby="projects-heading">
+  <section id="projects" class="py-5" style="background: var(--bg-secondary);" aria-labelledby="projects-heading">
   <div class="container">
     <div class="text-center mb-5 fade-in-cosmic">
       <h2 id="projects-heading" class="display-5 fw-bold font-cosmic mb-3">Featured Projects</h2>
@@ -1281,8 +1278,7 @@
       </div>
     </div>
   </div>
-</section>
-
+  </section>
 
   <!-- Stellar Timeline -->
   <section id="timeline" class="py-5" aria-labelledby="timeline-heading">
@@ -1850,46 +1846,6 @@
       });
     });
 
-// Flip card functionality
-document.querySelectorAll('.card-container').forEach(card => {
-  const viewDetails = card.querySelector('.view-details');
-  const backButton = card.querySelector('.back-button');
-  
-  viewDetails.addEventListener('click', () => {
-    card.classList.add('flipped');
-    viewDetails.setAttribute('aria-expanded', 'true');
-  });
-  
-  backButton.addEventListener('click', () => {
-    card.classList.remove('flipped');
-    viewDetails.setAttribute('aria-expanded', 'false');
-  });
-
-  // Keyboard navigation
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      if (card.classList.contains('flipped')) {
-        backButton.click();
-      } else {
-        viewDetails.click();
-      }
-    }
-  });
-});
-
-// Intersection Observer for fade-in animations
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.fade-in-cosmic').forEach(el => observer.observe(el));
-
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -1961,6 +1917,45 @@ document.querySelectorAll('.fade-in-cosmic').forEach(el => observer.observe(el))
       "query-input": "required name=search_term_string"
     }
   }
+    // Flip card functionality
+document.querySelectorAll('.card-container').forEach(card => {
+  const viewDetails = card.querySelector('.view-details');
+  const backButton = card.querySelector('.back-button');
+  
+  viewDetails.addEventListener('click', () => {
+    card.classList.add('flipped');
+    viewDetails.setAttribute('aria-expanded', 'true');
+  });
+  
+  backButton.addEventListener('click', () => {
+    card.classList.remove('flipped');
+    viewDetails.setAttribute('aria-expanded', 'false');
+  });
+
+  // Keyboard navigation
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (card.classList.contains('flipped')) {
+        backButton.click();
+      } else {
+        viewDetails.click();
+      }
+    }
+  });
+});
+
+// Intersection Observer for fade-in animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in-cosmic').forEach(el => observer.observe(el));
   </script>
 </body>
-            </html>
+    </html>
