@@ -744,21 +744,6 @@
       z-index: 1;
     }
 
-    /* Add to your CSS */
-.project-tech-tag {
-  transition: all 0.3s ease;
-  transform-origin: center;
-}
-
-.project-tech-tag:hover {
-  transform: scale(1.1) translateY(-2px);
-  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
-}
-
-.github-link:hover i {
-  animation: bounce 0.5s;
-}
-
     /* Ensure content is above particles */
     .container {
       position: relative;
@@ -1670,26 +1655,6 @@
       }
     }
 
-    // Add to your existing Alpine.js init() function
-const projectCards = document.querySelectorAll('.card-container');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.style.opacity = 1;
-        entry.target.style.transform = 'translateY(0)';
-      }, 100 * index);
-    }
-  });
-}, { threshold: 0.1 });
-
-projectCards.forEach(card => {
-  card.style.opacity = 0;
-  card.style.transform = 'translateY(20px)';
-  card.style.transition = 'all 0.6s ease-out';
-  observer.observe(card);
-});
-
     // Navbar scroll effect
     const navbar = document.getElementById('mainNav');
     window.addEventListener('scroll', () => {
@@ -1904,4 +1869,4 @@ projectCards.forEach(card => {
   }
   </script>
 </body>
-</html>
+                </html>
